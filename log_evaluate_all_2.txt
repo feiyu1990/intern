@@ -1,0 +1,1749 @@
+cross_validation.py:1673: FutureWarning: comparison to `None` will result in an elementwise object comparison in the future.
+  if v!=prev:
+cross_validation.py:2100: RuntimeWarning: invalid value encountered in double_scalars
+  mean_ps = [mean_ps1[i]/mean_ps2[i] for i in xrange(len(mean_ps1))]
+Skipping creation of dict: baseline_all_0509/PersonalSports/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>PersonalSports<<<<<<<<
+*ALGORITHM*
+P: 0.04798, 0.10101, 0.14646, 0.20118, 0.25084, 0.30135, 0.34848, 0.40067
+baseline_all_noblock/PersonalSports/test_random_dict.cPickle
+0.016, 0.088, 0.129, 0.210, 0.260, 0.303, 0.351, 0.417
+0.105, 0.163, 0.207, 0.253, 0.308, 0.366, 0.417, 0.468
+aesthetic/PersonalSports_aesthetic_score_dict.cPickle
+0.055, 0.095, 0.152, 0.223, 0.277, 0.348, 0.412, 0.464
+0.107, 0.173, 0.226, 0.280, 0.328, 0.381, 0.432, 0.484
+baseline_all_0509/PersonalSports/alexnet6k_predict_result_10_dict.cPickle
+0.105, 0.176, 0.205, 0.271, 0.320, 0.367, 0.397, 0.436
+0.152, 0.205, 0.260, 0.315, 0.362, 0.412, 0.459, 0.501
+CNN_all_event_0.1/features/PersonalSports_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.076, 0.173, 0.224, 0.278, 0.334, 0.392, 0.444, 0.497
+0.163, 0.230, 0.271, 0.331, 0.390, 0.444, 0.493, 0.542
+CNN_all_event_0.1/features/PersonalSports_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.122, 0.229, 0.293, 0.348, 0.401, 0.440, 0.499, 0.548
+0.226, 0.276, 0.328, 0.393, 0.454, 0.512, 0.559, 0.605
+CNN_all_event_0.1/features/PersonalSports_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.104, 0.181, 0.220, 0.316, 0.389, 0.443, 0.511, 0.556
+0.209, 0.252, 0.295, 0.358, 0.426, 0.489, 0.539, 0.590
+CNN_all_event_0.1/features/PersonalSports_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.134, 0.215, 0.255, 0.305, 0.354, 0.426, 0.470, 0.515
+0.192, 0.256, 0.306, 0.354, 0.406, 0.466, 0.519, 0.569
+CNN_all_event_0.1/features/PersonalSports_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.113, 0.174, 0.222, 0.313, 0.369, 0.432, 0.496, 0.538
+0.206, 0.259, 0.305, 0.365, 0.430, 0.494, 0.547, 0.597
+CNN_all_event_old/features/PersonalSports_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.158, 0.269, 0.300, 0.345, 0.396, 0.447, 0.479, 0.532
+0.243, 0.308, 0.350, 0.400, 0.457, 0.512, 0.563, 0.616
+CNN_all_event_old/features/PersonalSports_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.161, 0.305, 0.328, 0.371, 0.412, 0.445, 0.488, 0.541
+0.252, 0.337, 0.374, 0.419, 0.467, 0.520, 0.562, 0.612
+CNN_all_event_old/features/PersonalSports_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.211, 0.235, 0.335, 0.384, 0.418, 0.471, 0.505, 0.542
+0.276, 0.336, 0.377, 0.423, 0.482, 0.530, 0.578, 0.625
+CNN_all_event_old/features/PersonalSports_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.199, 0.253, 0.287, 0.331, 0.402, 0.439, 0.475, 0.527
+0.255, 0.307, 0.350, 0.399, 0.453, 0.506, 0.550, 0.599
+CNN_all_event_1009/features/PersonalSports_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.181, 0.215, 0.248, 0.324, 0.379, 0.444, 0.488, 0.536
+0.261, 0.280, 0.322, 0.375, 0.435, 0.490, 0.538, 0.593
+CNN_all_event_1009/features/PersonalSports_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.149, 0.157, 0.202, 0.290, 0.343, 0.403, 0.469, 0.527
+0.227, 0.240, 0.287, 0.355, 0.416, 0.472, 0.518, 0.567
+CNN_all_event_1009/features/PersonalSports_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.097, 0.131, 0.151, 0.248, 0.357, 0.418, 0.464, 0.526
+0.175, 0.206, 0.257, 0.329, 0.398, 0.457, 0.512, 0.565
+CNN_all_event_1009/features/PersonalSports_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.116, 0.147, 0.245, 0.281, 0.331, 0.397, 0.451, 0.506
+0.211, 0.260, 0.313, 0.365, 0.413, 0.469, 0.515, 0.558
+CNN_all_event_1009/features/PersonalSports_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.155, 0.249, 0.325, 0.382, 0.426, 0.453, 0.486, 0.553
+0.259, 0.317, 0.362, 0.418, 0.474, 0.525, 0.569, 0.621
+CNN_all_event_1009/features/PersonalSports_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.172, 0.260, 0.324, 0.380, 0.419, 0.454, 0.488, 0.559
+0.276, 0.324, 0.366, 0.419, 0.474, 0.526, 0.569, 0.619
+CNN_all_event_1009/features/PersonalSports_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.155, 0.262, 0.323, 0.368, 0.429, 0.459, 0.485, 0.559
+0.275, 0.325, 0.370, 0.423, 0.479, 0.529, 0.572, 0.621
+CNN_all_event_1009/features/PersonalSports_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.169, 0.256, 0.332, 0.370, 0.433, 0.451, 0.483, 0.558
+0.262, 0.319, 0.364, 0.419, 0.476, 0.526, 0.570, 0.619
+CNN_all_event_1009/features/PersonalSports_test_face_combined_thetapre_10w_dict.cPickle
+0.169, 0.256, 0.332, 0.370, 0.433, 0.451, 0.483, 0.558
+0.262, 0.319, 0.364, 0.419, 0.476, 0.526, 0.570, 0.619
+*WORKER*
+0.305, 0.385, 0.445, 0.512, 0.566, 0.615, 0.660, 0.699
+0.278, 0.374, 0.453, 0.515, 0.564, 0.603, 0.633, 0.660
+
+
+Skipping creation of dict: baseline_all_0509/Museum/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Museum<<<<<<<<
+*ALGORITHM*
+P: 0.04985, 0.10121, 0.15257, 0.19789, 0.25227, 0.30060, 0.35196, 0.40030
+baseline_all_noblock/Museum/test_random_dict.cPickle
+0.049, 0.084, 0.155, 0.183, 0.255, 0.284, 0.338, 0.392
+0.105, 0.178, 0.219, 0.250, 0.291, 0.328, 0.372, 0.419
+aesthetic/Museum_aesthetic_score_dict.cPickle
+0.040, 0.089, 0.155, 0.205, 0.244, 0.303, 0.372, 0.392
+0.106, 0.159, 0.218, 0.264, 0.316, 0.370, 0.417, 0.455
+baseline_all_0509/Museum/alexnet6k_predict_result_10_dict.cPickle
+0.093, 0.126, 0.180, 0.219, 0.295, 0.350, 0.400, 0.463
+0.138, 0.210, 0.263, 0.316, 0.369, 0.415, 0.461, 0.513
+CNN_all_event_0.1/features/Museum_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.116, 0.183, 0.238, 0.271, 0.315, 0.383, 0.443, 0.486
+0.209, 0.269, 0.313, 0.356, 0.407, 0.444, 0.487, 0.536
+CNN_all_event_0.1/features/Museum_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.147, 0.227, 0.278, 0.325, 0.362, 0.393, 0.437, 0.473
+0.199, 0.285, 0.352, 0.403, 0.440, 0.463, 0.496, 0.539
+CNN_all_event_0.1/features/Museum_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.212, 0.288, 0.331, 0.361, 0.373, 0.412, 0.463, 0.492
+0.285, 0.354, 0.412, 0.446, 0.483, 0.506, 0.538, 0.576
+CNN_all_event_0.1/features/Museum_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.133, 0.198, 0.241, 0.291, 0.338, 0.378, 0.433, 0.453
+0.231, 0.290, 0.336, 0.368, 0.416, 0.446, 0.482, 0.518
+CNN_all_event_0.1/features/Museum_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.142, 0.266, 0.291, 0.336, 0.363, 0.409, 0.454, 0.506
+0.252, 0.318, 0.373, 0.419, 0.462, 0.486, 0.518, 0.561
+CNN_all_event_old/features/Museum_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.238, 0.255, 0.317, 0.336, 0.382, 0.429, 0.461, 0.501
+0.295, 0.351, 0.403, 0.439, 0.478, 0.503, 0.537, 0.576
+CNN_all_event_old/features/Museum_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.205, 0.200, 0.253, 0.282, 0.356, 0.407, 0.461, 0.505
+0.261, 0.300, 0.363, 0.408, 0.452, 0.482, 0.517, 0.560
+CNN_all_event_old/features/Museum_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.240, 0.299, 0.315, 0.356, 0.393, 0.422, 0.468, 0.511
+0.327, 0.371, 0.413, 0.448, 0.493, 0.514, 0.546, 0.585
+CNN_all_event_old/features/Museum_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.240, 0.257, 0.304, 0.332, 0.373, 0.412, 0.460, 0.499
+0.316, 0.338, 0.388, 0.429, 0.474, 0.502, 0.537, 0.579
+CNN_all_event_1009/features/Museum_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.162, 0.228, 0.274, 0.307, 0.351, 0.401, 0.441, 0.474
+0.323, 0.291, 0.331, 0.368, 0.406, 0.447, 0.491, 0.532
+CNN_all_event_1009/features/Museum_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.142, 0.204, 0.254, 0.294, 0.355, 0.397, 0.440, 0.487
+0.240, 0.284, 0.346, 0.389, 0.443, 0.474, 0.513, 0.552
+CNN_all_event_1009/features/Museum_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.171, 0.250, 0.305, 0.337, 0.357, 0.407, 0.468, 0.499
+0.254, 0.297, 0.374, 0.421, 0.465, 0.493, 0.527, 0.565
+CNN_all_event_1009/features/Museum_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.046, 0.184, 0.234, 0.300, 0.340, 0.345, 0.377, 0.424
+0.246, 0.256, 0.292, 0.340, 0.364, 0.395, 0.433, 0.479
+CNN_all_event_1009/features/Museum_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.261, 0.216, 0.282, 0.328, 0.366, 0.399, 0.464, 0.509
+0.300, 0.321, 0.371, 0.411, 0.453, 0.482, 0.519, 0.562
+CNN_all_event_1009/features/Museum_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.261, 0.216, 0.299, 0.321, 0.360, 0.414, 0.467, 0.507
+0.300, 0.321, 0.369, 0.409, 0.451, 0.482, 0.519, 0.564
+CNN_all_event_1009/features/Museum_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.259, 0.231, 0.292, 0.329, 0.365, 0.416, 0.472, 0.511
+0.305, 0.328, 0.380, 0.421, 0.462, 0.491, 0.525, 0.568
+CNN_all_event_1009/features/Museum_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.255, 0.231, 0.301, 0.326, 0.370, 0.417, 0.470, 0.515
+0.304, 0.326, 0.376, 0.417, 0.459, 0.488, 0.523, 0.567
+CNN_all_event_1009/features/Museum_test_face_combined_thetapre_10w_dict.cPickle
+0.255, 0.216, 0.299, 0.333, 0.359, 0.409, 0.469, 0.511
+0.294, 0.312, 0.367, 0.411, 0.452, 0.484, 0.521, 0.565
+*WORKER*
+0.307, 0.371, 0.436, 0.491, 0.544, 0.589, 0.632, 0.671
+0.170, 0.317, 0.404, 0.461, 0.500, 0.541, 0.578, 0.613
+
+
+Skipping creation of dict: baseline_all_0509/UrbanTrip/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>UrbanTrip<<<<<<<<
+*ALGORITHM*
+P: 0.04869, 0.10174, 0.15116, 0.20131, 0.25073, 0.29869, 0.35247, 0.39971
+baseline_all_noblock/UrbanTrip/test_random_dict.cPickle
+0.040, 0.103, 0.167, 0.218, 0.253, 0.299, 0.346, 0.400
+0.106, 0.157, 0.204, 0.255, 0.297, 0.337, 0.387, 0.433
+aesthetic/UrbanTrip_aesthetic_score_dict.cPickle
+0.039, 0.106, 0.146, 0.238, 0.308, 0.353, 0.417, 0.468
+0.125, 0.174, 0.226, 0.285, 0.342, 0.384, 0.440, 0.489
+baseline_all_0509/UrbanTrip/alexnet6k_predict_result_10_dict.cPickle
+0.079, 0.180, 0.266, 0.341, 0.383, 0.426, 0.488, 0.533
+0.195, 0.245, 0.313, 0.374, 0.422, 0.464, 0.517, 0.562
+CNN_all_event_0.1/features/UrbanTrip_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.205, 0.288, 0.347, 0.405, 0.452, 0.493, 0.516, 0.552
+0.265, 0.364, 0.409, 0.454, 0.501, 0.540, 0.581, 0.619
+CNN_all_event_0.1/features/UrbanTrip_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.247, 0.341, 0.374, 0.412, 0.435, 0.473, 0.517, 0.563
+0.317, 0.385, 0.410, 0.449, 0.494, 0.534, 0.578, 0.618
+CNN_all_event_0.1/features/UrbanTrip_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.216, 0.305, 0.396, 0.444, 0.452, 0.494, 0.519, 0.564
+0.317, 0.377, 0.429, 0.475, 0.523, 0.557, 0.594, 0.628
+CNN_all_event_0.1/features/UrbanTrip_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.166, 0.276, 0.336, 0.366, 0.430, 0.480, 0.524, 0.549
+0.268, 0.328, 0.366, 0.416, 0.464, 0.506, 0.558, 0.600
+CNN_all_event_0.1/features/UrbanTrip_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.255, 0.346, 0.413, 0.448, 0.468, 0.486, 0.529, 0.570
+0.323, 0.388, 0.441, 0.481, 0.522, 0.555, 0.598, 0.639
+CNN_all_event_old/features/UrbanTrip_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.294, 0.331, 0.405, 0.436, 0.467, 0.496, 0.524, 0.568
+0.342, 0.408, 0.448, 0.487, 0.527, 0.559, 0.598, 0.636
+CNN_all_event_old/features/UrbanTrip_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.208, 0.328, 0.372, 0.409, 0.454, 0.486, 0.529, 0.577
+0.336, 0.396, 0.433, 0.472, 0.514, 0.550, 0.592, 0.633
+CNN_all_event_old/features/UrbanTrip_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.285, 0.333, 0.372, 0.431, 0.487, 0.511, 0.532, 0.573
+0.380, 0.425, 0.462, 0.496, 0.534, 0.563, 0.600, 0.637
+CNN_all_event_old/features/UrbanTrip_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.319, 0.364, 0.410, 0.438, 0.469, 0.504, 0.535, 0.564
+0.390, 0.420, 0.454, 0.493, 0.533, 0.565, 0.602, 0.640
+CNN_all_event_1009/features/UrbanTrip_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.245, 0.313, 0.389, 0.408, 0.449, 0.485, 0.526, 0.561
+0.361, 0.387, 0.425, 0.473, 0.510, 0.536, 0.572, 0.607
+CNN_all_event_1009/features/UrbanTrip_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.233, 0.252, 0.330, 0.390, 0.445, 0.478, 0.500, 0.548
+0.299, 0.337, 0.388, 0.438, 0.486, 0.524, 0.567, 0.608
+CNN_all_event_1009/features/UrbanTrip_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.204, 0.304, 0.364, 0.398, 0.443, 0.481, 0.524, 0.560
+0.274, 0.333, 0.382, 0.437, 0.492, 0.533, 0.577, 0.616
+CNN_all_event_1009/features/UrbanTrip_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.122, 0.248, 0.289, 0.340, 0.381, 0.428, 0.478, 0.523
+0.192, 0.281, 0.333, 0.375, 0.421, 0.464, 0.514, 0.560
+CNN_all_event_1009/features/UrbanTrip_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.312, 0.343, 0.394, 0.435, 0.477, 0.502, 0.528, 0.565
+0.378, 0.415, 0.457, 0.498, 0.537, 0.567, 0.604, 0.642
+CNN_all_event_1009/features/UrbanTrip_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.307, 0.370, 0.403, 0.448, 0.486, 0.511, 0.528, 0.568
+0.376, 0.413, 0.456, 0.499, 0.538, 0.568, 0.605, 0.643
+CNN_all_event_1009/features/UrbanTrip_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.302, 0.366, 0.406, 0.439, 0.490, 0.502, 0.527, 0.569
+0.378, 0.412, 0.458, 0.503, 0.543, 0.573, 0.609, 0.646
+CNN_all_event_1009/features/UrbanTrip_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.302, 0.375, 0.406, 0.439, 0.484, 0.506, 0.528, 0.571
+0.377, 0.414, 0.458, 0.502, 0.541, 0.571, 0.609, 0.646
+CNN_all_event_1009/features/UrbanTrip_test_face_combined_thetapre_10w_dict.cPickle
+0.302, 0.375, 0.406, 0.439, 0.484, 0.506, 0.528, 0.571
+0.377, 0.414, 0.458, 0.502, 0.541, 0.571, 0.609, 0.646
+*WORKER*
+0.317, 0.402, 0.462, 0.515, 0.563, 0.604, 0.647, 0.683
+0.224, 0.359, 0.426, 0.485, 0.533, 0.570, 0.604, 0.631
+
+
+Skipping creation of dict: baseline_all_0509/Zoo/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Zoo<<<<<<<<
+*ALGORITHM*
+P: 0.05103, 0.10129, 0.14928, 0.20183, 0.24829, 0.30160, 0.35034, 0.39985
+baseline_all_noblock/Zoo/test_random_dict.cPickle
+0.034, 0.084, 0.134, 0.195, 0.245, 0.290, 0.330, 0.383
+0.115, 0.158, 0.193, 0.243, 0.289, 0.339, 0.382, 0.425
+aesthetic/Zoo_aesthetic_score_dict.cPickle
+0.057, 0.090, 0.157, 0.240, 0.301, 0.367, 0.423, 0.481
+0.103, 0.164, 0.223, 0.295, 0.349, 0.407, 0.457, 0.512
+baseline_all_0509/Zoo/alexnet6k_predict_result_10_dict.cPickle
+0.107, 0.119, 0.218, 0.283, 0.343, 0.386, 0.425, 0.466
+0.199, 0.223, 0.270, 0.329, 0.372, 0.419, 0.462, 0.507
+CNN_all_event_0.1/features/Zoo_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.096, 0.192, 0.243, 0.291, 0.334, 0.409, 0.454, 0.499
+0.175, 0.237, 0.281, 0.334, 0.375, 0.425, 0.476, 0.524
+CNN_all_event_0.1/features/Zoo_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.079, 0.143, 0.234, 0.292, 0.353, 0.414, 0.484, 0.542
+0.160, 0.218, 0.292, 0.363, 0.411, 0.469, 0.516, 0.562
+CNN_all_event_0.1/features/Zoo_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.159, 0.213, 0.255, 0.315, 0.361, 0.423, 0.471, 0.512
+0.192, 0.242, 0.287, 0.350, 0.399, 0.452, 0.495, 0.541
+CNN_all_event_0.1/features/Zoo_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.154, 0.209, 0.246, 0.296, 0.343, 0.393, 0.455, 0.503
+0.203, 0.253, 0.305, 0.376, 0.424, 0.475, 0.521, 0.564
+CNN_all_event_0.1/features/Zoo_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.053, 0.179, 0.235, 0.282, 0.356, 0.421, 0.481, 0.520
+0.134, 0.198, 0.260, 0.334, 0.386, 0.438, 0.485, 0.531
+CNN_all_event_old/features/Zoo_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.131, 0.196, 0.257, 0.310, 0.369, 0.423, 0.481, 0.537
+0.187, 0.238, 0.295, 0.366, 0.419, 0.474, 0.519, 0.564
+CNN_all_event_old/features/Zoo_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.080, 0.161, 0.233, 0.322, 0.387, 0.448, 0.496, 0.552
+0.188, 0.250, 0.305, 0.366, 0.415, 0.470, 0.519, 0.572
+CNN_all_event_old/features/Zoo_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.090, 0.169, 0.243, 0.296, 0.375, 0.426, 0.488, 0.535
+0.173, 0.231, 0.288, 0.360, 0.414, 0.473, 0.519, 0.566
+CNN_all_event_old/features/Zoo_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.104, 0.173, 0.243, 0.328, 0.378, 0.429, 0.489, 0.542
+0.164, 0.229, 0.286, 0.353, 0.403, 0.457, 0.504, 0.552
+CNN_all_event_1009/features/Zoo_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.096, 0.183, 0.231, 0.310, 0.357, 0.388, 0.433, 0.491
+0.202, 0.246, 0.289, 0.338, 0.379, 0.430, 0.472, 0.516
+CNN_all_event_1009/features/Zoo_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.095, 0.151, 0.237, 0.309, 0.359, 0.424, 0.472, 0.520
+0.171, 0.219, 0.276, 0.351, 0.405, 0.461, 0.505, 0.547
+CNN_all_event_1009/features/Zoo_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.102, 0.166, 0.213, 0.268, 0.328, 0.410, 0.461, 0.502
+0.138, 0.212, 0.276, 0.344, 0.394, 0.448, 0.502, 0.549
+CNN_all_event_1009/features/Zoo_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.036, 0.119, 0.158, 0.229, 0.299, 0.340, 0.377, 0.426
+0.107, 0.174, 0.227, 0.286, 0.331, 0.380, 0.424, 0.469
+CNN_all_event_1009/features/Zoo_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.127, 0.213, 0.249, 0.336, 0.391, 0.452, 0.485, 0.530
+0.197, 0.257, 0.307, 0.369, 0.419, 0.475, 0.522, 0.568
+CNN_all_event_1009/features/Zoo_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.135, 0.235, 0.261, 0.331, 0.392, 0.452, 0.489, 0.539
+0.209, 0.264, 0.313, 0.374, 0.424, 0.479, 0.524, 0.571
+CNN_all_event_1009/features/Zoo_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.146, 0.236, 0.273, 0.334, 0.397, 0.444, 0.485, 0.542
+0.212, 0.268, 0.321, 0.386, 0.434, 0.485, 0.529, 0.575
+CNN_all_event_1009/features/Zoo_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.150, 0.229, 0.283, 0.341, 0.397, 0.450, 0.487, 0.548
+0.212, 0.268, 0.322, 0.385, 0.433, 0.485, 0.529, 0.575
+CNN_all_event_1009/features/Zoo_test_face_combined_thetapre_10w_dict.cPickle
+0.150, 0.229, 0.283, 0.341, 0.397, 0.450, 0.487, 0.548
+0.212, 0.268, 0.322, 0.385, 0.433, 0.485, 0.529, 0.575
+*WORKER*
+0.300, 0.368, 0.431, 0.495, 0.546, 0.602, 0.645, 0.687
+0.240, 0.352, 0.419, 0.477, 0.528, 0.580, 0.609, 0.643
+
+
+Skipping creation of dict: baseline_all_0509/BeachTrip/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>BeachTrip<<<<<<<<
+*ALGORITHM*
+P: 0.04900, 0.09954, 0.15008, 0.20061, 0.24962, 0.29709, 0.35069, 0.39969
+baseline_all_noblock/BeachTrip/test_random_dict.cPickle
+0.045, 0.086, 0.147, 0.179, 0.229, 0.275, 0.314, 0.357
+0.117, 0.157, 0.199, 0.241, 0.283, 0.333, 0.394, 0.454
+aesthetic/BeachTrip_aesthetic_score_dict.cPickle
+0.051, 0.109, 0.180, 0.248, 0.314, 0.372, 0.432, 0.491
+0.148, 0.212, 0.252, 0.300, 0.366, 0.416, 0.466, 0.507
+baseline_all_0509/BeachTrip/alexnet6k_predict_result_10_dict.cPickle
+0.140, 0.252, 0.286, 0.371, 0.432, 0.485, 0.512, 0.562
+0.240, 0.307, 0.348, 0.405, 0.458, 0.507, 0.553, 0.604
+CNN_all_event_0.1/features/BeachTrip_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.178, 0.318, 0.362, 0.401, 0.433, 0.486, 0.518, 0.576
+0.264, 0.354, 0.403, 0.456, 0.515, 0.561, 0.606, 0.650
+CNN_all_event_0.1/features/BeachTrip_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.273, 0.300, 0.324, 0.389, 0.434, 0.469, 0.517, 0.575
+0.335, 0.410, 0.437, 0.474, 0.516, 0.550, 0.591, 0.634
+CNN_all_event_0.1/features/BeachTrip_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.227, 0.312, 0.327, 0.386, 0.477, 0.507, 0.552, 0.588
+0.314, 0.387, 0.417, 0.471, 0.530, 0.576, 0.619, 0.660
+CNN_all_event_0.1/features/BeachTrip_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.208, 0.273, 0.330, 0.395, 0.441, 0.485, 0.531, 0.586
+0.292, 0.368, 0.406, 0.448, 0.490, 0.537, 0.584, 0.626
+CNN_all_event_0.1/features/BeachTrip_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.195, 0.299, 0.340, 0.420, 0.474, 0.505, 0.536, 0.573
+0.288, 0.385, 0.430, 0.484, 0.544, 0.581, 0.616, 0.649
+CNN_all_event_old/features/BeachTrip_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.216, 0.301, 0.314, 0.384, 0.465, 0.519, 0.579, 0.594
+0.244, 0.356, 0.405, 0.460, 0.510, 0.558, 0.603, 0.648
+CNN_all_event_old/features/BeachTrip_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.270, 0.309, 0.336, 0.392, 0.452, 0.509, 0.541, 0.584
+0.349, 0.407, 0.431, 0.486, 0.533, 0.571, 0.615, 0.659
+CNN_all_event_old/features/BeachTrip_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.227, 0.290, 0.350, 0.384, 0.460, 0.517, 0.575, 0.599
+0.266, 0.376, 0.410, 0.459, 0.512, 0.563, 0.610, 0.656
+CNN_all_event_old/features/BeachTrip_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.258, 0.294, 0.315, 0.394, 0.449, 0.524, 0.551, 0.584
+0.292, 0.384, 0.418, 0.475, 0.526, 0.566, 0.607, 0.647
+CNN_all_event_1009/features/BeachTrip_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.157, 0.262, 0.270, 0.350, 0.427, 0.510, 0.548, 0.585
+0.289, 0.363, 0.386, 0.451, 0.508, 0.548, 0.590, 0.632
+CNN_all_event_1009/features/BeachTrip_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.200, 0.294, 0.321, 0.401, 0.510, 0.544, 0.582, 0.622
+0.296, 0.383, 0.423, 0.481, 0.547, 0.590, 0.631, 0.671
+CNN_all_event_1009/features/BeachTrip_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.156, 0.282, 0.367, 0.471, 0.505, 0.560, 0.569, 0.596
+0.249, 0.352, 0.408, 0.469, 0.549, 0.593, 0.628, 0.663
+CNN_all_event_1009/features/BeachTrip_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.016, 0.113, 0.229, 0.313, 0.383, 0.425, 0.451, 0.508
+0.100, 0.183, 0.283, 0.353, 0.407, 0.449, 0.493, 0.536
+CNN_all_event_1009/features/BeachTrip_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.227, 0.323, 0.336, 0.429, 0.477, 0.528, 0.566, 0.582
+0.293, 0.395, 0.431, 0.493, 0.545, 0.582, 0.621, 0.660
+CNN_all_event_1009/features/BeachTrip_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.227, 0.330, 0.351, 0.427, 0.473, 0.523, 0.571, 0.597
+0.299, 0.399, 0.434, 0.496, 0.547, 0.584, 0.622, 0.660
+CNN_all_event_1009/features/BeachTrip_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.227, 0.330, 0.351, 0.403, 0.479, 0.537, 0.573, 0.591
+0.319, 0.405, 0.437, 0.496, 0.546, 0.583, 0.623, 0.662
+CNN_all_event_1009/features/BeachTrip_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.227, 0.325, 0.346, 0.418, 0.479, 0.536, 0.568, 0.591
+0.300, 0.395, 0.431, 0.494, 0.546, 0.584, 0.624, 0.662
+CNN_all_event_1009/features/BeachTrip_test_face_combined_thetapre_10w_dict.cPickle
+0.250, 0.324, 0.354, 0.437, 0.494, 0.536, 0.568, 0.595
+0.350, 0.420, 0.453, 0.508, 0.557, 0.592, 0.630, 0.667
+*WORKER*
+0.330, 0.414, 0.472, 0.521, 0.563, 0.601, 0.642, 0.682
+0.249, 0.398, 0.466, 0.506, 0.531, 0.574, 0.613, 0.643
+
+
+Skipping creation of dict: baseline_all_0509/PersonalMusicActivity/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>PersonalMusicActivity<<<<<<<<
+*ALGORITHM*
+P: 0.05000, 0.10000, 0.15294, 0.20000, 0.25000, 0.29706, 0.35000, 0.40588
+baseline_all_noblock/PersonalMusicActivity/test_random_dict.cPickle
+0.098, 0.062, 0.133, 0.224, 0.296, 0.358, 0.404, 0.445
+0.208, 0.191, 0.231, 0.282, 0.329, 0.380, 0.420, 0.467
+aesthetic/PersonalMusicActivity_aesthetic_score_dict.cPickle
+0.098, 0.208, 0.270, 0.315, 0.310, 0.372, 0.422, 0.442
+0.189, 0.251, 0.286, 0.331, 0.382, 0.420, 0.463, 0.513
+baseline_all_0509/PersonalMusicActivity/alexnet6k_predict_result_10_dict.cPickle
+0.079, 0.160, 0.266, 0.350, 0.390, 0.437, 0.472, 0.492
+0.156, 0.217, 0.313, 0.365, 0.435, 0.476, 0.503, 0.539
+CNN_all_event_0.1/features/PersonalMusicActivity_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.115, 0.206, 0.272, 0.335, 0.430, 0.441, 0.497, 0.550
+0.201, 0.265, 0.323, 0.377, 0.447, 0.510, 0.554, 0.602
+CNN_all_event_0.1/features/PersonalMusicActivity_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.254, 0.206, 0.285, 0.357, 0.395, 0.451, 0.493, 0.565
+0.278, 0.311, 0.318, 0.369, 0.443, 0.502, 0.553, 0.607
+CNN_all_event_0.1/features/PersonalMusicActivity_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.178, 0.203, 0.192, 0.242, 0.321, 0.381, 0.434, 0.504
+0.245, 0.266, 0.274, 0.326, 0.395, 0.458, 0.518, 0.576
+CNN_all_event_0.1/features/PersonalMusicActivity_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.101, 0.191, 0.214, 0.281, 0.315, 0.384, 0.467, 0.509
+0.175, 0.273, 0.296, 0.343, 0.395, 0.447, 0.504, 0.560
+CNN_all_event_0.1/features/PersonalMusicActivity_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.080, 0.187, 0.182, 0.265, 0.349, 0.385, 0.440, 0.513
+0.188, 0.220, 0.264, 0.345, 0.412, 0.474, 0.525, 0.576
+CNN_all_event_old/features/PersonalMusicActivity_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.181, 0.276, 0.263, 0.301, 0.373, 0.431, 0.473, 0.543
+0.238, 0.291, 0.308, 0.359, 0.428, 0.486, 0.547, 0.607
+CNN_all_event_old/features/PersonalMusicActivity_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.174, 0.272, 0.282, 0.320, 0.381, 0.385, 0.476, 0.531
+0.203, 0.261, 0.300, 0.354, 0.426, 0.480, 0.538, 0.598
+CNN_all_event_old/features/PersonalMusicActivity_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.163, 0.227, 0.268, 0.328, 0.372, 0.450, 0.481, 0.539
+0.193, 0.251, 0.287, 0.349, 0.431, 0.490, 0.555, 0.621
+CNN_all_event_old/features/PersonalMusicActivity_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.122, 0.232, 0.227, 0.304, 0.375, 0.417, 0.492, 0.580
+0.223, 0.258, 0.293, 0.352, 0.429, 0.485, 0.545, 0.609
+CNN_all_event_1009/features/PersonalMusicActivity_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.119, 0.210, 0.281, 0.265, 0.338, 0.387, 0.422, 0.485
+0.267, 0.331, 0.380, 0.399, 0.439, 0.476, 0.509, 0.551
+CNN_all_event_1009/features/PersonalMusicActivity_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.173, 0.144, 0.239, 0.315, 0.367, 0.436, 0.496, 0.527
+0.164, 0.213, 0.263, 0.332, 0.412, 0.472, 0.523, 0.578
+CNN_all_event_1009/features/PersonalMusicActivity_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.152, 0.177, 0.222, 0.289, 0.366, 0.441, 0.476, 0.511
+0.177, 0.209, 0.266, 0.319, 0.392, 0.462, 0.528, 0.592
+CNN_all_event_1009/features/PersonalMusicActivity_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.122, 0.183, 0.231, 0.312, 0.346, 0.374, 0.419, 0.483
+0.155, 0.194, 0.261, 0.323, 0.375, 0.426, 0.481, 0.543
+CNN_all_event_1009/features/PersonalMusicActivity_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.184, 0.227, 0.249, 0.324, 0.387, 0.439, 0.494, 0.552
+0.257, 0.301, 0.324, 0.378, 0.449, 0.505, 0.563, 0.625
+CNN_all_event_1009/features/PersonalMusicActivity_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.144, 0.227, 0.268, 0.323, 0.380, 0.430, 0.488, 0.540
+0.253, 0.300, 0.327, 0.386, 0.455, 0.508, 0.563, 0.622
+CNN_all_event_1009/features/PersonalMusicActivity_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.144, 0.263, 0.285, 0.323, 0.387, 0.453, 0.497, 0.543
+0.257, 0.302, 0.330, 0.391, 0.458, 0.510, 0.564, 0.622
+CNN_all_event_1009/features/PersonalMusicActivity_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.144, 0.263, 0.285, 0.308, 0.387, 0.453, 0.497, 0.533
+0.257, 0.299, 0.327, 0.389, 0.456, 0.508, 0.562, 0.619
+CNN_all_event_1009/features/PersonalMusicActivity_test_face_combined_thetapre_10w_dict.cPickle
+0.144, 0.263, 0.285, 0.308, 0.387, 0.453, 0.497, 0.533
+0.257, 0.299, 0.327, 0.389, 0.456, 0.508, 0.562, 0.619
+*WORKER*
+0.355, 0.446, 0.501, 0.546, 0.591, 0.632, 0.671, 0.715
+0.249, 0.433, 0.474, 0.539, 0.589, 0.621, 0.639, 0.664
+
+
+Skipping creation of dict: baseline_all_0509/Christmas/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Christmas<<<<<<<<
+*ALGORITHM*
+P: 0.05067, 0.10060, 0.15127, 0.20194, 0.25112, 0.29955, 0.35171, 0.40238
+baseline_all_noblock/Christmas/test_random_dict.cPickle
+0.110, 0.105, 0.175, 0.217, 0.279, 0.307, 0.350, 0.394
+0.173, 0.189, 0.246, 0.297, 0.337, 0.367, 0.403, 0.443
+aesthetic/Christmas_aesthetic_score_dict.cPickle
+0.113, 0.155, 0.201, 0.249, 0.315, 0.367, 0.404, 0.449
+0.162, 0.206, 0.251, 0.300, 0.355, 0.396, 0.443, 0.490
+baseline_all_0509/Christmas/alexnet6k_predict_result_10_dict.cPickle
+0.190, 0.264, 0.291, 0.331, 0.370, 0.412, 0.453, 0.497
+0.274, 0.290, 0.326, 0.376, 0.423, 0.465, 0.510, 0.554
+CNN_all_event_0.1/features/Christmas_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.213, 0.294, 0.319, 0.392, 0.417, 0.487, 0.531, 0.564
+0.319, 0.370, 0.398, 0.448, 0.500, 0.536, 0.581, 0.621
+CNN_all_event_0.1/features/Christmas_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.204, 0.272, 0.337, 0.394, 0.444, 0.499, 0.536, 0.547
+0.298, 0.344, 0.392, 0.458, 0.509, 0.541, 0.580, 0.616
+CNN_all_event_0.1/features/Christmas_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.194, 0.282, 0.341, 0.379, 0.429, 0.459, 0.510, 0.551
+0.263, 0.346, 0.402, 0.468, 0.503, 0.534, 0.573, 0.610
+CNN_all_event_0.1/features/Christmas_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.168, 0.232, 0.296, 0.359, 0.416, 0.465, 0.497, 0.525
+0.224, 0.293, 0.353, 0.413, 0.460, 0.499, 0.542, 0.579
+CNN_all_event_0.1/features/Christmas_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.226, 0.282, 0.339, 0.410, 0.436, 0.472, 0.516, 0.547
+0.268, 0.338, 0.392, 0.451, 0.499, 0.534, 0.575, 0.613
+CNN_all_event_old/features/Christmas_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.217, 0.301, 0.340, 0.392, 0.454, 0.480, 0.527, 0.555
+0.282, 0.352, 0.402, 0.469, 0.517, 0.548, 0.584, 0.619
+CNN_all_event_old/features/Christmas_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.203, 0.254, 0.321, 0.382, 0.441, 0.475, 0.517, 0.552
+0.265, 0.324, 0.378, 0.442, 0.498, 0.534, 0.574, 0.610
+CNN_all_event_old/features/Christmas_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.202, 0.277, 0.339, 0.395, 0.459, 0.498, 0.529, 0.549
+0.294, 0.340, 0.390, 0.455, 0.509, 0.543, 0.582, 0.619
+CNN_all_event_old/features/Christmas_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.238, 0.302, 0.346, 0.392, 0.444, 0.492, 0.525, 0.564
+0.316, 0.347, 0.398, 0.464, 0.512, 0.543, 0.579, 0.616
+CNN_all_event_1009/features/Christmas_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.291, 0.309, 0.375, 0.418, 0.463, 0.492, 0.528, 0.565
+0.381, 0.380, 0.416, 0.463, 0.504, 0.544, 0.587, 0.625
+CNN_all_event_1009/features/Christmas_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.182, 0.289, 0.351, 0.381, 0.421, 0.469, 0.508, 0.556
+0.268, 0.347, 0.394, 0.452, 0.495, 0.533, 0.578, 0.611
+CNN_all_event_1009/features/Christmas_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.179, 0.288, 0.352, 0.397, 0.439, 0.477, 0.522, 0.549
+0.239, 0.349, 0.399, 0.455, 0.497, 0.530, 0.568, 0.600
+CNN_all_event_1009/features/Christmas_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.132, 0.205, 0.258, 0.331, 0.383, 0.440, 0.487, 0.533
+0.181, 0.263, 0.319, 0.384, 0.438, 0.482, 0.527, 0.570
+CNN_all_event_1009/features/Christmas_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.275, 0.313, 0.350, 0.398, 0.454, 0.482, 0.517, 0.555
+0.325, 0.363, 0.407, 0.468, 0.516, 0.548, 0.585, 0.622
+CNN_all_event_1009/features/Christmas_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.279, 0.328, 0.350, 0.400, 0.444, 0.483, 0.521, 0.556
+0.335, 0.370, 0.415, 0.475, 0.521, 0.553, 0.590, 0.625
+CNN_all_event_1009/features/Christmas_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.276, 0.318, 0.351, 0.409, 0.455, 0.483, 0.522, 0.570
+0.332, 0.365, 0.411, 0.473, 0.521, 0.553, 0.590, 0.627
+CNN_all_event_1009/features/Christmas_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.274, 0.321, 0.354, 0.401, 0.454, 0.488, 0.525, 0.572
+0.344, 0.367, 0.413, 0.474, 0.522, 0.553, 0.590, 0.627
+CNN_all_event_1009/features/Christmas_test_face_combined_thetapre_10w_dict.cPickle
+0.274, 0.321, 0.354, 0.401, 0.454, 0.488, 0.525, 0.572
+0.344, 0.367, 0.413, 0.474, 0.522, 0.553, 0.590, 0.627
+*WORKER*
+0.334, 0.408, 0.468, 0.523, 0.570, 0.610, 0.655, 0.694
+0.260, 0.364, 0.424, 0.476, 0.524, 0.566, 0.606, 0.638
+
+
+Skipping creation of dict: baseline_all_0509/PersonalArtActivity/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>PersonalArtActivity<<<<<<<<
+*ALGORITHM*
+P: 0.04814, 0.09627, 0.14907, 0.19876, 0.25000, 0.29658, 0.34938, 0.39907
+baseline_all_noblock/PersonalArtActivity/test_random_dict.cPickle
+0.045, 0.107, 0.118, 0.173, 0.240, 0.316, 0.380, 0.428
+0.136, 0.171, 0.217, 0.266, 0.316, 0.364, 0.412, 0.456
+aesthetic/PersonalArtActivity_aesthetic_score_dict.cPickle
+0.093, 0.159, 0.166, 0.218, 0.273, 0.334, 0.396, 0.473
+0.197, 0.244, 0.278, 0.305, 0.338, 0.383, 0.441, 0.497
+baseline_all_0509/PersonalArtActivity/alexnet6k_predict_result_10_dict.cPickle
+0.214, 0.239, 0.259, 0.294, 0.313, 0.365, 0.404, 0.446
+0.234, 0.262, 0.311, 0.338, 0.379, 0.416, 0.460, 0.511
+CNN_all_event_0.1/features/PersonalArtActivity_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.050, 0.176, 0.226, 0.322, 0.360, 0.428, 0.482, 0.530
+0.171, 0.225, 0.307, 0.355, 0.417, 0.475, 0.532, 0.580
+CNN_all_event_0.1/features/PersonalArtActivity_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.171, 0.208, 0.287, 0.303, 0.380, 0.445, 0.502, 0.566
+0.205, 0.272, 0.326, 0.362, 0.419, 0.476, 0.536, 0.586
+CNN_all_event_0.1/features/PersonalArtActivity_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.069, 0.124, 0.236, 0.291, 0.341, 0.392, 0.484, 0.546
+0.169, 0.230, 0.293, 0.338, 0.404, 0.462, 0.528, 0.576
+CNN_all_event_0.1/features/PersonalArtActivity_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.147, 0.192, 0.253, 0.266, 0.313, 0.387, 0.433, 0.482
+0.206, 0.245, 0.286, 0.321, 0.374, 0.422, 0.477, 0.520
+CNN_all_event_0.1/features/PersonalArtActivity_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.099, 0.204, 0.260, 0.332, 0.399, 0.449, 0.500, 0.542
+0.189, 0.255, 0.321, 0.364, 0.425, 0.475, 0.527, 0.567
+CNN_all_event_old/features/PersonalArtActivity_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.127, 0.243, 0.274, 0.325, 0.388, 0.439, 0.489, 0.545
+0.216, 0.284, 0.335, 0.376, 0.436, 0.489, 0.546, 0.594
+CNN_all_event_old/features/PersonalArtActivity_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.147, 0.247, 0.286, 0.336, 0.384, 0.432, 0.491, 0.555
+0.261, 0.317, 0.356, 0.386, 0.435, 0.487, 0.543, 0.593
+CNN_all_event_old/features/PersonalArtActivity_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.139, 0.234, 0.284, 0.312, 0.379, 0.444, 0.486, 0.553
+0.225, 0.298, 0.336, 0.374, 0.437, 0.489, 0.545, 0.594
+CNN_all_event_old/features/PersonalArtActivity_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.158, 0.266, 0.280, 0.317, 0.377, 0.454, 0.522, 0.556
+0.274, 0.335, 0.370, 0.397, 0.453, 0.504, 0.560, 0.610
+CNN_all_event_1009/features/PersonalArtActivity_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.099, 0.201, 0.269, 0.302, 0.392, 0.444, 0.489, 0.548
+0.188, 0.259, 0.312, 0.361, 0.422, 0.471, 0.526, 0.580
+CNN_all_event_1009/features/PersonalArtActivity_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.189, 0.179, 0.250, 0.298, 0.355, 0.410, 0.484, 0.553
+0.281, 0.302, 0.332, 0.357, 0.407, 0.462, 0.524, 0.572
+CNN_all_event_1009/features/PersonalArtActivity_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.147, 0.211, 0.239, 0.280, 0.357, 0.421, 0.462, 0.507
+0.257, 0.275, 0.318, 0.356, 0.415, 0.465, 0.517, 0.560
+CNN_all_event_1009/features/PersonalArtActivity_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.136, 0.190, 0.236, 0.296, 0.366, 0.428, 0.466, 0.550
+0.213, 0.246, 0.291, 0.333, 0.400, 0.460, 0.527, 0.587
+CNN_all_event_1009/features/PersonalArtActivity_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.139, 0.215, 0.293, 0.366, 0.400, 0.461, 0.526, 0.578
+0.239, 0.312, 0.357, 0.391, 0.448, 0.503, 0.563, 0.615
+CNN_all_event_1009/features/PersonalArtActivity_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.139, 0.237, 0.314, 0.369, 0.401, 0.460, 0.522, 0.573
+0.240, 0.316, 0.361, 0.395, 0.452, 0.507, 0.567, 0.620
+CNN_all_event_1009/features/PersonalArtActivity_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.107, 0.231, 0.297, 0.353, 0.413, 0.466, 0.514, 0.577
+0.239, 0.311, 0.355, 0.390, 0.448, 0.503, 0.563, 0.615
+CNN_all_event_1009/features/PersonalArtActivity_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.139, 0.231, 0.301, 0.345, 0.407, 0.461, 0.520, 0.574
+0.252, 0.321, 0.361, 0.393, 0.450, 0.505, 0.564, 0.616
+CNN_all_event_1009/features/PersonalArtActivity_test_face_combined_thetapre_10w_dict.cPickle
+0.139, 0.231, 0.293, 0.345, 0.403, 0.450, 0.521, 0.582
+0.252, 0.321, 0.360, 0.392, 0.450, 0.505, 0.564, 0.616
+*WORKER*
+0.314, 0.397, 0.471, 0.527, 0.577, 0.613, 0.654, 0.691
+0.278, 0.359, 0.430, 0.484, 0.542, 0.591, 0.616, 0.636
+
+
+Skipping creation of dict: baseline_all_0509/GroupActivity/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>GroupActivity<<<<<<<<
+*ALGORITHM*
+P: 0.05331, 0.10016, 0.14863, 0.20355, 0.25040, 0.29887, 0.35218, 0.39742
+baseline_all_noblock/GroupActivity/test_random_dict.cPickle
+0.050, 0.048, 0.076, 0.168, 0.209, 0.270, 0.346, 0.394
+0.105, 0.143, 0.192, 0.256, 0.299, 0.338, 0.384, 0.424
+aesthetic/GroupActivity_aesthetic_score_dict.cPickle
+0.050, 0.110, 0.173, 0.208, 0.263, 0.316, 0.373, 0.415
+0.107, 0.151, 0.212, 0.256, 0.296, 0.338, 0.387, 0.427
+baseline_all_0509/GroupActivity/alexnet6k_predict_result_10_dict.cPickle
+0.047, 0.203, 0.254, 0.318, 0.362, 0.414, 0.440, 0.478
+0.198, 0.284, 0.325, 0.369, 0.416, 0.452, 0.495, 0.528
+CNN_all_event_0.1/features/GroupActivity_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.217, 0.316, 0.378, 0.425, 0.473, 0.498, 0.523, 0.533
+0.270, 0.376, 0.432, 0.490, 0.551, 0.584, 0.608, 0.633
+CNN_all_event_0.1/features/GroupActivity_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.170, 0.357, 0.421, 0.448, 0.482, 0.511, 0.523, 0.554
+0.286, 0.424, 0.473, 0.528, 0.581, 0.606, 0.634, 0.660
+CNN_all_event_0.1/features/GroupActivity_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.178, 0.341, 0.385, 0.466, 0.507, 0.524, 0.543, 0.558
+0.344, 0.453, 0.495, 0.551, 0.592, 0.614, 0.637, 0.661
+CNN_all_event_0.1/features/GroupActivity_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.237, 0.386, 0.375, 0.445, 0.468, 0.493, 0.498, 0.513
+0.284, 0.403, 0.437, 0.480, 0.522, 0.543, 0.569, 0.598
+CNN_all_event_0.1/features/GroupActivity_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.138, 0.342, 0.419, 0.459, 0.495, 0.524, 0.536, 0.556
+0.254, 0.435, 0.490, 0.542, 0.581, 0.607, 0.630, 0.657
+CNN_all_event_old/features/GroupActivity_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.179, 0.387, 0.459, 0.480, 0.511, 0.544, 0.557, 0.576
+0.305, 0.424, 0.474, 0.537, 0.589, 0.618, 0.648, 0.676
+CNN_all_event_old/features/GroupActivity_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.203, 0.387, 0.406, 0.449, 0.495, 0.492, 0.516, 0.553
+0.324, 0.431, 0.467, 0.516, 0.561, 0.592, 0.622, 0.649
+CNN_all_event_old/features/GroupActivity_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.206, 0.379, 0.425, 0.456, 0.504, 0.512, 0.531, 0.560
+0.302, 0.436, 0.479, 0.537, 0.586, 0.612, 0.639, 0.665
+CNN_all_event_old/features/GroupActivity_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.175, 0.364, 0.412, 0.421, 0.473, 0.507, 0.532, 0.565
+0.301, 0.414, 0.458, 0.511, 0.561, 0.592, 0.622, 0.649
+CNN_all_event_1009/features/GroupActivity_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.119, 0.263, 0.328, 0.402, 0.431, 0.478, 0.493, 0.529
+0.187, 0.302, 0.359, 0.434, 0.506, 0.539, 0.572, 0.600
+CNN_all_event_1009/features/GroupActivity_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.193, 0.392, 0.419, 0.476, 0.516, 0.524, 0.534, 0.543
+0.291, 0.435, 0.491, 0.547, 0.597, 0.618, 0.637, 0.661
+CNN_all_event_1009/features/GroupActivity_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.120, 0.292, 0.370, 0.483, 0.487, 0.514, 0.536, 0.560
+0.254, 0.382, 0.439, 0.496, 0.549, 0.575, 0.602, 0.632
+CNN_all_event_1009/features/GroupActivity_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.150, 0.264, 0.295, 0.338, 0.381, 0.409, 0.445, 0.467
+0.206, 0.295, 0.349, 0.399, 0.443, 0.484, 0.525, 0.564
+CNN_all_event_1009/features/GroupActivity_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.180, 0.355, 0.413, 0.442, 0.505, 0.539, 0.545, 0.572
+0.299, 0.422, 0.470, 0.530, 0.578, 0.605, 0.633, 0.663
+CNN_all_event_1009/features/GroupActivity_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.180, 0.362, 0.431, 0.421, 0.516, 0.529, 0.545, 0.577
+0.287, 0.421, 0.470, 0.531, 0.579, 0.605, 0.633, 0.662
+CNN_all_event_1009/features/GroupActivity_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.187, 0.394, 0.431, 0.425, 0.497, 0.530, 0.545, 0.561
+0.306, 0.430, 0.479, 0.538, 0.584, 0.609, 0.636, 0.663
+CNN_all_event_1009/features/GroupActivity_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.187, 0.388, 0.422, 0.435, 0.496, 0.530, 0.545, 0.561
+0.312, 0.431, 0.478, 0.537, 0.583, 0.607, 0.634, 0.661
+CNN_all_event_1009/features/GroupActivity_test_face_combined_thetapre_10w_dict.cPickle
+0.217, 0.382, 0.402, 0.434, 0.502, 0.526, 0.542, 0.563
+0.315, 0.436, 0.480, 0.539, 0.587, 0.610, 0.635, 0.660
+*WORKER*
+0.334, 0.407, 0.474, 0.531, 0.578, 0.617, 0.662, 0.696
+0.271, 0.379, 0.472, 0.525, 0.556, 0.591, 0.621, 0.642
+
+
+Skipping creation of dict: baseline_all_0509/Wedding/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Wedding<<<<<<<<
+*ALGORITHM*
+P: 0.04998, 0.10035, 0.15186, 0.20069, 0.25144, 0.29950, 0.34910, 0.40138
+baseline_all_noblock/Wedding/test_random_dict.cPickle
+0.094, 0.127, 0.181, 0.218, 0.275, 0.302, 0.348, 0.401
+0.135, 0.175, 0.234, 0.278, 0.328, 0.365, 0.407, 0.453
+aesthetic/Wedding_aesthetic_score_dict.cPickle
+0.038, 0.102, 0.135, 0.173, 0.224, 0.278, 0.331, 0.387
+0.108, 0.173, 0.227, 0.266, 0.308, 0.348, 0.392, 0.437
+baseline_all_0509/Wedding/alexnet6k_predict_result_10_dict.cPickle
+0.173, 0.285, 0.365, 0.414, 0.456, 0.496, 0.522, 0.552
+0.258, 0.366, 0.419, 0.467, 0.512, 0.547, 0.585, 0.622
+CNN_all_event_0.1/features/Wedding_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.213, 0.329, 0.376, 0.447, 0.493, 0.535, 0.574, 0.617
+0.308, 0.370, 0.439, 0.501, 0.558, 0.607, 0.649, 0.692
+CNN_all_event_0.1/features/Wedding_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.200, 0.288, 0.372, 0.440, 0.491, 0.553, 0.596, 0.633
+0.316, 0.364, 0.420, 0.488, 0.555, 0.607, 0.653, 0.700
+CNN_all_event_0.1/features/Wedding_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.212, 0.309, 0.406, 0.459, 0.514, 0.552, 0.589, 0.626
+0.310, 0.391, 0.460, 0.526, 0.575, 0.617, 0.654, 0.692
+CNN_all_event_0.1/features/Wedding_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.192, 0.302, 0.385, 0.429, 0.471, 0.527, 0.556, 0.602
+0.297, 0.388, 0.447, 0.493, 0.544, 0.585, 0.627, 0.673
+CNN_all_event_0.1/features/Wedding_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.193, 0.320, 0.401, 0.471, 0.516, 0.551, 0.588, 0.633
+0.308, 0.394, 0.462, 0.525, 0.578, 0.624, 0.667, 0.708
+CNN_all_event_old/features/Wedding_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.216, 0.359, 0.404, 0.454, 0.506, 0.566, 0.599, 0.642
+0.338, 0.411, 0.471, 0.528, 0.582, 0.625, 0.668, 0.707
+CNN_all_event_old/features/Wedding_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.237, 0.325, 0.380, 0.452, 0.507, 0.547, 0.583, 0.623
+0.325, 0.397, 0.456, 0.513, 0.566, 0.608, 0.648, 0.689
+CNN_all_event_old/features/Wedding_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.169, 0.345, 0.408, 0.458, 0.508, 0.560, 0.597, 0.633
+0.332, 0.400, 0.459, 0.522, 0.579, 0.625, 0.667, 0.706
+CNN_all_event_old/features/Wedding_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.196, 0.333, 0.414, 0.460, 0.517, 0.562, 0.602, 0.638
+0.330, 0.400, 0.460, 0.525, 0.582, 0.628, 0.673, 0.714
+CNN_all_event_1009/features/Wedding_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.159, 0.285, 0.368, 0.426, 0.496, 0.540, 0.584, 0.617
+0.286, 0.356, 0.419, 0.484, 0.546, 0.600, 0.651, 0.696
+CNN_all_event_1009/features/Wedding_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.216, 0.297, 0.371, 0.469, 0.523, 0.548, 0.587, 0.624
+0.298, 0.372, 0.454, 0.520, 0.574, 0.615, 0.656, 0.697
+CNN_all_event_1009/features/Wedding_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.157, 0.298, 0.390, 0.431, 0.484, 0.535, 0.581, 0.626
+0.265, 0.341, 0.427, 0.500, 0.560, 0.603, 0.647, 0.690
+CNN_all_event_1009/features/Wedding_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.114, 0.182, 0.240, 0.307, 0.365, 0.418, 0.469, 0.525
+0.197, 0.246, 0.296, 0.357, 0.419, 0.474, 0.530, 0.578
+CNN_all_event_1009/features/Wedding_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.213, 0.342, 0.400, 0.461, 0.511, 0.564, 0.598, 0.633
+0.330, 0.396, 0.461, 0.525, 0.583, 0.629, 0.671, 0.711
+CNN_all_event_1009/features/Wedding_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.221, 0.340, 0.402, 0.468, 0.517, 0.559, 0.598, 0.639
+0.330, 0.397, 0.462, 0.526, 0.584, 0.629, 0.671, 0.712
+CNN_all_event_1009/features/Wedding_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.228, 0.330, 0.404, 0.467, 0.512, 0.560, 0.599, 0.634
+0.342, 0.402, 0.463, 0.526, 0.584, 0.629, 0.672, 0.712
+CNN_all_event_1009/features/Wedding_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.236, 0.329, 0.404, 0.468, 0.511, 0.561, 0.600, 0.636
+0.341, 0.400, 0.463, 0.528, 0.586, 0.631, 0.674, 0.713
+CNN_all_event_1009/features/Wedding_test_face_combined_thetapre_10w_dict.cPickle
+0.236, 0.329, 0.404, 0.468, 0.511, 0.561, 0.600, 0.636
+0.341, 0.400, 0.463, 0.528, 0.586, 0.631, 0.674, 0.713
+*WORKER*
+0.366, 0.461, 0.537, 0.588, 0.638, 0.677, 0.712, 0.748
+0.248, 0.425, 0.509, 0.546, 0.594, 0.627, 0.642, 0.665
+
+
+Skipping creation of dict: baseline_all_0509/ReligiousActivity/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>ReligiousActivity<<<<<<<<
+*ALGORITHM*
+P: 0.04706, 0.09916, 0.14790, 0.20000, 0.25042, 0.29916, 0.34958, 0.40168
+baseline_all_noblock/ReligiousActivity/test_random_dict.cPickle
+0.061, 0.096, 0.168, 0.197, 0.230, 0.268, 0.317, 0.388
+0.111, 0.160, 0.210, 0.259, 0.297, 0.337, 0.381, 0.438
+aesthetic/ReligiousActivity_aesthetic_score_dict.cPickle
+0.007, 0.126, 0.146, 0.177, 0.259, 0.319, 0.369, 0.424
+0.111, 0.159, 0.216, 0.261, 0.319, 0.362, 0.408, 0.473
+baseline_all_0509/ReligiousActivity/alexnet6k_predict_result_10_dict.cPickle
+0.041, 0.220, 0.273, 0.307, 0.377, 0.409, 0.454, 0.510
+0.163, 0.253, 0.338, 0.373, 0.410, 0.455, 0.506, 0.554
+CNN_all_event_0.1/features/ReligiousActivity_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.185, 0.217, 0.308, 0.358, 0.408, 0.435, 0.469, 0.524
+0.202, 0.277, 0.375, 0.411, 0.437, 0.476, 0.513, 0.568
+CNN_all_event_0.1/features/ReligiousActivity_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.214, 0.244, 0.370, 0.437, 0.471, 0.476, 0.491, 0.530
+0.299, 0.323, 0.417, 0.469, 0.490, 0.526, 0.559, 0.614
+CNN_all_event_0.1/features/ReligiousActivity_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.187, 0.213, 0.345, 0.388, 0.419, 0.437, 0.471, 0.531
+0.254, 0.295, 0.394, 0.444, 0.470, 0.508, 0.546, 0.589
+CNN_all_event_0.1/features/ReligiousActivity_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.159, 0.253, 0.344, 0.378, 0.413, 0.436, 0.477, 0.514
+0.244, 0.278, 0.377, 0.412, 0.439, 0.475, 0.514, 0.564
+CNN_all_event_0.1/features/ReligiousActivity_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.162, 0.265, 0.363, 0.429, 0.446, 0.493, 0.527, 0.542
+0.276, 0.317, 0.416, 0.467, 0.498, 0.540, 0.569, 0.608
+CNN_all_event_old/features/ReligiousActivity_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.259, 0.252, 0.321, 0.389, 0.439, 0.482, 0.487, 0.527
+0.343, 0.327, 0.422, 0.469, 0.496, 0.535, 0.567, 0.603
+CNN_all_event_old/features/ReligiousActivity_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.219, 0.239, 0.369, 0.401, 0.409, 0.448, 0.480, 0.522
+0.302, 0.318, 0.428, 0.476, 0.493, 0.528, 0.557, 0.594
+CNN_all_event_old/features/ReligiousActivity_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.266, 0.274, 0.382, 0.397, 0.416, 0.443, 0.477, 0.522
+0.320, 0.315, 0.423, 0.470, 0.493, 0.531, 0.562, 0.600
+CNN_all_event_old/features/ReligiousActivity_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.261, 0.275, 0.386, 0.428, 0.447, 0.487, 0.493, 0.542
+0.355, 0.340, 0.439, 0.494, 0.512, 0.549, 0.578, 0.617
+CNN_all_event_1009/features/ReligiousActivity_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.199, 0.197, 0.304, 0.370, 0.445, 0.486, 0.493, 0.538
+0.250, 0.276, 0.362, 0.429, 0.468, 0.515, 0.558, 0.601
+CNN_all_event_1009/features/ReligiousActivity_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.107, 0.211, 0.333, 0.406, 0.428, 0.484, 0.503, 0.546
+0.230, 0.261, 0.371, 0.437, 0.477, 0.521, 0.558, 0.600
+CNN_all_event_1009/features/ReligiousActivity_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.154, 0.208, 0.305, 0.386, 0.431, 0.475, 0.490, 0.536
+0.292, 0.296, 0.372, 0.430, 0.467, 0.510, 0.545, 0.588
+CNN_all_event_1009/features/ReligiousActivity_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.179, 0.211, 0.340, 0.391, 0.428, 0.448, 0.459, 0.501
+0.213, 0.270, 0.330, 0.378, 0.411, 0.452, 0.500, 0.555
+CNN_all_event_1009/features/ReligiousActivity_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.297, 0.236, 0.325, 0.407, 0.446, 0.488, 0.491, 0.538
+0.327, 0.319, 0.414, 0.470, 0.494, 0.534, 0.568, 0.606
+CNN_all_event_1009/features/ReligiousActivity_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.297, 0.236, 0.359, 0.400, 0.434, 0.477, 0.498, 0.539
+0.330, 0.321, 0.417, 0.473, 0.497, 0.537, 0.570, 0.610
+CNN_all_event_1009/features/ReligiousActivity_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.297, 0.219, 0.359, 0.436, 0.433, 0.483, 0.481, 0.534
+0.326, 0.321, 0.421, 0.479, 0.502, 0.540, 0.572, 0.611
+CNN_all_event_1009/features/ReligiousActivity_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.297, 0.219, 0.347, 0.411, 0.433, 0.483, 0.486, 0.530
+0.327, 0.321, 0.415, 0.474, 0.499, 0.537, 0.569, 0.608
+CNN_all_event_1009/features/ReligiousActivity_test_face_combined_thetapre_10w_dict.cPickle
+0.255, 0.253, 0.340, 0.430, 0.439, 0.482, 0.494, 0.536
+0.316, 0.316, 0.415, 0.479, 0.504, 0.543, 0.574, 0.612
+*WORKER*
+0.339, 0.446, 0.518, 0.562, 0.610, 0.654, 0.695, 0.733
+0.287, 0.415, 0.504, 0.540, 0.590, 0.630, 0.649, 0.671
+
+
+Skipping creation of dict: baseline_all_0509/Graduation/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Graduation<<<<<<<<
+*ALGORITHM*
+P: 0.05066, 0.10050, 0.14950, 0.20183, 0.24917, 0.30150, 0.35216, 0.40158
+baseline_all_noblock/Graduation/test_random_dict.cPickle
+0.086, 0.117, 0.164, 0.214, 0.270, 0.324, 0.378, 0.421
+0.127, 0.180, 0.229, 0.279, 0.322, 0.372, 0.420, 0.466
+aesthetic/Graduation_aesthetic_score_dict.cPickle
+0.054, 0.118, 0.180, 0.238, 0.290, 0.327, 0.378, 0.431
+0.120, 0.173, 0.231, 0.286, 0.331, 0.375, 0.416, 0.458
+baseline_all_0509/Graduation/alexnet6k_predict_result_10_dict.cPickle
+0.121, 0.225, 0.289, 0.350, 0.379, 0.438, 0.480, 0.522
+0.190, 0.265, 0.335, 0.386, 0.426, 0.477, 0.526, 0.569
+CNN_all_event_0.1/features/Graduation_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.148, 0.319, 0.410, 0.452, 0.487, 0.525, 0.568, 0.612
+0.256, 0.357, 0.432, 0.490, 0.528, 0.576, 0.628, 0.669
+CNN_all_event_0.1/features/Graduation_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.161, 0.305, 0.370, 0.413, 0.472, 0.524, 0.572, 0.604
+0.265, 0.350, 0.412, 0.469, 0.513, 0.572, 0.628, 0.668
+CNN_all_event_0.1/features/Graduation_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.201, 0.315, 0.405, 0.457, 0.482, 0.538, 0.583, 0.628
+0.274, 0.354, 0.441, 0.503, 0.543, 0.589, 0.639, 0.681
+CNN_all_event_0.1/features/Graduation_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.160, 0.277, 0.340, 0.397, 0.447, 0.501, 0.543, 0.580
+0.252, 0.329, 0.391, 0.447, 0.490, 0.542, 0.594, 0.634
+CNN_all_event_0.1/features/Graduation_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.221, 0.322, 0.402, 0.452, 0.490, 0.548, 0.588, 0.622
+0.288, 0.370, 0.440, 0.501, 0.543, 0.588, 0.639, 0.680
+CNN_all_event_old/features/Graduation_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.213, 0.333, 0.403, 0.450, 0.519, 0.557, 0.603, 0.631
+0.300, 0.394, 0.452, 0.502, 0.540, 0.590, 0.637, 0.677
+CNN_all_event_old/features/Graduation_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.206, 0.320, 0.408, 0.464, 0.491, 0.535, 0.582, 0.622
+0.283, 0.375, 0.435, 0.484, 0.525, 0.578, 0.630, 0.673
+CNN_all_event_old/features/Graduation_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.247, 0.364, 0.412, 0.459, 0.499, 0.554, 0.602, 0.637
+0.315, 0.404, 0.459, 0.506, 0.544, 0.596, 0.644, 0.683
+CNN_all_event_old/features/Graduation_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.242, 0.360, 0.403, 0.447, 0.485, 0.544, 0.598, 0.636
+0.331, 0.401, 0.454, 0.505, 0.546, 0.597, 0.645, 0.683
+CNN_all_event_1009/features/Graduation_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.179, 0.306, 0.371, 0.435, 0.471, 0.520, 0.563, 0.607
+0.262, 0.361, 0.418, 0.470, 0.510, 0.556, 0.605, 0.648
+CNN_all_event_1009/features/Graduation_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.155, 0.286, 0.374, 0.431, 0.478, 0.529, 0.584, 0.622
+0.273, 0.352, 0.418, 0.477, 0.523, 0.571, 0.621, 0.662
+CNN_all_event_1009/features/Graduation_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.192, 0.305, 0.373, 0.426, 0.480, 0.520, 0.567, 0.597
+0.254, 0.341, 0.403, 0.457, 0.500, 0.550, 0.603, 0.647
+CNN_all_event_1009/features/Graduation_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.134, 0.211, 0.248, 0.310, 0.344, 0.413, 0.481, 0.524
+0.200, 0.255, 0.287, 0.338, 0.389, 0.462, 0.525, 0.578
+CNN_all_event_1009/features/Graduation_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.264, 0.340, 0.390, 0.446, 0.485, 0.553, 0.595, 0.633
+0.320, 0.393, 0.451, 0.506, 0.544, 0.591, 0.640, 0.680
+CNN_all_event_1009/features/Graduation_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.273, 0.348, 0.391, 0.455, 0.494, 0.551, 0.602, 0.631
+0.325, 0.397, 0.456, 0.510, 0.548, 0.595, 0.644, 0.684
+CNN_all_event_1009/features/Graduation_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.269, 0.360, 0.394, 0.460, 0.491, 0.554, 0.603, 0.635
+0.323, 0.403, 0.461, 0.515, 0.552, 0.599, 0.647, 0.685
+CNN_all_event_1009/features/Graduation_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.273, 0.346, 0.390, 0.452, 0.493, 0.556, 0.600, 0.634
+0.316, 0.395, 0.455, 0.510, 0.548, 0.597, 0.645, 0.684
+CNN_all_event_1009/features/Graduation_test_face_combined_thetapre_10w_dict.cPickle
+0.265, 0.358, 0.398, 0.452, 0.491, 0.549, 0.600, 0.634
+0.317, 0.396, 0.457, 0.513, 0.549, 0.596, 0.644, 0.684
+*WORKER*
+0.329, 0.409, 0.476, 0.536, 0.585, 0.632, 0.673, 0.709
+0.258, 0.370, 0.437, 0.511, 0.556, 0.601, 0.628, 0.654
+
+
+Skipping creation of dict: baseline_all_0509/CasualFamilyGather/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>CasualFamilyGather<<<<<<<<
+*ALGORITHM*
+P: 0.04869, 0.09925, 0.14607, 0.19663, 0.24719, 0.29775, 0.34644, 0.39888
+baseline_all_noblock/CasualFamilyGather/test_random_dict.cPickle
+0.018, 0.019, 0.092, 0.119, 0.177, 0.275, 0.333, 0.376
+0.103, 0.145, 0.180, 0.221, 0.263, 0.314, 0.356, 0.408
+aesthetic/CasualFamilyGather_aesthetic_score_dict.cPickle
+0.097, 0.126, 0.156, 0.169, 0.187, 0.240, 0.291, 0.363
+0.129, 0.192, 0.217, 0.258, 0.301, 0.342, 0.386, 0.444
+baseline_all_0509/CasualFamilyGather/alexnet6k_predict_result_10_dict.cPickle
+0.107, 0.223, 0.296, 0.332, 0.402, 0.438, 0.481, 0.549
+0.237, 0.292, 0.327, 0.383, 0.438, 0.482, 0.532, 0.598
+CNN_all_event_0.1/features/CasualFamilyGather_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.265, 0.370, 0.404, 0.467, 0.470, 0.532, 0.588, 0.617
+0.340, 0.367, 0.424, 0.495, 0.543, 0.594, 0.641, 0.681
+CNN_all_event_0.1/features/CasualFamilyGather_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.169, 0.334, 0.434, 0.457, 0.501, 0.550, 0.599, 0.614
+0.287, 0.347, 0.432, 0.508, 0.551, 0.610, 0.653, 0.684
+CNN_all_event_0.1/features/CasualFamilyGather_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.265, 0.384, 0.466, 0.498, 0.512, 0.546, 0.574, 0.602
+0.361, 0.388, 0.458, 0.532, 0.572, 0.630, 0.665, 0.693
+CNN_all_event_0.1/features/CasualFamilyGather_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.159, 0.360, 0.426, 0.454, 0.460, 0.496, 0.550, 0.568
+0.306, 0.360, 0.404, 0.463, 0.500, 0.565, 0.611, 0.649
+CNN_all_event_0.1/features/CasualFamilyGather_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.225, 0.299, 0.377, 0.454, 0.530, 0.562, 0.570, 0.584
+0.301, 0.331, 0.417, 0.499, 0.541, 0.596, 0.635, 0.666
+CNN_all_event_old/features/CasualFamilyGather_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.192, 0.292, 0.405, 0.438, 0.474, 0.529, 0.577, 0.616
+0.292, 0.335, 0.407, 0.478, 0.526, 0.589, 0.634, 0.674
+CNN_all_event_old/features/CasualFamilyGather_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.293, 0.316, 0.395, 0.448, 0.481, 0.531, 0.561, 0.620
+0.363, 0.370, 0.436, 0.503, 0.545, 0.600, 0.640, 0.682
+CNN_all_event_old/features/CasualFamilyGather_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.241, 0.245, 0.398, 0.425, 0.492, 0.528, 0.576, 0.606
+0.316, 0.340, 0.411, 0.489, 0.541, 0.597, 0.637, 0.675
+CNN_all_event_old/features/CasualFamilyGather_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.265, 0.287, 0.415, 0.474, 0.511, 0.551, 0.582, 0.622
+0.350, 0.369, 0.431, 0.504, 0.560, 0.616, 0.658, 0.694
+CNN_all_event_1009/features/CasualFamilyGather_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.134, 0.216, 0.321, 0.380, 0.430, 0.471, 0.507, 0.547
+0.206, 0.293, 0.364, 0.437, 0.482, 0.529, 0.572, 0.616
+CNN_all_event_1009/features/CasualFamilyGather_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.123, 0.393, 0.433, 0.512, 0.530, 0.558, 0.570, 0.613
+0.288, 0.361, 0.452, 0.531, 0.581, 0.640, 0.677, 0.710
+CNN_all_event_1009/features/CasualFamilyGather_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.135, 0.291, 0.348, 0.408, 0.449, 0.496, 0.528, 0.582
+0.240, 0.310, 0.407, 0.487, 0.532, 0.574, 0.607, 0.652
+CNN_all_event_1009/features/CasualFamilyGather_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.203, 0.301, 0.381, 0.384, 0.445, 0.486, 0.537, 0.576
+0.319, 0.362, 0.410, 0.457, 0.497, 0.546, 0.595, 0.629
+CNN_all_event_1009/features/CasualFamilyGather_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.208, 0.255, 0.388, 0.482, 0.517, 0.572, 0.592, 0.611
+0.311, 0.338, 0.411, 0.493, 0.550, 0.611, 0.652, 0.689
+CNN_all_event_1009/features/CasualFamilyGather_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.208, 0.268, 0.419, 0.489, 0.532, 0.567, 0.586, 0.615
+0.307, 0.340, 0.415, 0.499, 0.556, 0.616, 0.657, 0.693
+CNN_all_event_1009/features/CasualFamilyGather_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.227, 0.282, 0.411, 0.504, 0.537, 0.572, 0.590, 0.616
+0.335, 0.359, 0.428, 0.504, 0.559, 0.617, 0.657, 0.694
+CNN_all_event_1009/features/CasualFamilyGather_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.227, 0.282, 0.419, 0.504, 0.538, 0.566, 0.583, 0.621
+0.356, 0.365, 0.429, 0.504, 0.557, 0.615, 0.655, 0.693
+CNN_all_event_1009/features/CasualFamilyGather_test_face_combined_thetapre_10w_dict.cPickle
+0.227, 0.282, 0.419, 0.504, 0.538, 0.566, 0.583, 0.621
+0.356, 0.365, 0.429, 0.504, 0.557, 0.615, 0.655, 0.693
+*WORKER*
+0.316, 0.399, 0.459, 0.522, 0.573, 0.622, 0.666, 0.704
+0.169, 0.289, 0.365, 0.455, 0.527, 0.579, 0.607, 0.629
+
+
+Skipping creation of dict: baseline_all_0509/Architecture/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Architecture<<<<<<<<
+*ALGORITHM*
+P: 0.04830, 0.09660, 0.14848, 0.19857, 0.24687, 0.29696, 0.34705, 0.39714
+baseline_all_noblock/Architecture/test_random_dict.cPickle
+0.081, 0.083, 0.111, 0.175, 0.253, 0.305, 0.349, 0.426
+0.155, 0.187, 0.218, 0.265, 0.308, 0.363, 0.407, 0.454
+aesthetic/Architecture_aesthetic_score_dict.cPickle
+0.054, 0.117, 0.213, 0.276, 0.359, 0.378, 0.438, 0.497
+0.138, 0.207, 0.257, 0.319, 0.376, 0.423, 0.472, 0.522
+baseline_all_0509/Architecture/alexnet6k_predict_result_10_dict.cPickle
+0.074, 0.169, 0.262, 0.349, 0.412, 0.449, 0.497, 0.558
+0.196, 0.238, 0.325, 0.384, 0.443, 0.485, 0.545, 0.602
+CNN_all_event_0.1/features/Architecture_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.121, 0.260, 0.385, 0.485, 0.503, 0.530, 0.569, 0.607
+0.264, 0.342, 0.422, 0.494, 0.527, 0.570, 0.605, 0.649
+CNN_all_event_0.1/features/Architecture_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.124, 0.299, 0.405, 0.440, 0.478, 0.533, 0.573, 0.640
+0.278, 0.388, 0.454, 0.512, 0.543, 0.592, 0.626, 0.675
+CNN_all_event_0.1/features/Architecture_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.163, 0.275, 0.399, 0.446, 0.489, 0.568, 0.590, 0.620
+0.301, 0.366, 0.439, 0.498, 0.544, 0.586, 0.620, 0.667
+CNN_all_event_0.1/features/Architecture_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.062, 0.206, 0.320, 0.352, 0.412, 0.503, 0.541, 0.588
+0.189, 0.288, 0.367, 0.432, 0.480, 0.539, 0.580, 0.623
+CNN_all_event_0.1/features/Architecture_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.156, 0.290, 0.402, 0.449, 0.473, 0.531, 0.560, 0.627
+0.304, 0.363, 0.441, 0.504, 0.535, 0.577, 0.620, 0.675
+CNN_all_event_old/features/Architecture_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.144, 0.313, 0.399, 0.441, 0.482, 0.570, 0.611, 0.653
+0.303, 0.363, 0.442, 0.497, 0.541, 0.596, 0.635, 0.686
+CNN_all_event_old/features/Architecture_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.264, 0.351, 0.429, 0.474, 0.508, 0.553, 0.582, 0.623
+0.384, 0.394, 0.476, 0.533, 0.560, 0.603, 0.635, 0.681
+CNN_all_event_old/features/Architecture_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.144, 0.326, 0.374, 0.454, 0.485, 0.560, 0.609, 0.661
+0.295, 0.344, 0.429, 0.495, 0.541, 0.590, 0.626, 0.675
+CNN_all_event_old/features/Architecture_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.181, 0.367, 0.407, 0.454, 0.500, 0.540, 0.568, 0.609
+0.291, 0.353, 0.436, 0.503, 0.541, 0.587, 0.622, 0.670
+CNN_all_event_1009/features/Architecture_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.185, 0.287, 0.357, 0.461, 0.508, 0.514, 0.537, 0.579
+0.284, 0.311, 0.389, 0.459, 0.513, 0.557, 0.581, 0.623
+CNN_all_event_1009/features/Architecture_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.223, 0.337, 0.408, 0.453, 0.499, 0.525, 0.571, 0.617
+0.372, 0.392, 0.448, 0.495, 0.544, 0.586, 0.621, 0.667
+CNN_all_event_1009/features/Architecture_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.121, 0.295, 0.385, 0.444, 0.477, 0.528, 0.547, 0.594
+0.297, 0.365, 0.412, 0.469, 0.508, 0.555, 0.595, 0.641
+CNN_all_event_1009/features/Architecture_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.115, 0.210, 0.308, 0.403, 0.433, 0.467, 0.496, 0.530
+0.220, 0.284, 0.358, 0.423, 0.456, 0.502, 0.534, 0.575
+CNN_all_event_1009/features/Architecture_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.153, 0.349, 0.402, 0.477, 0.528, 0.558, 0.578, 0.622
+0.298, 0.365, 0.460, 0.528, 0.559, 0.600, 0.633, 0.680
+CNN_all_event_1009/features/Architecture_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.190, 0.367, 0.402, 0.481, 0.523, 0.560, 0.572, 0.622
+0.338, 0.378, 0.465, 0.531, 0.557, 0.598, 0.630, 0.678
+CNN_all_event_1009/features/Architecture_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.153, 0.367, 0.419, 0.472, 0.514, 0.574, 0.587, 0.607
+0.294, 0.364, 0.455, 0.528, 0.561, 0.604, 0.636, 0.681
+CNN_all_event_1009/features/Architecture_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.153, 0.349, 0.419, 0.472, 0.514, 0.564, 0.582, 0.625
+0.286, 0.360, 0.454, 0.527, 0.561, 0.605, 0.636, 0.682
+CNN_all_event_1009/features/Architecture_test_face_combined_thetapre_10w_dict.cPickle
+0.153, 0.349, 0.419, 0.472, 0.514, 0.564, 0.582, 0.625
+0.286, 0.360, 0.454, 0.527, 0.561, 0.605, 0.636, 0.682
+*WORKER*
+0.342, 0.414, 0.480, 0.536, 0.582, 0.631, 0.672, 0.713
+0.277, 0.381, 0.432, 0.498, 0.545, 0.600, 0.633, 0.677
+
+
+Skipping creation of dict: baseline_all_0509/ThemePark/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>ThemePark<<<<<<<<
+*ALGORITHM*
+P: 0.05158, 0.09983, 0.15141, 0.19884, 0.24875, 0.30033, 0.35108, 0.40017
+baseline_all_noblock/ThemePark/test_random_dict.cPickle
+0.030, 0.073, 0.139, 0.203, 0.261, 0.303, 0.345, 0.402
+0.114, 0.146, 0.198, 0.246, 0.297, 0.351, 0.399, 0.441
+aesthetic/ThemePark_aesthetic_score_dict.cPickle
+0.056, 0.110, 0.202, 0.245, 0.308, 0.377, 0.438, 0.503
+0.154, 0.244, 0.291, 0.338, 0.383, 0.432, 0.482, 0.531
+baseline_all_0509/ThemePark/alexnet6k_predict_result_10_dict.cPickle
+0.166, 0.272, 0.310, 0.344, 0.365, 0.429, 0.471, 0.509
+0.285, 0.350, 0.377, 0.404, 0.438, 0.487, 0.540, 0.592
+CNN_all_event_0.1/features/ThemePark_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.283, 0.304, 0.360, 0.391, 0.431, 0.496, 0.544, 0.589
+0.332, 0.394, 0.433, 0.460, 0.498, 0.549, 0.607, 0.653
+CNN_all_event_0.1/features/ThemePark_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.205, 0.351, 0.389, 0.451, 0.495, 0.512, 0.559, 0.587
+0.311, 0.391, 0.445, 0.477, 0.517, 0.562, 0.609, 0.648
+CNN_all_event_0.1/features/ThemePark_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.226, 0.285, 0.332, 0.394, 0.456, 0.511, 0.578, 0.605
+0.320, 0.376, 0.429, 0.475, 0.523, 0.571, 0.618, 0.657
+CNN_all_event_0.1/features/ThemePark_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.195, 0.319, 0.332, 0.352, 0.396, 0.455, 0.514, 0.555
+0.235, 0.331, 0.383, 0.421, 0.463, 0.511, 0.560, 0.606
+CNN_all_event_0.1/features/ThemePark_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.199, 0.325, 0.383, 0.426, 0.459, 0.513, 0.561, 0.599
+0.306, 0.369, 0.427, 0.466, 0.513, 0.567, 0.623, 0.661
+CNN_all_event_old/features/ThemePark_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.232, 0.344, 0.399, 0.429, 0.461, 0.517, 0.557, 0.581
+0.340, 0.397, 0.447, 0.484, 0.528, 0.574, 0.617, 0.655
+CNN_all_event_old/features/ThemePark_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.192, 0.284, 0.331, 0.384, 0.445, 0.505, 0.555, 0.589
+0.306, 0.352, 0.399, 0.441, 0.495, 0.552, 0.605, 0.646
+CNN_all_event_old/features/ThemePark_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.232, 0.345, 0.377, 0.399, 0.453, 0.507, 0.555, 0.587
+0.326, 0.397, 0.438, 0.471, 0.517, 0.570, 0.617, 0.655
+CNN_all_event_old/features/ThemePark_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.231, 0.345, 0.374, 0.398, 0.454, 0.495, 0.542, 0.582
+0.327, 0.385, 0.430, 0.465, 0.513, 0.565, 0.615, 0.653
+CNN_all_event_1009/features/ThemePark_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.241, 0.327, 0.376, 0.422, 0.464, 0.493, 0.538, 0.568
+0.315, 0.380, 0.440, 0.475, 0.513, 0.553, 0.595, 0.632
+CNN_all_event_1009/features/ThemePark_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.184, 0.292, 0.358, 0.401, 0.450, 0.503, 0.548, 0.577
+0.298, 0.359, 0.407, 0.452, 0.501, 0.556, 0.611, 0.652
+CNN_all_event_1009/features/ThemePark_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.213, 0.279, 0.325, 0.404, 0.449, 0.494, 0.557, 0.588
+0.279, 0.335, 0.380, 0.428, 0.474, 0.526, 0.580, 0.620
+CNN_all_event_1009/features/ThemePark_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.228, 0.280, 0.332, 0.360, 0.408, 0.451, 0.495, 0.538
+0.305, 0.339, 0.383, 0.413, 0.454, 0.501, 0.548, 0.589
+CNN_all_event_1009/features/ThemePark_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.239, 0.352, 0.389, 0.429, 0.477, 0.528, 0.554, 0.591
+0.329, 0.393, 0.446, 0.483, 0.528, 0.577, 0.622, 0.658
+CNN_all_event_1009/features/ThemePark_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.252, 0.370, 0.385, 0.439, 0.475, 0.517, 0.556, 0.583
+0.335, 0.398, 0.451, 0.487, 0.533, 0.581, 0.626, 0.662
+CNN_all_event_1009/features/ThemePark_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.211, 0.375, 0.383, 0.431, 0.478, 0.514, 0.556, 0.585
+0.319, 0.389, 0.445, 0.482, 0.529, 0.577, 0.623, 0.659
+CNN_all_event_1009/features/ThemePark_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.227, 0.375, 0.381, 0.436, 0.470, 0.513, 0.556, 0.591
+0.321, 0.390, 0.445, 0.483, 0.530, 0.579, 0.624, 0.660
+CNN_all_event_1009/features/ThemePark_test_face_combined_thetapre_10w_dict.cPickle
+0.227, 0.375, 0.381, 0.436, 0.470, 0.513, 0.556, 0.591
+0.321, 0.390, 0.445, 0.483, 0.530, 0.579, 0.624, 0.660
+*WORKER*
+0.337, 0.405, 0.470, 0.524, 0.575, 0.622, 0.663, 0.700
+0.234, 0.323, 0.426, 0.489, 0.546, 0.594, 0.625, 0.652
+
+
+Skipping creation of dict: baseline_all_0509/Sports/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Sports<<<<<<<<
+*ALGORITHM*
+P: 0.04784, 0.10031, 0.14969, 0.19907, 0.25000, 0.29784, 0.35185, 0.40123
+baseline_all_noblock/Sports/test_random_dict.cPickle
+0.073, 0.101, 0.143, 0.192, 0.271, 0.325, 0.386, 0.440
+0.144, 0.184, 0.238, 0.286, 0.334, 0.378, 0.425, 0.476
+aesthetic/Sports_aesthetic_score_dict.cPickle
+0.000, 0.051, 0.124, 0.170, 0.245, 0.287, 0.353, 0.401
+0.108, 0.156, 0.196, 0.248, 0.295, 0.337, 0.404, 0.447
+baseline_all_0509/Sports/alexnet6k_predict_result_10_dict.cPickle
+0.185, 0.189, 0.215, 0.252, 0.317, 0.349, 0.409, 0.455
+0.187, 0.227, 0.268, 0.320, 0.375, 0.417, 0.454, 0.499
+CNN_all_event_0.1/features/Sports_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.129, 0.182, 0.244, 0.292, 0.360, 0.412, 0.440, 0.481
+0.179, 0.235, 0.283, 0.331, 0.392, 0.443, 0.493, 0.538
+CNN_all_event_0.1/features/Sports_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.122, 0.178, 0.223, 0.241, 0.337, 0.406, 0.457, 0.500
+0.164, 0.216, 0.269, 0.324, 0.393, 0.453, 0.514, 0.562
+CNN_all_event_0.1/features/Sports_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.097, 0.175, 0.218, 0.298, 0.357, 0.402, 0.454, 0.506
+0.218, 0.249, 0.289, 0.334, 0.390, 0.438, 0.500, 0.545
+CNN_all_event_0.1/features/Sports_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.096, 0.161, 0.220, 0.240, 0.302, 0.356, 0.407, 0.470
+0.168, 0.216, 0.258, 0.301, 0.354, 0.405, 0.470, 0.518
+CNN_all_event_0.1/features/Sports_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.088, 0.206, 0.316, 0.317, 0.341, 0.403, 0.478, 0.511
+0.217, 0.268, 0.317, 0.360, 0.416, 0.466, 0.520, 0.562
+CNN_all_event_old/features/Sports_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.186, 0.230, 0.276, 0.340, 0.386, 0.444, 0.492, 0.537
+0.257, 0.317, 0.344, 0.379, 0.427, 0.475, 0.543, 0.586
+CNN_all_event_old/features/Sports_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.187, 0.245, 0.252, 0.299, 0.358, 0.414, 0.460, 0.506
+0.230, 0.287, 0.326, 0.367, 0.430, 0.482, 0.537, 0.578
+CNN_all_event_old/features/Sports_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.164, 0.248, 0.262, 0.334, 0.391, 0.427, 0.479, 0.526
+0.257, 0.305, 0.337, 0.382, 0.436, 0.481, 0.538, 0.583
+CNN_all_event_old/features/Sports_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.219, 0.232, 0.276, 0.308, 0.358, 0.432, 0.476, 0.517
+0.231, 0.276, 0.315, 0.358, 0.416, 0.468, 0.527, 0.569
+CNN_all_event_1009/features/Sports_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.133, 0.186, 0.221, 0.311, 0.408, 0.445, 0.500, 0.555
+0.206, 0.268, 0.312, 0.368, 0.428, 0.477, 0.538, 0.596
+CNN_all_event_1009/features/Sports_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.058, 0.178, 0.225, 0.304, 0.349, 0.422, 0.478, 0.495
+0.185, 0.261, 0.303, 0.356, 0.405, 0.453, 0.511, 0.553
+CNN_all_event_1009/features/Sports_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.043, 0.155, 0.226, 0.296, 0.347, 0.374, 0.449, 0.506
+0.164, 0.228, 0.276, 0.335, 0.390, 0.439, 0.502, 0.543
+CNN_all_event_1009/features/Sports_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.064, 0.130, 0.198, 0.261, 0.290, 0.335, 0.390, 0.460
+0.150, 0.218, 0.270, 0.316, 0.364, 0.405, 0.455, 0.504
+CNN_all_event_1009/features/Sports_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.101, 0.206, 0.291, 0.313, 0.359, 0.423, 0.486, 0.534
+0.220, 0.270, 0.314, 0.362, 0.424, 0.474, 0.531, 0.573
+CNN_all_event_1009/features/Sports_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.101, 0.198, 0.287, 0.310, 0.367, 0.425, 0.482, 0.526
+0.221, 0.273, 0.319, 0.365, 0.426, 0.474, 0.531, 0.571
+CNN_all_event_1009/features/Sports_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.112, 0.244, 0.277, 0.325, 0.357, 0.411, 0.489, 0.532
+0.225, 0.282, 0.328, 0.373, 0.430, 0.477, 0.536, 0.577
+CNN_all_event_1009/features/Sports_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.135, 0.237, 0.277, 0.325, 0.358, 0.417, 0.488, 0.526
+0.230, 0.277, 0.320, 0.365, 0.422, 0.469, 0.526, 0.568
+CNN_all_event_1009/features/Sports_test_face_combined_thetapre_10w_dict.cPickle
+0.135, 0.237, 0.284, 0.332, 0.361, 0.419, 0.486, 0.519
+0.230, 0.279, 0.322, 0.367, 0.424, 0.471, 0.525, 0.567
+*WORKER*
+0.287, 0.378, 0.444, 0.498, 0.550, 0.592, 0.643, 0.679
+0.194, 0.365, 0.437, 0.496, 0.535, 0.569, 0.605, 0.633
+
+
+Skipping creation of dict: baseline_all_0509/Show/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Show<<<<<<<<
+*ALGORITHM*
+P: 0.04989, 0.09905, 0.15040, 0.20176, 0.25092, 0.30007, 0.35143, 0.40059
+baseline_all_noblock/Show/test_random_dict.cPickle
+0.049, 0.088, 0.138, 0.193, 0.249, 0.292, 0.345, 0.389
+0.094, 0.141, 0.205, 0.263, 0.309, 0.352, 0.400, 0.446
+aesthetic/Show_aesthetic_score_dict.cPickle
+0.062, 0.103, 0.178, 0.227, 0.273, 0.325, 0.390, 0.435
+0.136, 0.176, 0.230, 0.281, 0.333, 0.379, 0.435, 0.485
+baseline_all_0509/Show/alexnet6k_predict_result_10_dict.cPickle
+0.142, 0.177, 0.227, 0.282, 0.329, 0.367, 0.413, 0.446
+0.180, 0.222, 0.275, 0.322, 0.376, 0.432, 0.484, 0.529
+CNN_all_event_0.1/features/Show_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.120, 0.195, 0.256, 0.310, 0.368, 0.429, 0.474, 0.509
+0.213, 0.282, 0.330, 0.388, 0.444, 0.494, 0.540, 0.581
+CNN_all_event_0.1/features/Show_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.122, 0.201, 0.264, 0.342, 0.375, 0.402, 0.470, 0.519
+0.226, 0.273, 0.335, 0.396, 0.448, 0.500, 0.554, 0.602
+CNN_all_event_0.1/features/Show_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.173, 0.214, 0.291, 0.349, 0.402, 0.432, 0.483, 0.523
+0.208, 0.265, 0.332, 0.390, 0.445, 0.501, 0.552, 0.594
+CNN_all_event_0.1/features/Show_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.134, 0.145, 0.229, 0.281, 0.339, 0.379, 0.433, 0.477
+0.181, 0.222, 0.286, 0.349, 0.406, 0.449, 0.498, 0.542
+CNN_all_event_0.1/features/Show_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.096, 0.217, 0.250, 0.309, 0.383, 0.438, 0.487, 0.521
+0.173, 0.239, 0.295, 0.363, 0.427, 0.487, 0.541, 0.585
+CNN_all_event_old/features/Show_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.164, 0.212, 0.281, 0.328, 0.387, 0.440, 0.499, 0.536
+0.215, 0.274, 0.345, 0.407, 0.463, 0.518, 0.575, 0.622
+CNN_all_event_old/features/Show_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.135, 0.237, 0.289, 0.345, 0.400, 0.442, 0.495, 0.542
+0.226, 0.288, 0.356, 0.418, 0.472, 0.519, 0.572, 0.621
+CNN_all_event_old/features/Show_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.144, 0.229, 0.265, 0.344, 0.393, 0.440, 0.503, 0.538
+0.240, 0.274, 0.339, 0.404, 0.462, 0.518, 0.577, 0.625
+CNN_all_event_old/features/Show_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.165, 0.239, 0.305, 0.345, 0.400, 0.448, 0.498, 0.548
+0.221, 0.290, 0.357, 0.418, 0.473, 0.526, 0.579, 0.623
+CNN_all_event_1009/features/Show_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.140, 0.177, 0.265, 0.323, 0.378, 0.424, 0.465, 0.514
+0.202, 0.252, 0.323, 0.379, 0.429, 0.483, 0.538, 0.583
+CNN_all_event_1009/features/Show_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.119, 0.169, 0.262, 0.325, 0.365, 0.419, 0.481, 0.525
+0.177, 0.236, 0.317, 0.375, 0.430, 0.480, 0.530, 0.578
+CNN_all_event_1009/features/Show_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.114, 0.208, 0.263, 0.311, 0.386, 0.424, 0.470, 0.513
+0.188, 0.256, 0.334, 0.391, 0.450, 0.494, 0.539, 0.582
+CNN_all_event_1009/features/Show_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.074, 0.167, 0.212, 0.257, 0.310, 0.367, 0.431, 0.477
+0.160, 0.204, 0.261, 0.322, 0.373, 0.424, 0.471, 0.515
+CNN_all_event_1009/features/Show_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.128, 0.213, 0.308, 0.353, 0.390, 0.438, 0.505, 0.549
+0.212, 0.275, 0.345, 0.410, 0.467, 0.521, 0.576, 0.623
+CNN_all_event_1009/features/Show_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.157, 0.216, 0.293, 0.347, 0.387, 0.450, 0.511, 0.547
+0.220, 0.277, 0.346, 0.411, 0.469, 0.522, 0.576, 0.623
+CNN_all_event_1009/features/Show_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.175, 0.246, 0.289, 0.340, 0.397, 0.444, 0.498, 0.548
+0.232, 0.289, 0.354, 0.414, 0.470, 0.522, 0.576, 0.623
+CNN_all_event_1009/features/Show_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.175, 0.253, 0.290, 0.348, 0.394, 0.448, 0.506, 0.551
+0.227, 0.288, 0.355, 0.414, 0.471, 0.523, 0.576, 0.622
+CNN_all_event_1009/features/Show_test_face_combined_thetapre_10w_dict.cPickle
+0.170, 0.260, 0.299, 0.348, 0.389, 0.452, 0.506, 0.552
+0.229, 0.288, 0.357, 0.416, 0.472, 0.524, 0.578, 0.625
+*WORKER*
+0.299, 0.370, 0.439, 0.491, 0.542, 0.587, 0.631, 0.671
+0.261, 0.363, 0.427, 0.477, 0.520, 0.561, 0.593, 0.622
+
+
+Skipping creation of dict: baseline_all_0509/Halloween/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Halloween<<<<<<<<
+*ALGORITHM*
+P: 0.04623, 0.10017, 0.14812, 0.20034, 0.24914, 0.30051, 0.34932, 0.40068
+baseline_all_noblock/Halloween/test_random_dict.cPickle
+0.044, 0.070, 0.090, 0.155, 0.230, 0.303, 0.354, 0.419
+0.111, 0.142, 0.179, 0.228, 0.273, 0.320, 0.365, 0.422
+aesthetic/Halloween_aesthetic_score_dict.cPickle
+0.087, 0.174, 0.236, 0.270, 0.329, 0.393, 0.440, 0.482
+0.202, 0.245, 0.298, 0.343, 0.382, 0.439, 0.486, 0.539
+baseline_all_0509/Halloween/alexnet6k_predict_result_10_dict.cPickle
+0.180, 0.219, 0.286, 0.325, 0.368, 0.420, 0.476, 0.518
+0.237, 0.289, 0.332, 0.372, 0.411, 0.462, 0.514, 0.567
+CNN_all_event_0.1/features/Halloween_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.161, 0.203, 0.282, 0.355, 0.399, 0.465, 0.501, 0.541
+0.229, 0.290, 0.352, 0.413, 0.454, 0.499, 0.546, 0.602
+CNN_all_event_0.1/features/Halloween_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.220, 0.261, 0.327, 0.380, 0.443, 0.485, 0.518, 0.569
+0.278, 0.332, 0.401, 0.475, 0.519, 0.565, 0.609, 0.655
+CNN_all_event_0.1/features/Halloween_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.139, 0.214, 0.300, 0.378, 0.436, 0.492, 0.535, 0.588
+0.233, 0.311, 0.374, 0.441, 0.493, 0.546, 0.599, 0.652
+CNN_all_event_0.1/features/Halloween_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.196, 0.271, 0.332, 0.382, 0.414, 0.463, 0.519, 0.564
+0.290, 0.336, 0.384, 0.442, 0.485, 0.536, 0.589, 0.636
+CNN_all_event_0.1/features/Halloween_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.160, 0.218, 0.303, 0.380, 0.448, 0.490, 0.531, 0.576
+0.242, 0.295, 0.370, 0.441, 0.489, 0.541, 0.592, 0.637
+CNN_all_event_old/features/Halloween_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.209, 0.276, 0.328, 0.391, 0.437, 0.500, 0.542, 0.590
+0.309, 0.364, 0.419, 0.475, 0.517, 0.568, 0.616, 0.662
+CNN_all_event_old/features/Halloween_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.217, 0.275, 0.360, 0.402, 0.426, 0.477, 0.508, 0.566
+0.290, 0.342, 0.402, 0.459, 0.505, 0.555, 0.603, 0.650
+CNN_all_event_old/features/Halloween_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.184, 0.267, 0.341, 0.405, 0.454, 0.495, 0.542, 0.590
+0.301, 0.354, 0.413, 0.477, 0.519, 0.569, 0.615, 0.661
+CNN_all_event_old/features/Halloween_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.189, 0.292, 0.336, 0.411, 0.437, 0.493, 0.539, 0.582
+0.305, 0.356, 0.409, 0.478, 0.524, 0.571, 0.617, 0.664
+CNN_all_event_1009/features/Halloween_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.131, 0.208, 0.279, 0.377, 0.438, 0.471, 0.502, 0.550
+0.218, 0.307, 0.362, 0.443, 0.494, 0.532, 0.568, 0.615
+CNN_all_event_1009/features/Halloween_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.111, 0.229, 0.312, 0.387, 0.437, 0.479, 0.530, 0.560
+0.220, 0.311, 0.371, 0.432, 0.477, 0.532, 0.588, 0.637
+CNN_all_event_1009/features/Halloween_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.121, 0.208, 0.305, 0.371, 0.410, 0.461, 0.506, 0.572
+0.240, 0.296, 0.360, 0.434, 0.476, 0.527, 0.581, 0.632
+CNN_all_event_1009/features/Halloween_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.042, 0.175, 0.276, 0.325, 0.370, 0.405, 0.456, 0.497
+0.165, 0.287, 0.341, 0.387, 0.433, 0.475, 0.517, 0.570
+CNN_all_event_1009/features/Halloween_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.202, 0.292, 0.348, 0.410, 0.456, 0.495, 0.536, 0.594
+0.308, 0.365, 0.422, 0.489, 0.533, 0.578, 0.621, 0.667
+CNN_all_event_1009/features/Halloween_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.205, 0.275, 0.347, 0.412, 0.446, 0.489, 0.530, 0.590
+0.313, 0.366, 0.418, 0.483, 0.528, 0.573, 0.617, 0.663
+CNN_all_event_1009/features/Halloween_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.206, 0.281, 0.346, 0.409, 0.455, 0.484, 0.527, 0.583
+0.307, 0.368, 0.423, 0.484, 0.526, 0.572, 0.616, 0.663
+CNN_all_event_1009/features/Halloween_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.206, 0.280, 0.353, 0.403, 0.455, 0.479, 0.536, 0.579
+0.312, 0.370, 0.424, 0.484, 0.526, 0.571, 0.616, 0.663
+CNN_all_event_1009/features/Halloween_test_face_combined_thetapre_10w_dict.cPickle
+0.203, 0.276, 0.357, 0.415, 0.459, 0.486, 0.531, 0.582
+0.312, 0.370, 0.424, 0.486, 0.528, 0.574, 0.619, 0.665
+*WORKER*
+0.314, 0.401, 0.463, 0.527, 0.578, 0.626, 0.668, 0.709
+0.203, 0.362, 0.452, 0.508, 0.548, 0.590, 0.623, 0.648
+
+
+Skipping creation of dict: baseline_all_0509/BusinessActivity/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>BusinessActivity<<<<<<<<
+*ALGORITHM*
+P: 0.05328, 0.09836, 0.15301, 0.19945, 0.25000, 0.30055, 0.35246, 0.40027
+baseline_all_noblock/BusinessActivity/test_random_dict.cPickle
+0.030, 0.081, 0.120, 0.186, 0.233, 0.275, 0.320, 0.372
+0.092, 0.136, 0.191, 0.237, 0.285, 0.324, 0.363, 0.402
+aesthetic/BusinessActivity_aesthetic_score_dict.cPickle
+0.004, 0.061, 0.134, 0.180, 0.242, 0.272, 0.338, 0.392
+0.090, 0.138, 0.188, 0.230, 0.272, 0.315, 0.366, 0.413
+baseline_all_0509/BusinessActivity/alexnet6k_predict_result_10_dict.cPickle
+0.078, 0.138, 0.249, 0.280, 0.333, 0.359, 0.427, 0.466
+0.165, 0.216, 0.273, 0.326, 0.381, 0.433, 0.482, 0.529
+CNN_all_event_0.1/features/BusinessActivity_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.175, 0.237, 0.301, 0.347, 0.389, 0.417, 0.472, 0.512
+0.241, 0.300, 0.367, 0.400, 0.450, 0.487, 0.533, 0.580
+CNN_all_event_0.1/features/BusinessActivity_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.109, 0.171, 0.231, 0.281, 0.350, 0.411, 0.463, 0.524
+0.154, 0.265, 0.294, 0.337, 0.392, 0.446, 0.496, 0.545
+CNN_all_event_0.1/features/BusinessActivity_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.192, 0.224, 0.282, 0.302, 0.370, 0.420, 0.476, 0.532
+0.228, 0.278, 0.320, 0.366, 0.427, 0.487, 0.542, 0.590
+CNN_all_event_0.1/features/BusinessActivity_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.201, 0.237, 0.284, 0.298, 0.340, 0.378, 0.446, 0.494
+0.245, 0.310, 0.332, 0.367, 0.401, 0.456, 0.510, 0.554
+CNN_all_event_0.1/features/BusinessActivity_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.170, 0.243, 0.291, 0.344, 0.382, 0.449, 0.508, 0.541
+0.258, 0.306, 0.351, 0.392, 0.452, 0.505, 0.551, 0.593
+CNN_all_event_old/features/BusinessActivity_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.152, 0.219, 0.266, 0.287, 0.350, 0.421, 0.472, 0.510
+0.223, 0.294, 0.326, 0.354, 0.406, 0.450, 0.503, 0.555
+CNN_all_event_old/features/BusinessActivity_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.144, 0.194, 0.251, 0.303, 0.353, 0.409, 0.472, 0.511
+0.245, 0.312, 0.357, 0.383, 0.429, 0.475, 0.521, 0.563
+CNN_all_event_old/features/BusinessActivity_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.129, 0.188, 0.255, 0.305, 0.358, 0.422, 0.466, 0.510
+0.209, 0.273, 0.312, 0.343, 0.395, 0.441, 0.493, 0.543
+CNN_all_event_old/features/BusinessActivity_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.142, 0.189, 0.275, 0.322, 0.369, 0.416, 0.463, 0.506
+0.259, 0.309, 0.360, 0.383, 0.426, 0.464, 0.512, 0.561
+CNN_all_event_1009/features/BusinessActivity_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.113, 0.206, 0.222, 0.280, 0.312, 0.365, 0.395, 0.452
+0.163, 0.239, 0.278, 0.318, 0.362, 0.400, 0.441, 0.485
+CNN_all_event_1009/features/BusinessActivity_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.145, 0.169, 0.234, 0.311, 0.381, 0.431, 0.479, 0.522
+0.180, 0.271, 0.335, 0.373, 0.426, 0.470, 0.521, 0.571
+CNN_all_event_1009/features/BusinessActivity_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.196, 0.265, 0.323, 0.361, 0.394, 0.448, 0.467, 0.507
+0.213, 0.294, 0.361, 0.392, 0.440, 0.485, 0.533, 0.576
+CNN_all_event_1009/features/BusinessActivity_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.075, 0.095, 0.202, 0.244, 0.286, 0.337, 0.388, 0.437
+0.145, 0.191, 0.247, 0.289, 0.330, 0.375, 0.425, 0.470
+CNN_all_event_1009/features/BusinessActivity_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.170, 0.179, 0.264, 0.312, 0.369, 0.419, 0.477, 0.522
+0.255, 0.323, 0.358, 0.380, 0.427, 0.468, 0.514, 0.564
+CNN_all_event_1009/features/BusinessActivity_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.170, 0.163, 0.246, 0.299, 0.379, 0.419, 0.487, 0.523
+0.255, 0.309, 0.344, 0.369, 0.419, 0.460, 0.507, 0.558
+CNN_all_event_1009/features/BusinessActivity_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.170, 0.213, 0.277, 0.325, 0.378, 0.433, 0.487, 0.522
+0.247, 0.349, 0.368, 0.391, 0.438, 0.478, 0.523, 0.573
+CNN_all_event_1009/features/BusinessActivity_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.170, 0.199, 0.277, 0.312, 0.377, 0.433, 0.483, 0.520
+0.244, 0.348, 0.369, 0.391, 0.438, 0.477, 0.523, 0.571
+CNN_all_event_1009/features/BusinessActivity_test_face_combined_thetapre_10w_dict.cPickle
+0.170, 0.199, 0.277, 0.312, 0.377, 0.433, 0.483, 0.520
+0.244, 0.348, 0.369, 0.391, 0.438, 0.477, 0.523, 0.571
+*WORKER*
+0.336, 0.403, 0.468, 0.520, 0.565, 0.610, 0.650, 0.688
+0.224, 0.361, 0.450, 0.512, 0.544, 0.582, 0.614, 0.648
+
+
+Skipping creation of dict: baseline_all_0509/Protest/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Protest<<<<<<<<
+*ALGORITHM*
+P: 0.04993, 0.09986, 0.15121, 0.20257, 0.25107, 0.30100, 0.35093, 0.40086
+baseline_all_noblock/Protest/test_random_dict.cPickle
+0.037, 0.091, 0.147, 0.182, 0.212, 0.252, 0.302, 0.365
+0.095, 0.145, 0.200, 0.246, 0.285, 0.331, 0.374, 0.421
+aesthetic/Protest_aesthetic_score_dict.cPickle
+0.029, 0.085, 0.161, 0.248, 0.278, 0.310, 0.365, 0.410
+0.132, 0.175, 0.232, 0.276, 0.310, 0.351, 0.390, 0.434
+baseline_all_0509/Protest/alexnet6k_predict_result_10_dict.cPickle
+0.179, 0.213, 0.277, 0.343, 0.373, 0.426, 0.488, 0.551
+0.229, 0.295, 0.342, 0.383, 0.418, 0.467, 0.516, 0.569
+CNN_all_event_0.1/features/Protest_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.151, 0.341, 0.408, 0.449, 0.487, 0.529, 0.572, 0.608
+0.277, 0.398, 0.455, 0.501, 0.538, 0.578, 0.618, 0.666
+CNN_all_event_0.1/features/Protest_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.179, 0.322, 0.400, 0.469, 0.480, 0.515, 0.554, 0.583
+0.306, 0.417, 0.465, 0.505, 0.532, 0.575, 0.611, 0.653
+CNN_all_event_0.1/features/Protest_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.173, 0.359, 0.448, 0.482, 0.515, 0.536, 0.565, 0.591
+0.292, 0.442, 0.494, 0.523, 0.544, 0.583, 0.626, 0.672
+CNN_all_event_0.1/features/Protest_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.134, 0.324, 0.429, 0.462, 0.518, 0.521, 0.541, 0.576
+0.280, 0.377, 0.423, 0.473, 0.506, 0.559, 0.605, 0.648
+CNN_all_event_0.1/features/Protest_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.198, 0.385, 0.404, 0.462, 0.487, 0.508, 0.548, 0.602
+0.342, 0.454, 0.480, 0.505, 0.527, 0.566, 0.606, 0.652
+CNN_all_event_old/features/Protest_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.236, 0.376, 0.448, 0.502, 0.514, 0.515, 0.556, 0.589
+0.329, 0.443, 0.498, 0.541, 0.562, 0.601, 0.635, 0.674
+CNN_all_event_old/features/Protest_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.226, 0.340, 0.414, 0.470, 0.506, 0.519, 0.541, 0.589
+0.316, 0.442, 0.483, 0.515, 0.538, 0.575, 0.615, 0.663
+CNN_all_event_old/features/Protest_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.221, 0.375, 0.415, 0.483, 0.493, 0.516, 0.547, 0.578
+0.311, 0.427, 0.485, 0.533, 0.558, 0.596, 0.632, 0.672
+CNN_all_event_old/features/Protest_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.229, 0.366, 0.418, 0.460, 0.505, 0.518, 0.545, 0.583
+0.315, 0.444, 0.488, 0.526, 0.552, 0.591, 0.627, 0.671
+CNN_all_event_1009/features/Protest_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.165, 0.211, 0.309, 0.406, 0.431, 0.468, 0.498, 0.550
+0.273, 0.293, 0.344, 0.401, 0.445, 0.492, 0.538, 0.585
+CNN_all_event_1009/features/Protest_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.237, 0.317, 0.396, 0.437, 0.446, 0.473, 0.524, 0.559
+0.299, 0.409, 0.462, 0.500, 0.521, 0.560, 0.596, 0.638
+CNN_all_event_1009/features/Protest_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.149, 0.326, 0.351, 0.386, 0.400, 0.437, 0.491, 0.549
+0.259, 0.362, 0.413, 0.456, 0.480, 0.524, 0.567, 0.619
+CNN_all_event_1009/features/Protest_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.099, 0.184, 0.210, 0.275, 0.314, 0.401, 0.429, 0.497
+0.148, 0.198, 0.249, 0.310, 0.359, 0.416, 0.471, 0.530
+CNN_all_event_1009/features/Protest_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.225, 0.336, 0.447, 0.505, 0.515, 0.522, 0.551, 0.592
+0.321, 0.447, 0.491, 0.535, 0.559, 0.597, 0.636, 0.678
+CNN_all_event_1009/features/Protest_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.265, 0.321, 0.444, 0.502, 0.510, 0.510, 0.555, 0.592
+0.318, 0.445, 0.494, 0.535, 0.558, 0.597, 0.635, 0.678
+CNN_all_event_1009/features/Protest_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.177, 0.359, 0.450, 0.502, 0.507, 0.507, 0.556, 0.596
+0.319, 0.454, 0.499, 0.538, 0.562, 0.601, 0.637, 0.678
+CNN_all_event_1009/features/Protest_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.177, 0.338, 0.450, 0.495, 0.504, 0.507, 0.550, 0.594
+0.318, 0.451, 0.496, 0.534, 0.558, 0.597, 0.634, 0.676
+CNN_all_event_1009/features/Protest_test_face_combined_thetapre_10w_dict.cPickle
+0.177, 0.338, 0.450, 0.495, 0.504, 0.507, 0.550, 0.594
+0.318, 0.451, 0.496, 0.534, 0.558, 0.597, 0.634, 0.676
+*WORKER*
+0.313, 0.406, 0.482, 0.539, 0.586, 0.633, 0.674, 0.713
+0.209, 0.370, 0.472, 0.535, 0.588, 0.613, 0.644, 0.654
+
+
+Skipping creation of dict: baseline_all_0509/Cruise/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Cruise<<<<<<<<
+*ALGORITHM*
+P: 0.04958, 0.10057, 0.15156, 0.20113, 0.25071, 0.30028, 0.34986, 0.39943
+baseline_all_noblock/Cruise/test_random_dict.cPickle
+0.047, 0.076, 0.109, 0.157, 0.213, 0.272, 0.345, 0.389
+0.119, 0.153, 0.189, 0.244, 0.302, 0.348, 0.392, 0.432
+aesthetic/Cruise_aesthetic_score_dict.cPickle
+0.099, 0.131, 0.173, 0.235, 0.314, 0.337, 0.402, 0.448
+0.139, 0.171, 0.214, 0.268, 0.329, 0.385, 0.438, 0.491
+baseline_all_0509/Cruise/alexnet6k_predict_result_10_dict.cPickle
+0.087, 0.167, 0.256, 0.324, 0.406, 0.465, 0.507, 0.541
+0.147, 0.224, 0.280, 0.338, 0.398, 0.460, 0.515, 0.563
+CNN_all_event_0.1/features/Cruise_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.169, 0.271, 0.372, 0.434, 0.503, 0.551, 0.577, 0.598
+0.234, 0.304, 0.403, 0.464, 0.512, 0.551, 0.593, 0.635
+CNN_all_event_0.1/features/Cruise_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.161, 0.291, 0.386, 0.434, 0.506, 0.553, 0.578, 0.612
+0.256, 0.331, 0.429, 0.484, 0.528, 0.567, 0.611, 0.659
+CNN_all_event_0.1/features/Cruise_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.209, 0.261, 0.371, 0.447, 0.504, 0.529, 0.572, 0.619
+0.305, 0.355, 0.430, 0.482, 0.523, 0.562, 0.614, 0.663
+CNN_all_event_0.1/features/Cruise_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.234, 0.293, 0.335, 0.419, 0.454, 0.491, 0.541, 0.593
+0.318, 0.343, 0.395, 0.447, 0.492, 0.533, 0.583, 0.633
+CNN_all_event_0.1/features/Cruise_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.174, 0.259, 0.366, 0.421, 0.485, 0.521, 0.570, 0.600
+0.269, 0.335, 0.416, 0.459, 0.502, 0.543, 0.592, 0.643
+CNN_all_event_old/features/Cruise_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.210, 0.314, 0.373, 0.453, 0.516, 0.567, 0.590, 0.618
+0.271, 0.346, 0.437, 0.495, 0.546, 0.584, 0.629, 0.674
+CNN_all_event_old/features/Cruise_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.227, 0.244, 0.387, 0.456, 0.510, 0.542, 0.560, 0.602
+0.291, 0.342, 0.429, 0.481, 0.525, 0.567, 0.616, 0.659
+CNN_all_event_old/features/Cruise_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.222, 0.300, 0.397, 0.440, 0.513, 0.549, 0.599, 0.613
+0.296, 0.354, 0.440, 0.495, 0.543, 0.583, 0.629, 0.673
+CNN_all_event_old/features/Cruise_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.164, 0.303, 0.413, 0.465, 0.515, 0.559, 0.590, 0.613
+0.276, 0.338, 0.428, 0.482, 0.529, 0.571, 0.618, 0.662
+CNN_all_event_1009/features/Cruise_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.190, 0.250, 0.330, 0.411, 0.462, 0.510, 0.531, 0.564
+0.243, 0.307, 0.388, 0.439, 0.491, 0.531, 0.573, 0.616
+CNN_all_event_1009/features/Cruise_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.205, 0.286, 0.342, 0.426, 0.482, 0.529, 0.561, 0.579
+0.256, 0.337, 0.435, 0.487, 0.538, 0.579, 0.628, 0.674
+CNN_all_event_1009/features/Cruise_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.158, 0.223, 0.354, 0.407, 0.442, 0.497, 0.539, 0.571
+0.220, 0.290, 0.385, 0.445, 0.499, 0.542, 0.586, 0.631
+CNN_all_event_1009/features/Cruise_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.055, 0.181, 0.279, 0.356, 0.424, 0.461, 0.493, 0.550
+0.145, 0.221, 0.296, 0.374, 0.428, 0.472, 0.513, 0.557
+CNN_all_event_1009/features/Cruise_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.159, 0.313, 0.398, 0.471, 0.521, 0.568, 0.568, 0.609
+0.274, 0.340, 0.429, 0.486, 0.536, 0.580, 0.629, 0.674
+CNN_all_event_1009/features/Cruise_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.164, 0.289, 0.390, 0.471, 0.518, 0.556, 0.576, 0.613
+0.256, 0.327, 0.417, 0.478, 0.529, 0.574, 0.626, 0.672
+CNN_all_event_1009/features/Cruise_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.192, 0.285, 0.388, 0.458, 0.517, 0.567, 0.572, 0.615
+0.263, 0.334, 0.424, 0.483, 0.532, 0.574, 0.623, 0.669
+CNN_all_event_1009/features/Cruise_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.192, 0.303, 0.391, 0.463, 0.522, 0.567, 0.580, 0.612
+0.271, 0.338, 0.427, 0.486, 0.536, 0.579, 0.628, 0.673
+CNN_all_event_1009/features/Cruise_test_face_combined_thetapre_10w_dict.cPickle
+0.192, 0.303, 0.391, 0.463, 0.522, 0.567, 0.580, 0.612
+0.271, 0.338, 0.427, 0.486, 0.536, 0.579, 0.628, 0.673
+*WORKER*
+0.336, 0.420, 0.491, 0.544, 0.593, 0.631, 0.668, 0.702
+0.257, 0.382, 0.455, 0.520, 0.564, 0.589, 0.616, 0.642
+
+
+Skipping creation of dict: baseline_all_0509/Birthday/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>Birthday<<<<<<<<
+*ALGORITHM*
+P: 0.04802, 0.09802, 0.14950, 0.19851, 0.24851, 0.29851, 0.35050, 0.39950
+baseline_all_noblock/Birthday/test_random_dict.cPickle
+0.051, 0.102, 0.140, 0.208, 0.256, 0.303, 0.344, 0.393
+0.121, 0.173, 0.223, 0.270, 0.313, 0.356, 0.401, 0.444
+aesthetic/Birthday_aesthetic_score_dict.cPickle
+0.065, 0.167, 0.216, 0.250, 0.309, 0.357, 0.407, 0.450
+0.166, 0.223, 0.271, 0.313, 0.359, 0.402, 0.447, 0.496
+baseline_all_0509/Birthday/alexnet6k_predict_result_10_dict.cPickle
+0.202, 0.283, 0.315, 0.342, 0.380, 0.435, 0.480, 0.519
+0.314, 0.334, 0.364, 0.399, 0.448, 0.487, 0.534, 0.577
+CNN_all_event_0.1/features/Birthday_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.203, 0.306, 0.347, 0.417, 0.464, 0.509, 0.554, 0.584
+0.315, 0.385, 0.429, 0.482, 0.528, 0.571, 0.615, 0.652
+CNN_all_event_0.1/features/Birthday_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.212, 0.313, 0.366, 0.421, 0.477, 0.526, 0.572, 0.601
+0.342, 0.412, 0.452, 0.505, 0.552, 0.594, 0.641, 0.680
+CNN_all_event_0.1/features/Birthday_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.237, 0.340, 0.426, 0.465, 0.507, 0.541, 0.567, 0.596
+0.365, 0.444, 0.477, 0.521, 0.562, 0.601, 0.642, 0.676
+CNN_all_event_0.1/features/Birthday_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.234, 0.333, 0.355, 0.406, 0.449, 0.482, 0.521, 0.554
+0.347, 0.409, 0.441, 0.484, 0.519, 0.556, 0.591, 0.623
+CNN_all_event_0.1/features/Birthday_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.226, 0.374, 0.416, 0.471, 0.506, 0.540, 0.568, 0.594
+0.338, 0.421, 0.460, 0.507, 0.551, 0.590, 0.633, 0.669
+CNN_all_event_old/features/Birthday_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.266, 0.367, 0.415, 0.463, 0.516, 0.539, 0.571, 0.610
+0.396, 0.458, 0.487, 0.537, 0.576, 0.611, 0.646, 0.679
+CNN_all_event_old/features/Birthday_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.248, 0.332, 0.389, 0.458, 0.480, 0.524, 0.567, 0.595
+0.382, 0.424, 0.470, 0.517, 0.560, 0.599, 0.634, 0.666
+CNN_all_event_old/features/Birthday_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.260, 0.350, 0.394, 0.464, 0.516, 0.535, 0.566, 0.602
+0.381, 0.437, 0.472, 0.526, 0.568, 0.609, 0.648, 0.682
+CNN_all_event_old/features/Birthday_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.247, 0.362, 0.419, 0.453, 0.502, 0.547, 0.576, 0.605
+0.390, 0.448, 0.484, 0.532, 0.573, 0.613, 0.648, 0.679
+CNN_all_event_1009/features/Birthday_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.151, 0.243, 0.289, 0.353, 0.395, 0.444, 0.509, 0.556
+0.267, 0.338, 0.371, 0.425, 0.482, 0.532, 0.585, 0.631
+CNN_all_event_1009/features/Birthday_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.268, 0.370, 0.406, 0.446, 0.485, 0.541, 0.566, 0.593
+0.391, 0.434, 0.464, 0.511, 0.550, 0.593, 0.637, 0.672
+CNN_all_event_1009/features/Birthday_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.263, 0.312, 0.386, 0.450, 0.508, 0.531, 0.557, 0.591
+0.362, 0.417, 0.457, 0.510, 0.552, 0.592, 0.631, 0.663
+CNN_all_event_1009/features/Birthday_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.099, 0.190, 0.234, 0.293, 0.358, 0.415, 0.460, 0.517
+0.191, 0.256, 0.299, 0.354, 0.412, 0.462, 0.511, 0.557
+CNN_all_event_1009/features/Birthday_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.250, 0.313, 0.385, 0.449, 0.506, 0.554, 0.577, 0.604
+0.378, 0.434, 0.472, 0.528, 0.573, 0.616, 0.654, 0.685
+CNN_all_event_1009/features/Birthday_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.236, 0.325, 0.379, 0.434, 0.504, 0.550, 0.581, 0.602
+0.374, 0.434, 0.471, 0.524, 0.570, 0.613, 0.653, 0.684
+CNN_all_event_1009/features/Birthday_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.257, 0.337, 0.395, 0.447, 0.512, 0.550, 0.577, 0.609
+0.395, 0.441, 0.477, 0.529, 0.574, 0.616, 0.654, 0.684
+CNN_all_event_1009/features/Birthday_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.250, 0.341, 0.395, 0.449, 0.507, 0.547, 0.574, 0.605
+0.393, 0.439, 0.473, 0.527, 0.573, 0.616, 0.654, 0.685
+CNN_all_event_1009/features/Birthday_test_face_combined_thetapre_10w_dict.cPickle
+0.250, 0.341, 0.395, 0.449, 0.507, 0.547, 0.574, 0.605
+0.393, 0.439, 0.473, 0.527, 0.573, 0.616, 0.654, 0.685
+*WORKER*
+0.363, 0.443, 0.507, 0.556, 0.603, 0.642, 0.680, 0.714
+0.230, 0.386, 0.462, 0.519, 0.565, 0.587, 0.606, 0.630
+
+
+Skipping creation of dict: baseline_all_0509/NatureTrip/alexnet6k_predict_result_10_dict.cPickle
+>>>>>>>>NatureTrip<<<<<<<<
+*ALGORITHM*
+P: 0.05060, 0.10120, 0.15313, 0.19973, 0.25300, 0.29960, 0.35153, 0.40346
+baseline_all_noblock/NatureTrip/test_random_dict.cPickle
+0.056, 0.077, 0.129, 0.170, 0.253, 0.302, 0.352, 0.410
+0.118, 0.152, 0.193, 0.236, 0.281, 0.320, 0.366, 0.409
+aesthetic/NatureTrip_aesthetic_score_dict.cPickle
+0.155, 0.199, 0.228, 0.273, 0.311, 0.352, 0.419, 0.475
+0.257, 0.249, 0.295, 0.340, 0.384, 0.421, 0.468, 0.517
+baseline_all_0509/NatureTrip/alexnet6k_predict_result_10_dict.cPickle
+0.138, 0.151, 0.212, 0.261, 0.293, 0.343, 0.400, 0.448
+0.209, 0.226, 0.254, 0.287, 0.334, 0.375, 0.425, 0.476
+CNN_all_event_0.1/features/NatureTrip_test_sigmoid9_10_svm_iter_100000_dict.cPickle
+0.177, 0.188, 0.242, 0.272, 0.345, 0.402, 0.460, 0.523
+0.182, 0.231, 0.290, 0.334, 0.390, 0.436, 0.483, 0.535
+CNN_all_event_0.1/features/NatureTrip_test_sigmoid9_10_0.1_iter_100000_dict.cPickle
+0.049, 0.151, 0.206, 0.260, 0.324, 0.381, 0.439, 0.501
+0.150, 0.201, 0.251, 0.294, 0.351, 0.401, 0.456, 0.506
+CNN_all_event_0.1/features/NatureTrip_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle
+0.170, 0.182, 0.243, 0.341, 0.383, 0.416, 0.466, 0.514
+0.199, 0.236, 0.288, 0.340, 0.393, 0.438, 0.488, 0.543
+CNN_all_event_0.1/features/NatureTrip_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle
+0.101, 0.159, 0.251, 0.299, 0.356, 0.385, 0.445, 0.504
+0.161, 0.211, 0.262, 0.316, 0.381, 0.431, 0.489, 0.540
+CNN_all_event_0.1/features/NatureTrip_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle
+0.105, 0.168, 0.256, 0.325, 0.371, 0.405, 0.454, 0.503
+0.201, 0.245, 0.299, 0.355, 0.406, 0.451, 0.498, 0.547
+CNN_all_event_old/features/NatureTrip_test_sigmoid9_10_segment_iter_70000_dict.cPickle
+0.038, 0.144, 0.215, 0.272, 0.335, 0.390, 0.443, 0.493
+0.147, 0.206, 0.255, 0.301, 0.357, 0.405, 0.453, 0.512
+CNN_all_event_old/features/NatureTrip_test_sigmoid9segment_2round_iter_750000_dict.cPickle
+0.112, 0.203, 0.245, 0.266, 0.320, 0.373, 0.408, 0.452
+0.205, 0.240, 0.275, 0.314, 0.366, 0.409, 0.455, 0.504
+CNN_all_event_old/features/NatureTrip_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle
+0.053, 0.152, 0.204, 0.260, 0.316, 0.372, 0.424, 0.482
+0.142, 0.203, 0.254, 0.303, 0.356, 0.401, 0.449, 0.501
+CNN_all_event_old/features/NatureTrip_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle
+0.063, 0.190, 0.227, 0.270, 0.344, 0.393, 0.463, 0.519
+0.170, 0.221, 0.267, 0.311, 0.367, 0.416, 0.465, 0.515
+CNN_all_event_1009/features/NatureTrip_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle
+0.091, 0.138, 0.184, 0.242, 0.308, 0.357, 0.406, 0.475
+0.163, 0.217, 0.261, 0.308, 0.369, 0.420, 0.468, 0.517
+CNN_all_event_1009/features/NatureTrip_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle
+0.114, 0.169, 0.223, 0.307, 0.346, 0.400, 0.457, 0.505
+0.161, 0.216, 0.264, 0.314, 0.376, 0.427, 0.480, 0.536
+CNN_all_event_1009/features/NatureTrip_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle
+0.092, 0.159, 0.247, 0.321, 0.359, 0.412, 0.456, 0.520
+0.176, 0.239, 0.290, 0.342, 0.396, 0.444, 0.497, 0.548
+CNN_all_event_1009/features/NatureTrip_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle
+0.130, 0.146, 0.195, 0.244, 0.298, 0.358, 0.391, 0.458
+0.162, 0.202, 0.245, 0.292, 0.337, 0.377, 0.424, 0.476
+CNN_all_event_1009/features/NatureTrip_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle
+0.081, 0.176, 0.224, 0.269, 0.319, 0.394, 0.437, 0.497
+0.164, 0.215, 0.261, 0.306, 0.362, 0.411, 0.457, 0.505
+CNN_all_event_1009/features/NatureTrip_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle
+0.081, 0.197, 0.224, 0.265, 0.321, 0.395, 0.456, 0.508
+0.170, 0.221, 0.264, 0.307, 0.362, 0.411, 0.457, 0.506
+CNN_all_event_1009/features/NatureTrip_test_combined_10_fromnoevent_2_7w_dict.cPickle
+0.081, 0.176, 0.228, 0.263, 0.324, 0.399, 0.460, 0.497
+0.165, 0.224, 0.268, 0.310, 0.365, 0.412, 0.458, 0.506
+CNN_all_event_1009/features/NatureTrip_test_combined_10_fromnoevent_2_10w_dict.cPickle
+0.081, 0.189, 0.219, 0.266, 0.321, 0.399, 0.447, 0.496
+0.160, 0.219, 0.263, 0.306, 0.362, 0.410, 0.456, 0.505
+CNN_all_event_1009/features/NatureTrip_test_face_combined_thetapre_10w_dict.cPickle
+0.098, 0.176, 0.211, 0.265, 0.327, 0.395, 0.455, 0.500
+0.170, 0.224, 0.271, 0.315, 0.369, 0.416, 0.462, 0.509
+*WORKER*
+0.312, 0.388, 0.453, 0.505, 0.551, 0.593, 0.640, 0.682
+0.276, 0.366, 0.422, 0.487, 0.547, 0.585, 0.625, 0.646
+
+
+*********************************
+*********************************
+['baseline_all_noblock/', '/test_random_dict.cPickle']
+[0.057145248768390985, 0.092598955261412139, 0.14145067092508501, 0.19506418476699036, 0.25090418693198407, 0.29844918639187457, 0.34786192106878122, 0.40059131812618576]
+['aesthetic/', '_aesthetic_score_dict.cPickle']
+[0.059721680259617452, 0.12136910014628738, 0.17646176510908129, 0.22796029719275343, 0.28424897592067511, 0.33515745128176549, 0.39119852442824582, 0.44253583139945801]
+['baseline_all_0509/', '/alexnet6k_predict_result_10_dict.cPickle']
+[0.13804204613483234, 0.21582241399852234, 0.27518623782483859, 0.32680880063595319, 0.37179459479736865, 0.41920065272636942, 0.46240976007833945, 0.50475373380212418]
+['CNN_all_event_0.1/features/', '_test_sigmoid9_10_svm_iter_100000_dict.cPickle']
+[0.16965045919012886, 0.26561920617687729, 0.32575536045363357, 0.38291730855059875, 0.4275197809444008, 0.47779539857329162, 0.520276869178246, 0.56062604494572266]
+['CNN_all_event_0.1/features/', '_test_sigmoid9_10_0.1_iter_100000_dict.cPickle']
+[0.1737667410627568, 0.26907979573020374, 0.33617408154082912, 0.38854524245580035, 0.43931964974998128, 0.48550465874560217, 0.53135400924945164, 0.57199542643916412]
+['CNN_all_event_0.1/features/', '_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle']
+[0.18740848442819388, 0.2705195200523986, 0.34500104937706588, 0.40067576381378789, 0.44705563390716591, 0.48953831837530731, 0.53366495898882238, 0.57422673559975246]
+['CNN_all_event_0.1/features/', '_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle']
+[0.16931989281666607, 0.26158301365865205, 0.31821699711498835, 0.3638026436421975, 0.40984780822671091, 0.45761097998793965, 0.50234830517088624, 0.54228827831786741]
+['CNN_all_event_0.1/features/', '_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle']
+[0.1713379117114793, 0.28040248984107019, 0.34467692548729062, 0.40341121823468717, 0.44810501973088412, 0.49223848935009751, 0.53479661979067039, 0.57247363822861719]
+['CNN_all_event_old/features/', '_test_sigmoid9_10_segment_iter_70000_dict.cPickle']
+[0.20292945647531671, 0.29879617049967289, 0.35445376881254609, 0.40157763396101159, 0.45358726711122754, 0.50034118454064291, 0.54040182640927592, 0.57959743835258015]
+['CNN_all_event_old/features/', '_test_sigmoid9segment_2round_iter_750000_dict.cPickle']
+[0.20038674134900156, 0.28481438387327107, 0.3449306573393518, 0.39977867320388122, 0.44460077432485162, 0.48699448441494136, 0.52883986120596305, 0.57258950011729348]
+['CNN_all_event_old/features/', '_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle']
+[0.19943397163520546, 0.29347396594845682, 0.35156079898897363, 0.40349262147921838, 0.4544245409959477, 0.49797475635126437, 0.54015331706560477, 0.57814587117659322]
+['CNN_all_event_old/features/', '_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle']
+[0.2079269125728242, 0.3013003438307581, 0.35657242915019915, 0.4017600423748256, 0.45039156647634915, 0.49765350563910649, 0.53897135155115616, 0.57900286692955805]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle']
+[0.16609472826503985, 0.24701524289626095, 0.30999258230227167, 0.37242878779959548, 0.42487760380575068, 0.46823897126814529, 0.5089946774473999, 0.55306348541191308]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle']
+[0.17385037793769997, 0.26021978488359038, 0.32740469955461421, 0.39171352275406096, 0.43945769353128272, 0.48538940210431891, 0.52849371480881091, 0.56741328421207993]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle']
+[0.16003700965925066, 0.25497516498390005, 0.32239876162757225, 0.38152078195455019, 0.43197624468893331, 0.47811643878286497, 0.52002254831638184, 0.56153624329495055]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle']
+[0.10931393261022836, 0.18960999518191823, 0.25097734101767211, 0.30796817784656305, 0.35839953885507736, 0.40830599782556182, 0.45474065592238255, 0.50529951848251886]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle']
+[0.2082543611186711, 0.28964352247057079, 0.35237466215881624, 0.41115355082286814, 0.45763754160853498, 0.50428406145444593, 0.53973063743407967, 0.58066092685246407]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle']
+[0.2139587317640172, 0.29611698884808835, 0.35532566835161761, 0.41071080687624456, 0.45794064368612597, 0.50249830294488707, 0.54224471112048478, 0.58169786454436412]
+['CNN_all_event_1009/features/', '_test_combined_10_fromnoevent_2_7w_dict.cPickle']
+[0.21166861864900674, 0.30343586877275208, 0.35827067639992222, 0.41215585909138264, 0.46045924189463194, 0.50357680953808759, 0.54128666954843518, 0.58211791635871379]
+['CNN_all_event_1009/features/', '_test_combined_10_fromnoevent_2_10w_dict.cPickle']
+[0.2153765315255329, 0.30154264349672999, 0.35916263349692529, 0.41117441927011611, 0.45933113174458978, 0.5035271176175794, 0.5413584950447573, 0.5825390891242993]
+['CNN_all_event_1009/features/', '_test_face_combined_thetapre_10w_dict.cPickle']
+[0.21495794502325102, 0.3027811604337986, 0.35965595371221204, 0.41318267610181925, 0.45967574621727991, 0.50276845934241943, 0.54139060844087183, 0.58315074853482118]
+['baseline_all_noblock/', '/test_random_dict.cPickle']
+[0.12133239609470318, 0.16376861042790744, 0.2117808235228941, 0.26006794568327968, 0.30556294559908875, 0.35047145535749419, 0.39596719287002252, 0.44206902039824081]
+['aesthetic/', '_aesthetic_score_dict.cPickle']
+[0.13810670197097524, 0.19165077367680092, 0.24205991076484934, 0.29051101984507138, 0.3382600120965284, 0.38394176819384501, 0.43230201943494845, 0.48061653963366019]
+['baseline_all_0509/', '/alexnet6k_predict_result_10_dict.cPickle']
+[0.22012576647191884, 0.27569594516214097, 0.32611644107688192, 0.37325110915010007, 0.4198377983265057, 0.46497149399420729, 0.51231963856671425, 0.55816914695530828]
+['CNN_all_event_0.1/features/', '_test_sigmoid9_10_svm_iter_100000_dict.cPickle']
+[0.25444213235555674, 0.32559602154870121, 0.38260987238826349, 0.43557656524724714, 0.48394183125944162, 0.52977264077738284, 0.57554560940671828, 0.61927483359566438]
+['CNN_all_event_0.1/features/', '_test_sigmoid9_10_0.1_iter_100000_dict.cPickle']
+[0.26843800485256819, 0.33568839666654005, 0.39100153794680143, 0.44675874962371792, 0.49591393386412236, 0.54352135894119002, 0.58972913950088446, 0.63320383593581775]
+['CNN_all_event_0.1/features/', '_test_sigmoid9_10_0.1_2time_iter_100000_dict.cPickle']
+[0.27600987509775587, 0.34278374861652233, 0.40018562958464193, 0.45534158136847441, 0.50274201077483305, 0.5477138491667588, 0.5923854918317103, 0.63412983040946957]
+['CNN_all_event_0.1/features/', '_test_sigmoid9_10_svm_pretrain_iter_100000_dict.cPickle']
+[0.25266265267517368, 0.31977221389884669, 0.37030320041090892, 0.42025953034091246, 0.46573755843182324, 0.51177310803329512, 0.55850779982571708, 0.60122906643848528]
+['CNN_all_event_0.1/features/', '_test_sigmoid9_10_0.3_2time_iter_100000_dict.cPickle']
+[0.2657750599255741, 0.33680829638890192, 0.3961259435451539, 0.45173512770670643, 0.50033832581966287, 0.54596953264397374, 0.59135160202744075, 0.63307541854739113]
+['CNN_all_event_old/features/', '_test_sigmoid9_10_segment_iter_70000_dict.cPickle']
+[0.29220447667571586, 0.35970019983761692, 0.41262718053775038, 0.46451447427367598, 0.51102813929862978, 0.55578754450825985, 0.60020984602128524, 0.64214515295649155]
+['CNN_all_event_old/features/', '_test_sigmoid9segment_2round_iter_750000_dict.cPickle']
+[0.29290051100538012, 0.35339357133846727, 0.40692322707257828, 0.45659280185911838, 0.50314144979669473, 0.54805860056002309, 0.59211311479075079, 0.63487039696868597]
+['CNN_all_event_old/features/', '_test_sigmoid9_10_segment_2time_iter_70000_dict.cPickle']
+[0.29596228163831595, 0.35773574707643363, 0.40985321960189752, 0.4629364242851926, 0.51140517020239429, 0.55679380586722549, 0.60103897781349869, 0.64267828255934312]
+['CNN_all_event_old/features/', '_test_sigmoid9_10_segment_2time_iter_100000_dict.cPickle']
+[0.30237154274003358, 0.35968219903522841, 0.41147540370427427, 0.46429545063688438, 0.511750683025333, 0.5567557044962762, 0.60024219804840351, 0.64157559238970818]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle']
+[0.26054927729788185, 0.31746206562901147, 0.36959374435587122, 0.42454946772394742, 0.47438026869796718, 0.51981554819028097, 0.56515834565139444, 0.6092135692790186]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_10000_dict.cPickle']
+[0.26657198698746903, 0.32958586994730077, 0.38869868400526819, 0.44472475856930194, 0.49422569775401543, 0.54025143648535523, 0.58588051823748089, 0.62792619945813088]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_euclidean_nosigmoid_iter_30000_dict.cPickle']
+[0.24671855421201846, 0.31427218986647704, 0.37546372155096808, 0.43384167947902252, 0.4843648199003765, 0.52971294787415324, 0.57564425542210551, 0.61827005933563384]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_euclidean_sigmoid_iter_10000_dict.cPickle']
+[0.19041539381985692, 0.25075728662560293, 0.30220916564019795, 0.35550674177483915, 0.40490113886549411, 0.45497963322809837, 0.50429536253923701, 0.55143768910451907]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_fromnoevent_iter_70000_dict.cPickle']
+[0.29870269070479533, 0.3589406686796775, 0.41316841425508349, 0.46795310597075379, 0.51564102127966349, 0.56035053365729204, 0.60374795738299603, 0.64529880750737811]
+['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_fromnoevent_iter_100000_dict.cPickle']
+[0.30214651379934332, 0.36095452265233435, 0.41448150473772416, 0.46913528763110274, 0.51652881645305726, 0.56099627710207023, 0.6044504753304677, 0.64585575573138054]
+['CNN_all_event_1009/features/', '_test_combined_10_fromnoevent_2_7w_dict.cPickle']
+[0.30541320058062321, 0.36530351435841396, 0.41866501828311831, 0.47267993082241128, 0.51961120718195886, 0.56333931088373379, 0.60616675692824207, 0.64713650356937547]
+['CNN_all_event_1009/features/', '_test_combined_10_fromnoevent_2_10w_dict.cPickle']
+[0.30490886476680423, 0.36392976740925281, 0.41719138864054162, 0.47141429428972853, 0.51870111516440187, 0.56274219631036948, 0.60569329343144318, 0.64677087438650638]
+['CNN_all_event_1009/features/', '_test_face_combined_thetapre_10w_dict.cPickle']
+[0.30625875163420346, 0.36443853594427239, 0.41812715963226671, 0.47247671214360304, 0.51956999673989923, 0.56342169594835356, 0.60624715482060665, 0.64718233593377172]
+Worker
+[0.24220868166241646, 0.37170326085651262, 0.4475272010965437, 0.50478389524412615, 0.55177909529783431, 0.59068227217607872, 0.61904510120686806, 0.64551952118491929]
+[0.32915724892040943, 0.40998842655933698, 0.47570536757867427, 0.5311388930892631, 0.57999684891266112, 0.62391849513021502, 0.66540840440309013, 0.70308123685441748]
