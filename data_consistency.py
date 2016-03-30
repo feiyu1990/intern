@@ -15,6 +15,12 @@ block_workers = []
 # root = '/home/feiyu1990/local/event_curation/'
 root = '/Users/wangyufei/Documents/Study/intern_adobe/'
 from PIL import Image
+import sys
+sys.path.append(root + 'codes/Krippendorff_alpha/')
+import stats
+from stats.Agreement import *
+import scipy.stats as ss
+
 
 permute_test_ws = {}
 dict_name2 = {'ThemePark':1, 'UrbanTrip':2, 'BeachTrip':3, 'NatureTrip':4,
@@ -453,7 +459,7 @@ def evaluate_worker_agreement_topk(threshold = 10):
     print count_all
     print np.mean(correlations_all)
 def evaluate_worker_agreement_refined(method = 'spearman'):
-    input_path = root + 'all_output/all_output.csv'
+    input_path = '/Users/wangyufei/Documents/Study/intern_adobe/amt/CUFED/curation-results/all_output.csv'
     line_count = 0
     head_meta = []
     HITs = {}
@@ -596,6 +602,103 @@ def evaluate_worker_agreement_refined(method = 'spearman'):
     all_event_co.sort(key = lambda x: x[1], reverse=True)
     print all_event_co
 
+def evaluate_worker_agreement_alpha():
+    input_path = '/Users/wangyufei/Documents/Study/intern_adobe/amt/CUFED/curation-results/all_output.csv'
+    line_count = 0
+    head_meta = []
+    HITs = {}
+    with open(input_path, 'rb') as data:
+        reader = csv.reader(data)
+        for meta in reader:
+            if line_count == 0:
+                head_meta = meta
+            elif meta[0] not in HITs:
+                HITs[meta[0]] = [meta]
+            else:
+                HITs[meta[0]].append(meta)
+            line_count+=1
+
+    image_input_index = {}
+    image_output_index = {}
+    i = 0
+    for field in head_meta:
+        if field.startswith('Input.image'):
+            image_input_index[int(field[11:])] = i
+        if field.startswith('Answer.image'):
+            image_output_index[int(field[12:])] = i
+        i += 1
+
+
+    input_and_answers = {}
+    for event_name in dict_name2:
+        input_and_answers[event_name] = {}
+    index_worker_id = 15
+    index_num_image = 27
+    index_event_id = 28
+    index_event_type = 29
+    index_distraction = 31
+    for HITId in HITs:
+
+        this_hit = HITs[HITId]
+        num_images = int(this_hit[0][index_num_image])
+        distract_image = this_hit[0][index_distraction]
+        try:
+            event_type = dict_name[this_hit[0][index_event_type]]
+        except:
+            event_type = this_hit[0][index_event_type]
+        if event_type == 'Independence':
+            continue
+        event_id = this_hit[0][index_event_id]
+        this_event_dict = input_and_answers[event_type]
+        this_event_dict[event_id] = {}
+        [distract1, distract2] = distract_image.split(':')
+        distract1 = int(distract1)
+        distract2 = int(distract2)
+        this_hit_new = []
+        for submission in this_hit:
+            if submission[index_worker_id] not in block_workers:
+                this_hit_new.append(submission)
+        for k in xrange(len(this_hit_new)):
+            submission = this_hit_new[k]
+            this_event_dict[event_id][k] = []
+            for i in xrange(1, 1+num_images):
+                if i==distract1 or i==distract2:
+                    continue
+                score = 0
+                score_index = image_output_index[i]
+                vote = submission[score_index]
+                if vote == 'selected':
+                    score += 2
+                elif vote == 'selected_sw':
+                    score += 1
+                elif vote == 'selected_irrelevant':
+                    score -= 2
+                this_event_dict[event_id][k].append(score)
+    alphas_all = []
+    for event_name in dict_name2:
+        alphas = []
+        this_event_dict = input_and_answers[event_name]
+        for event_id in this_event_dict:
+            this_dict = this_event_dict[event_id]
+            all_keys = this_dict.keys()
+            all_pairs = []
+            for i in xrange(len(all_keys)):
+                    for j in xrange(i + 1, len(all_keys)):
+                        all_pairs.append([all_keys[i],all_keys[j]])
+            for pair_this in all_pairs:
+                except_this = np.sum([this_dict[k] for k in this_dict if k not in pair_this], axis=0)
+                this_ = np.sum([this_dict[k] for k in pair_this], axis=0)
+
+                except_this = ss.rankdata(except_this)
+                this_ = ss.rankdata(this_)
+                rank_dict = [dict([(ii+1,int(jj)) for ii,jj in enumerate(except_this)]), dict([(ii+1,int(jj)) for ii,jj in enumerate(this_)])]
+                agreement = Agreement(rank_dict)
+                alpha = agreement.krippendorffAlpha(Agreement.differenceOrdinal)
+                alphas.append(alpha)
+        print event_name, np.mean(alphas)
+        alphas_all.extend(alphas)
+    print np.mean(alphas_all)
+
 def kendall_w_chip(list_all):
     rank_all = []
     corrections = 0
@@ -657,7 +760,7 @@ def permutation_test(list_all, times = 10000):
     return ws
     #return float(np.sum([i > w_real for i in ws])) / times
 
-
+'''
 def wrong_permutation_test(n, k = 5, times = 10000):
     possible_ratings = [-2,0,1,2]
     ws = []
@@ -764,6 +867,7 @@ def wrong_permute_all_needed():
         print i
         permute_test_ws[i] = permutation_test(i[0], i[1])
         print permute_test_ws[i]
+'''
 
 def evaluation_prediction():
     correlation_all_w = []
@@ -820,7 +924,8 @@ def present_album():
 if __name__ == '__main__':
     # present_album()
     # permute_all_needed()
-    evaluate_worker_agreement_refined('spearman')
+    # evaluate_worker_agreement_refined('spearman')
+    evaluate_worker_agreement_alpha()
     # evaluation_prediction()
     # in_path = root + 'aesthetic/original_imgs.txt'
     # with open(in_path, 'r') as data:

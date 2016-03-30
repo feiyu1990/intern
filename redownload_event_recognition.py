@@ -8,7 +8,9 @@ from collections import Counter
 import sys
 import urllib
 from collections import defaultdict
-# import h5py
+import h5py
+import shutil
+
 dict_name2 = {'ThemePark':1, 'UrbanTrip':2, 'BeachTrip':3, 'NatureTrip':4,
              'Zoo':5,'Cruise':6,'Show':7,
             'Sports':8,'PersonalSports':9,'PersonalArtActivity':10,
@@ -89,6 +91,7 @@ def find_consistent_result(name):
     print "number of events with more than 3 same votes:",len(agreement_event_id)
     # print "number of events with 3 same votes:",len(agreement_event_id_new)
     return agreement_event_id
+
 
 def find_consistent_result_new(name):
     root = '/Users/wangyufei/Documents/Study/intern_adobe/amt/'
@@ -588,7 +591,305 @@ def consistant_result_record():
     cPickle.dump(dict_event_type, f)
     f.close()
 
+def create_training_img_balanced_fully_lstm(expand_ratio = 2):
+    root = '/mnt/ilcompf3d1/user/yuwang/event_curation/'
+    f = open(root+'codes/needdownload_event_img_list.pkl','r')
+    new_events = cPickle.load(f)
+    f.close()
+    f = open(root+'codes/new_consistent_img_and_type.pkl','r')
+    event_type_dict = cPickle.load(f)
+    f.close()
+
+    new_event_dict = defaultdict(dict)
+    for event in new_events:
+        temp = []
+        event_type = event_type_dict[event]
+        for img in new_events[event]:
+            if os.stat('/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg').st_size < 5000:
+                # print '/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg'
+                continue
+            else:
+                temp.append('/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg')
+        if len(temp) != len(new_events[event]):
+            continue
+        else:
+            new_event_dict[event_type_dict[event]][event] = temp
+    for event_type in new_event_dict:
+        print len(new_event_dict[event_type])
+
+
+    ori_event_dict = defaultdict(dict)
+    for event_name in dict_name2:
+        f = open('/mnt/ilcompf3d1/user/yuwang/event_curation/baseline_all_0509/' + event_name + '/training_image_ids.cPickle')
+        temp = cPickle.load(f)
+        f.close()
+        for img in temp:
+            event_ = img.split('/')[0]
+            if event_ in ori_event_dict[event_name]:
+                ori_event_dict[event_name][event_].append('/mnt/ilcompf3d1/user/yuwang/event_curation/curation_images/' + event_ + '/' + img + '.jpg')
+            else:
+                ori_event_dict[event_name][event_] = ['/mnt/ilcompf3d1/user/yuwang/event_curation/curation_images/' + event_ + '/' + img + '.jpg']
+
+    img_list_to_copy = []
+    combine_event_list = defaultdict(dict)
+    for event_name in dict_name2:
+        combine_event_list[event_name].update(ori_event_dict[event_name])
+        event_to_add = new_event_dict[event_name]
+        event_old = ori_event_dict[event_name]
+        len_to_add = expand_ratio * len(event_old)
+        print event_name, len_to_add, len(event_to_add)
+        if len_to_add < len(event_to_add):
+
+            temp = random.sample(range(len(event_to_add)), len_to_add)
+            count = 0
+            for event_ in event_to_add:
+                if count in temp:
+                    combine_event_list[event_name][event_] = event_to_add[event_]
+                    img_list_to_copy.extend(event_to_add[event_])
+                    # print len(img_list_to_copy)
+                count += 1
+        else:
+            combine_event_list[event_name].update(event_to_add)
+            for i in event_to_add:
+                img_list_to_copy.extend(event_to_add[i])
+                # print len(img_list_to_copy)
+    for event_name in combine_event_list:
+        print event_name, len(combine_event_list[event_name])
+
+    f = open('/mnt/ilcompf3d1/user/yuwang/lstm/new_img_to_copy.pkl', 'w')
+    cPickle.dump(img_list_to_copy, f)
+    f.close()
+
+    f = open('/mnt/ilcompf3d1/user/yuwang/lstm/new_combine_event_list.pkl', 'w')
+    cPickle.dump(combine_event_list, f)
+    f.close()
+
+
+def create_needdownload_img_list():
+
+    with open('/home/feiyu1990/local/event_curation/lstm/new_img_to_copy.pkl') as f:
+        img_list = cPickle.load(f)
+    with open('/home/feiyu1990/local/event_curation/lstm/new_combine_event_list.pkl') as f:
+        event_combine_list = cPickle.load(f)
+    event_list = dict()
+    for event_name in event_combine_list:
+        events_this = event_combine_list[event_name]
+        with open('/home/feiyu1990/local/event_curation/baseline_all_0509/' + event_name + '/training_event_id.cPickle') as f:
+            event_already_have = cPickle.load(f)
+        for event in events_this:
+            if event in event_already_have:
+                continue
+            event_list[event] = event_name
+    f = open('/home/feiyu1990/local/event_curation/lstm/new_training_img_list.txt', 'w')
+    for img in img_list:
+        f.write('/home/feiyu1990/local/event_curation/lstm/new_imgs/' + '/'.join(img.split('/')[-2:]) + ' ' + str(dict_name2[event_list[img.split('/')[-2]]] - 1) + '\n')
+    f.close()
+
+
+
+def copy_to_redownload():
+    with open('/mnt/ilcompf3d1/user/yuwang/lstm/new_img_to_copy.pkl') as f:
+        img_list = cPickle.load(f)
+    count = 0
+    for img in img_list:
+        count += 1
+        if count % 1000 == 0:
+            print count
+        if not os.path.exists('/mnt/ilcompf3d1/user/yuwang/lstm/new_imgs/' + img.split('/')[-2]):
+            os.mkdir('/mnt/ilcompf3d1/user/yuwang/lstm/new_imgs/' + img.split('/')[-2])
+        if not os.path.exists('/mnt/ilcompf3d1/user/yuwang/lstm/new_imgs/' + '/'.join(img.split('/')[-2:])):
+            shutil.copy(img, '/mnt/ilcompf3d1/user/yuwang/lstm/new_imgs/' + '/'.join(img.split('/')[-2:]))
+
+
+def create_training_img_balanced_fully_multilabel(input_dict_name, path_this, expand_ratio = 3):
+
+    root = '/mnt/ilcompf3d1/user/yuwang/event_curation/'
+
+    ori_img_list_dict = defaultdict(list)
+    path = '/mnt/ilcompf3d1/user/yuwang/event_curation/multi_label_event/'+ input_dict_name
+    with open(path) as f:
+        multi_event_dict = cPickle.load(f)
+    multi_img_dict = defaultdict(list)
+    for event_type in dict_name2:
+        with open('/mnt/ilcompf3d1/user/yuwang/event_curation/baseline_all_0509/' + event_type + '/training_image_ids.cPickle') as f:
+            img_list = cPickle.load(f)
+        for img in img_list:
+            event_id = img.split('/')[0]
+            multi_img_dict['/mnt/ilcompf3d1/user/yuwang/event_curation/curation_images/' + event_type + '/' + img.split('_')[1] + '.jpg'] = [dict_name2[i[0]] - 1 for i in multi_event_dict[event_id]]
+    # with open('/mnt/ilcompf3d1/user/yuwang/event_curation/multi_label_event/img_event_type_dict.pkl','w') as f:
+    #     cPickle.dump(multi_img_dict, f)
+
+
+    f = open(root+'codes/needdownload_event_img_list.pkl','r')
+    new_events = cPickle.load(f)
+    f.close()
+    f = open(root+'codes/new_consistent_img_and_type.pkl','r')
+    event_type_dict = cPickle.load(f)
+    f.close()
+
+    img_list_dict = defaultdict(list)
+    for event in new_events:
+        event_type = event_type_dict[event]
+        try:
+            dict_name2[event_type]
+        except:
+            print event_type
+            continue
+        for img in new_events[event]:
+            if os.stat('/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg').st_size < 5000:
+                print '/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg'
+                continue
+            img_list_dict[event_type].append('/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg' + ' ' + str(dict_name2[event_type] - 1) + '\n')
+            # img_list.append('/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg' + ' ' + str(dict_name2[event_type] - 1) + '\n')
+
+    for event_type in img_list_dict:
+        print event_type, len(img_list_dict[event_type])
+
+    path=  '/mnt/ilcompf3d1/user/yuwang/event_curation/CNN_all_event_1205/data/training_list.txt'
+    with open(path, 'r') as data:
+        for line in data:
+            meta = line.split('\n')[0]
+            i,j = meta.split(' ')
+            event_type_list = multi_img_dict[i]
+            if len(event_type_list) >= 2:
+                event_type_select = event_type_list
+                if len(event_type_list) > 2:
+                    print i, event_type_select
+            else:
+                event_type_select = [event_type_list[0], event_type_list[0]]
+            for j in event_type_select:
+                ori_img_list_dict[j].append(i + ' ' + str(j) + '\n')
+    for event_type in dict_name2:
+        print event_type, len(ori_img_list_dict[dict_name2[event_type] - 1])
+    with open('/mnt/ilcompf3d1/user/yuwang/event_curation/multi_label_event/ori_img_list.pkl','w') as f:
+        cPickle.dump(ori_img_list_dict, f)
+
+    new_img_list_dict = defaultdict(list)
+    for event_type in dict_name2:
+        len_ = len(ori_img_list_dict[dict_name2[event_type] - 1]) / 2 * (expand_ratio - 1)
+        if len_ < len(img_list_dict[event_type]):
+            temp = random.sample(img_list_dict[event_type], len_)
+        else:
+            len_needed = len_ - len(img_list_dict[event_type])
+            temp = img_list_dict[event_type] + ori_img_list_dict[dict_name2[event_type] - 1]
+            temp_ = [random.choice(temp) for i in xrange(len_needed)]
+            temp = temp_ + img_list_dict[event_type]
+        new_img_list_dict[event_type] = temp + ori_img_list_dict[dict_name2[event_type] - 1]
+    for event_type in dict_name2:
+        print event_type, len(new_img_list_dict[event_type])
+
+
+    img_list = []
+    for event_type in new_img_list_dict:
+        img_list.extend(new_img_list_dict[event_type])
+    random.shuffle(img_list)
+    print len(img_list)
+    f = open(root + path_this + '/data/multilabel_training_img_list_expand_balanced_'+str(expand_ratio)+'.txt','w')
+    for img in img_list:
+        f.write(img)
+    f.close()
+
+
+def create_training_img_softmax(input_dict_name, path_this, expand_ratio = 3):
+
+    root = '/mnt/ilcompf3d1/user/yuwang/event_curation/'
+
+    ori_img_list_dict = defaultdict(list)
+    path = root + 'multi_label_event/'+ input_dict_name
+    with open(path) as f:
+        multi_event_dict = cPickle.load(f)
+    multi_img_dict = defaultdict(list)
+    for event_type in dict_name2:
+        with open(root + 'baseline_all_0509/' + event_type + '/training_image_ids.cPickle') as f:
+            img_list = cPickle.load(f)
+        for img in img_list:
+            event_id = img.split('/')[0]
+            softmax_this = np.zeros((23,))
+            for event in multi_event_dict[event_id]:
+                softmax_this[dict_name2[event[0]] - 1] = event[1]
+            multi_img_dict['/mnt/ilcompf3d1/user/yuwang/event_curation/curation_images/' + event_type + '/' + img.split('_')[1] + '.jpg'] = softmax_this
+    # with open(root + 'multi_label_event/img_event_type_dict_softmax.pkl','w') as f:
+    #     cPickle.dump(multi_img_dict, f)
+
+
+    f = open(root+'codes/needdownload_event_img_list.pkl','r')
+    new_events = cPickle.load(f)
+    f.close()
+    f = open(root+'codes/new_consistent_img_and_type.pkl','r')
+    event_type_dict = cPickle.load(f)
+    f.close()
+
+    img_list_dict = defaultdict(list)
+    for event in new_events:
+        event_type = event_type_dict[event]
+        try:
+            dict_name2[event_type]
+        except:
+            print event_type
+            continue
+        for img in new_events[event]:
+            if os.stat('/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg').st_size < 5000:
+                print '/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg'
+                continue
+            softmax_this = np.zeros((23,))
+            softmax_this[dict_name2[event_type] - 1] = 1
+            img_list_dict[event_type].append(('/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg' + ' 0\n', softmax_this))
+            # img_list.append('/mnt/ilcompf3d1/user/yuwang/event_recognition/' + event + '/' + img.split('/')[-1].split('_')[0] + '.jpg' + ' ' + str(dict_name2[event_type] - 1) + '\n')
+
+    for event_type in img_list_dict:
+        print event_type, len(img_list_dict[event_type])
+
+    path=  '/mnt/ilcompf3d1/user/yuwang/event_curation/CNN_all_event_1205/data/training_list.txt'
+    with open(path, 'r') as data:
+        for line in data:
+            meta = line.split('\n')[0]
+            i,j = meta.split(' ')
+            event_type_list = multi_img_dict[i]
+            ori_img_list_dict[int(j)].append((i + ' 0\n', event_type_list))
+
+    for event_type in dict_name2:
+        print event_type, len(ori_img_list_dict[dict_name2[event_type] - 1])
+    # with open('/mnt/ilcompf3d1/user/yuwang/event_curation/multi_label_event/ori_img_list_softmax.pkl','w') as f:
+    #     cPickle.dump(ori_img_list_dict, f)
+
+    new_img_list_dict = defaultdict(list)
+    for event_type in dict_name2:
+        len_ = len(ori_img_list_dict[dict_name2[event_type] - 1]) * (expand_ratio - 1)
+        if len_ < len(img_list_dict[event_type]):
+            temp = random.sample(img_list_dict[event_type], len_)
+        else:
+            len_needed = len_ - len(img_list_dict[event_type])
+            temp = img_list_dict[event_type] + ori_img_list_dict[dict_name2[event_type] - 1]
+            temp_ = [random.choice(temp) for i in xrange(len_needed)]
+            temp = temp_ + img_list_dict[event_type]
+        new_img_list_dict[event_type] = temp + ori_img_list_dict[dict_name2[event_type] - 1]
+    for event_type in dict_name2:
+        print event_type, len(new_img_list_dict[event_type])
+
+
+    img_list = []
+    for event_type in new_img_list_dict:
+        img_list.extend(new_img_list_dict[event_type])
+    random.shuffle(img_list)
+    print len(img_list)
+    f = open(root + path_this + '/data/multilabel_training_img_list_expand_balanced_'+str(expand_ratio)+'_softmax.txt','w')
+    label_list = []
+    for img in img_list:
+        f.write(img[0])
+        label_list.append(img[1])
+    f.close()
+    np.save(root + path_this + '/data/multilabel_training_img_list_expand_balanced_'+str(expand_ratio)+'_softmax_label.npy', np.array(label_list))
+
+
+def create_h5py():
+    feature = np.load('multilabel_training_img_list_expand_balanced_4_softmax_label.npy')
+    f = h5py.File('multilabel_training_img_list_expand_balanced_4_softmax_label.h5','w')
+    print feature.shape
+    f.create_dataset("importance", data=feature)
+    f.close()
+
 if __name__ == '__main__':
+    create_h5py()
     # a = find_consistent_result_new('0')
     # b = find_consistent_result_new('1')
     # c = find_consistent_result_new('2')
@@ -622,4 +923,19 @@ if __name__ == '__main__':
     # create_training_img_balanced()
     # create_training_img_balanced_fully(4)
     # create_training_img_balanced_fully_importance_scaled()
-    create_training_img_balanced_equally()
+    # create_training_img_balanced_equally()
+    # create_training_img_balanced_fully_lstm()
+    # create_training_img_balanced_fully_lstm()
+    # create_needdownload_img_list()
+    # copy_to_redownload()
+
+    # name = 'new_multiple_result_2round_removedup_vote.pkl'
+    # folder_name = 'CNN_all_event_corrected_multi_removedup_vote'
+    # create_training_img_balanced_fully_multilabel(name, folder_name)
+    # create_training_img_balanced_fully_multilabel(name,folder_name,1)
+    # create_training_img_balanced_fully_multilabel(name,folder_name,4)
+    #
+    # name = 'new_multiple_result_2round_softmaxall_removedup_vote.pkl'
+    # folder_name = 'CNN_all_event_corrected_multi_removedup_vote_soft'
+    # create_training_img_softmax(name, folder_name, expand_ratio=4)
+    # create_training_img_softmax(name, folder_name)

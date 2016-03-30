@@ -7,7 +7,7 @@ from sklearn.cluster import SpectralClustering
 import scipy.io as sio
 import csv
 from PIL import Image
-from collections import Counter
+from collections import Counter, defaultdict
 
 correct_list = {'5_19479358@N00':'Museum', '38_59616483@N00':'Museum','136_95413346@N00':'Museum',
                     '0_27302158@N00':'CasualFamilyGather','7_55455788@N00':'Birthday',
@@ -48,13 +48,13 @@ dict_name2 = {'ThemePark':1, 'UrbanTrip':2, 'BeachTrip':3, 'NatureTrip':4,
             
 #html_root_test = 'C:/Users/yuwang/Documents/present_htmls_val/'
 #face_root = 'C:/Users/yuwang/Documents/face_recognition/'
-root = '/Users/wangyufei/Documents/Study/intern_adobe/'
+# root = '/Users/wangyufei/Documents/Study/intern_adobe/'
 # html_root = root + '/present_htmls_new/'
-html_root = root + '/present_htmls_corrected/'
-# root = '/home/feiyu1990/local/event_curation/'
-html_root_test = root + 'present_htmls_recognition_recognitioncorrected10/'
-if not os.path.exists(html_root_test):
-    os.mkdir(html_root_test)
+root = '/home/feiyu1990/local/event_curation/'
+html_root = root + '/present_htmls_rebuttal/'
+html_root_test = root + 'present_htmls_rebuttal/'
+# if not os.path.exists(html_root_test):
+#     os.mkdir(html_root_test)
 block_workers = ['A3U0FX9MF8C6RU','A2NJAHKIJQXPCI']
 def dump_low_mean_(matrix_ori, groups_already, groups_notyet):
     mean_similarities = {}
@@ -1071,14 +1071,14 @@ def show_test_predict_img_rearranged(model_path, model_name, event_type, groundt
         test_prediction = cPickle.load(f)
         f.close()
         try:
-            test_prediction = [i[0][dict_name2[event_type]- 1] for i in test_prediction]
+            test_prediction = [i[dict_name2[event_type]- 1] for i in test_prediction]
         except:
             pass
-        try:
-            test_prediction_sorted = sorted(test_prediction)
-        except:
-            print root + model_path + model_name[:-5]
-            print test_prediction
+        # try:
+        test_prediction_sorted = sorted(test_prediction)
+        # except:
+        #     print root + model_path + model_name[:-5]
+            # print test_prediction
         len_ = len(test_prediction_sorted)
         thresholds = [test_prediction_sorted[int(0.2*len_)], test_prediction_sorted[int(0.6*len_)],
                       test_prediction_sorted[int(0.8*len_)]]
@@ -1888,26 +1888,215 @@ def show_test_predict_img_rearranged_recognition_corrected(model_path, model_nam
         for line in line_stack:
             f.write(line)
         f.close()
+def show_test_predict_img_rearrange_allevent():
+    print 'HERE!'
+    model_paths = ['CNN_all_event_corrected_multi/features_validation/']
+    model_names = ['THRESHOLDM_POLY2_LSTM_iter0_importance_cross_validation_combine_best_dict']
+    root1 = html_root + '/'
+    event_ids = []
+    for event_type in dict_name2:
+        f = open(root + 'baseline_all_noblock/' + event_type + '/test_event_id.cPickle')
+        event_ids.extend(cPickle.load(f))
+        f.close()
+    test_prediction_events = []
+    for i in xrange(len(model_paths)):
+        f = open(root + model_paths[i] + model_names[i] + '.pkl','r')
+        test_prediction_events.append(cPickle.load(f))
+        f.close()
+    for model_path, model_name, test_prediction_event in zip(model_paths, model_names, test_prediction_events):
+        f = open(root + model_path + model_name[:-5] + '.pkl','r')
+        test_prediction = cPickle.load(f)
+        f.close()
+        try:
+            test_prediction_sorted = sorted(test_prediction)
+        except:
+            print root + model_path + model_name[:-5]
+            print test_prediction
+        len_ = len(test_prediction_sorted)
+        thresholds = [test_prediction_sorted[int(0.2*len_)], test_prediction_sorted[int(0.6*len_)],
+                      test_prediction_sorted[int(0.8*len_)]]
+        if not os.path.exists(root1):
+            os.mkdir(root1)
+        for event_id in test_prediction_event:
+            this_event = test_prediction_event[event_id]
+            img_ids = []
+            img_urls = []
+            img_scores = []
+            for img in this_event:
+                    img_ids.append(img[0])
+                    img_urls.append(img[1])
+                    img_scores.append(img[2])
+            temp = zip(img_ids, img_urls, img_scores)
+            temp = sorted(temp, key=lambda x: x[2], reverse=True)
+            img_ids = [i[0] for i in temp]
+            img_urls = [i[1] for i in temp]
+            img_scores = [i[2] for i in temp]
+            html_path = root1 + event_id + '/' + model_name +'_predict_rearranged' + '.html'
+            print html_path
+            if not os.path.exists(root1 + event_id):
+                os.mkdir(root1 + event_id)
+            in_file = root + 'all_output/Amazon Mechanical Turk_score_hori_rearrange.html'
+            line_stack = []
+            with open(in_file, 'r') as data:
+                for line in data:
+                    line_stack.append(line)
+
+            for kk in xrange(len(line_stack)):
+                if '${num_image}' in line_stack[kk]:
+                    line_stack[kk] = 'var n_images = '+str(len(img_ids))+';\n'
+                if 'var images = ["${image1}"' in line_stack[kk]:
+                    new_line = 'var images = ['
+                    for img_url in img_urls:
+                        new_line += '"'+img_url+'",'
+                    new_line = new_line[:-1]
+                    new_line += '];\n'
+                    line_stack[kk] = new_line
+
+                if '$(document).ready(function()' in line_stack[kk]:
+                    for i in xrange(len(img_scores)):
+                        score = img_scores[i]#[0][0]
+                        print score, thresholds
+                        #score = 1/(1 + np.exp(-score))
+                        line_stack[kk] += '\ndocument.getElementById("image'+str(i+1)+'selected").value="'+str(score)+'";\n'
+                        # if score > thresholds[2]:
+                        #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").addClass("highlight");\n'
+                        #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").removeClass("not_selected");\n'
+                        # elif score > thresholds[1]:
+                        #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").addClass("selected_sw");\n'
+                        #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").removeClass("not_selected");\n'
+                        # elif  score >= thresholds[0]:
+                        #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").addClass("neutral");\n'
+                        #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").removeClass("not_selected");\n'
+                        # else:
+                        #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").addClass("irrelevant");\n'
+                        #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").removeClass("not_selected");\n'
+
+            f = open(html_path, 'wb')
+            for line in line_stack:
+                f.write(line)
+            f.close()
+
+def show_test_predict_img_recognition_corrected(model_path, event_model_name, event_type, groundtruth=False):
+    f = open(root + model_path[:-1] + event_model_name + '.pkl', 'r')
+    event_prediction = cPickle.load(f)
+    f.close()
+
+    f = open(root + model_path + 'test_predict_event_recognition_expand_balanced_3_corrected_iter_100000_dict.cPickle')
+    temp = cPickle.load(f)
+    f.close()
+
+    img_recognition = defaultdict(list)
+    with open(root + 'lstm/data/test_lstm_prediction_img_dict.pkl') as f:
+        all_recognition = cPickle.load(f)
+    for event_id in temp:
+        for img in temp[event_id]:
+            img_id = img[0]
+            img_recognition[event_id].append([img_id, img[1], all_recognition[img_id]])
+
+    for event_id in img_recognition:
+        print event_id
+        this_event = img_recognition[event_id]
+        img_ids = []
+        img_urls = []
+        img_recognitions = []
+        if groundtruth:
+            for img in this_event:
+                img_ids.append(img[1])
+                img_urls.append(img[0])
+                img_recognitions.append(img[2])
+        else:
+            for img in this_event:
+                img_ids.append(img[0])
+                img_urls.append(img[1])
+                img_recognitions.append(img[2])
+        temp = zip(img_ids, img_urls, img_recognitions)
+        # temp = sorted(temp, key=lambda x: x[2], reverse=True)
+        img_ids = [i[0] for i in temp]
+        img_urls = [i[1] for i in temp]
+        img_recognitions = [i[2] for i in temp]
+
+        dict_name_reverse = dict([(dict_name2[event_name], event_name) for event_name in dict_name2])
+        if event_id in correct_list:
+            root1 = html_root_test + '/' + correct_list[event_id] + '/'
+        else:
+            root1 = html_root_test + '/' + event_type + '/'
+        if not os.path.exists(root1):
+            os.mkdir(root1)
+
+        html_path = root1 + dict_name_reverse[np.argmax(event_prediction[event_id]) + 1] + '_' + event_id + '_' + event_model_name + '.html'
+        print html_path
+        # if not os.path.exists(root1 + event_id):
+        #     os.mkdir(root1 + event_id)
+        in_file = root + 'all_output/Amazon Mechanical Turk_score_hori_rearrange.html'
+        line_stack = []
+        with open(in_file, 'r') as data:
+            for line in data:
+                line_stack.append(line)
+
+        for kk in xrange(len(line_stack)):
+            if '${num_image}' in line_stack[kk]:
+                line_stack[kk] = 'var n_images = '+str(len(img_ids))+';\n'
+            if 'var images = ["${image1}"' in line_stack[kk]:
+                new_line = 'var images = ['
+                for img_url in img_urls:
+                    new_line += '"'+img_url+'",'
+                new_line = new_line[:-1]
+                new_line += '];\n'
+                line_stack[kk] = new_line
+
+            if '$(document).ready(function()' in line_stack[kk]:
+                for i in xrange(len(img_recognitions)):
+                    score = img_recognitions[i]#[0][0]
+                    # score = format(score, '.2f')
+                    #score = 1/(1 + np.exp(-score))
+                    temp = np.argsort(score)
+                    recognition_score = dict_name_reverse[temp[-1] + 1] + str(score[temp[-1]]) + \
+                                        '_' + dict_name_reverse[temp[-2] + 1] + str(score[temp[-2]])
+                    line_stack[kk] += '\ndocument.getElementById("image'+str(i+1)+'selected").value="'+ recognition_score+'";\n'
+                    # if score > thresholds[2]:
+                    #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").addClass("highlight");\n'
+                    #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").removeClass("not_selected");\n'
+                    # elif score > thresholds[1]:
+                    #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").addClass("selected_sw");\n'
+                    #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").removeClass("not_selected");\n'
+                    # elif  score >= thresholds[0]:
+                    #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").addClass("neutral");\n'
+                    #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").removeClass("not_selected");\n'
+                    # else:
+                    #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").addClass("irrelevant");\n'
+                    #         line_stack[kk]+='$("label[name=\'image'+str(i+1) + '\']").removeClass("not_selected");\n'
+
+        f = open(html_path, 'wb')
+        for line in line_stack:
+            f.write(line)
+        f.close()
 
 
 if __name__ == '__main__':
+    show_test_predict_img_rearrange_allevent()
     # create_result_htmls_rearranged_forsupp()
-    for event_type in dict_name:
-        # path = root + 'baseline_all_0509/' + event_type + '/'
-        # f = open(path + 'test_event_id.cPickle','r')
-        # ids = cPickle.load(f)
-        # f.close()
-        # show_test_predict_img_rearranged('baseline_all_noblock/'+event_type+'/',
-        #                            'vgg_test_result_v2',
-        #                            event_type, True)
+    # for event_type in dict_name:
+    #     path = root + 'baseline_all_0509/' + event_type + '/'
+    #     f = open(path + 'test_event_id.cPickle','r')
+    #     ids = cPickle.load(f)
+    #     f.close()
+    #     show_test_predict_img_rearranged('CNN_all_event_corrected_multi/features_validation/'+event_type+'_',
+    #                                'THRESHOLDM_POLY2_LSTM_iter0_importance_cross_validation_combine_best_dict',
+    #                                event_type, False)
         # show_test_predict_img_rearranged_recognition_corrected('features/'+event_type+'_',
         #                            'test_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000_dict',
         #                            'test_predict_event_recognition_expand_balanced_3_iter_100000_groundtruth_importance',
         #                            event_type)
-        show_test_predict_img_rearranged_recognition_corrected('features/'+event_type+'_',
-                                   'test_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000_em_dict',
-                                   'test_predict_event_recognition_expand_balanced_3_corrected_iter_100000_em',
-                                   event_type)
+        # show_test_predict_img_rearranged_recognition_corrected('features/'+event_type+'_',
+        #                            'test_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000_em_dict',
+        #                            'test_predict_event_recognition_expand_balanced_3_corrected_iter_100000_em',
+        #                            event_type)
+        # show_test_predict_img_recognition_corrected('features/'+event_type+'_',
+        #                            'recognition_lstm_prediction_dict',
+        #                            event_type)
+        # show_test_predict_img_recognition_corrected('features/'+event_type+'_',
+        #                            'test_predict_event_recognition_expand_balanced_3_corrected_iter_100000_em',
+        #                            event_type)
     '''
     # for event_type in dict_name2:
     #     validation_name = 'val_test'

@@ -4,10 +4,10 @@ import numpy as np
 
 # root = '/home/feiyu1990/local/event_curation/CNN_all_event_google/'
 # root = '/home/feiyu1990/local/event_curation/CNN_all_event_1009/'
-root = '/home/feiyu1990/local/event_curation/CNN_all_event_corrected/'
-# root = '/mnt/ilcompf3d1/user/event_curation/CNN_all_event_vgg/'
+# root = '/home/feiyu1990/local/event_curation/CNN_all_event_corrected/'
+root = '/home/feiyu1990/local/event_curation/CNN_all_event_vgg/'
 
-caffe_root = root + '../../caffe-mine-test/'  # this file is expected to be in {caffe_root}/examples
+caffe_root = '/home/feiyu1990/local/caffe-mine-test/'  # this file is expected to be in {caffe_root}/examples
 import sys
 sys.path.insert(0, caffe_root + 'python')
 import caffe
@@ -23,13 +23,13 @@ dict_subcategory2 = {0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 0, 7: 0, 8: 0, 9: 2,
 def model_creation(model_name, out_name):
         caffe.set_device(1)
         caffe.set_mode_gpu()
-        in_model_name = root + 'python_deploy_siamese_noevent.prototxt'
+        in_model_name = root + 'VGG_deploy_noevent.prototxt'
         in_weight_name = root + 'snapshot/'+model_name
         out_weight_name = root + 'snapshot/' + out_name
         in_net = caffe.Net(in_model_name,
                     in_weight_name,
                     caffe.TEST)
-        out_model_name = root + 'training/train_val_fromnoevent.prototxt'
+        out_model_name = root + 'VGG_train_val_alex_siamese_allevent_fromnoevent.prototxt'
         out_net = caffe.Net(out_model_name,
                     in_weight_name,
                     caffe.TEST)
@@ -152,9 +152,9 @@ def model_creation_twoloss(model_name, out_name):
         out_net.save(out_weight_name)
 
 if __name__ == '__main__':
-    # model_creation('VGG_noevent_iter_90000.caffemodel','VGG_fromnoevent_iter_start_9w.caffemodel')
+    model_creation('VGG_noevent_0.5_iter_100000.caffemodel','VGG_fromnoevent_iter_start_0.5_10w.caffemodel')
     # model_creation_twoloss('segment_noevent_iter_100000.caffemodel','segment_twoloss_fromnoevent_iter_start.caffemodel')
-    model_creation('segment_noevent_iter_100000.caffemodel','segment_fromnoevent_iter_start.caffemodel')
+    # model_creation('segment_noevent_iter_100000.caffemodel','segment_fromnoevent_iter_start.caffemodel')
 
     # model_creation_superclass('segment_noevent_iter_100000.caffemodel')
     # model_creation_fromsuperclass('segment_superevent_iter_20000.caffemodel')

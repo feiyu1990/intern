@@ -21,7 +21,7 @@ from collections import Counter, defaultdict
 #import Bio.Cluster
 # combine_face_model = '_combined_10_fromnoevent.cPickle'
 # combine_face_model = '_sigmoid9_10_segment_fromnoevent_2_iter_100000.cPickle'
-global_permutation_time = 1
+global_permutation_time = 20
 
 
 correct_list = {'5_19479358@N00':'Museum', '38_59616483@N00':'Museum','136_95413346@N00':'Museum',
@@ -67,6 +67,7 @@ dict_name2 = {'ThemePark':1, 'UrbanTrip':2, 'BeachTrip':3, 'NatureTrip':4,
             'BusinessActivity':15, 'Architecture':16, 'Wedding':17, 'Birthday':18, 'Graduation':19, 'Museum':20,'Christmas':21,
             'Halloween':22, 'Protest':23}
 
+dict_name2_reverse = dict([(dict_name2[key], key) for key in dict_name2])
 #this is from affinity clustering (cluster #6)
 dict_subcategory = {0: 0, 1: 0, 2: 0, 3: 0, 4: 1, 5: 0, 6: 3, 7: 4, 8: 4, 9: 2, 10: 4, 11: 3, 12: 4, 13: 4, 14: 4,
                     15: 5, 16: 3, 17: 4, 18: 4, 19: 2, 20: 4, 21: 4, 22: 4}
@@ -601,6 +602,7 @@ class create_cross_validation:
         cPickle.dump(dict_, f)
         f.close()
 
+
 class create_cross_validation_corrected:
     def __init__(self):
         #self.copy_old_to_new()
@@ -1126,6 +1128,7 @@ class create_cross_validation_corrected:
         cPickle.dump(dict_, f)
         f.close()
 
+
 class create_event_recognition(object):
     def __init__(self, folder_name):
         self.folder_name = folder_name
@@ -1494,6 +1497,7 @@ class create_event_recognition(object):
         #     f1.write(i+'\n')
         # f1.close()
 
+
 class create_CNN_training_prototxts(object):
     def __init__(self, threshold, val_name, folder_name, oversample_n = 3, oversample_threshold = 0.3, subsample = False, rate = 0.5, oversample= False):
         self.threshold = threshold
@@ -1636,7 +1640,7 @@ class create_CNN_training_prototxts(object):
         f.write(root + self.folder_name+'validation_' + str(val_id)+'/data/' + self.val_name +'_label.h5')
         f.close()
 
-    def guru_find_valid_examples_all_reallabel_traintest(self, oversample):
+    def guru_find_valid_examples_all_reallabel_traintest(self, oversample=False):
         for event_name in dict_name2:
             f = open(root + 'baseline_all_0509/' + event_name +'/vgg_'+self.val_name+'_result_v2.cPickle','r')
             ground_truth_training = cPickle.load(f)
@@ -1874,6 +1878,7 @@ class create_CNN_training_prototxts(object):
         f = h5py.File(root + self.folder_name+'/data/' +self.val_name+'_label.h5','w')
         f.create_dataset("event_label", data=event_labels)
         f.close()
+
 
 class create_CNN_training_prototxts_face(object):
     def __init__(self, threshold, val_name, folder_name):
@@ -2119,6 +2124,7 @@ class create_CNN_training_prototxts_face(object):
         f.create_dataset("event_label", data=event_labels)
         f.close()
         
+
 class create_CNN_training_prototxts_euclidean(object):
     def __init__(self, val_name, folder_name):
         self.val_name = val_name
@@ -2199,6 +2205,7 @@ class create_CNN_training_prototxts_euclidean(object):
         f = open(root + self.folder_name+'/data/' + self.val_name + '_event_label.txt','w')
         f.write(root + self.folder_name+'/data/' + self.val_name +'_label.h5')
         f.close()
+
 
 class extract_features:
     def __init__(self, net_path, event_name, net_name, model_name, name, blob_names, img_size = (256,256)):
@@ -2761,7 +2768,7 @@ class extract_features:
         #     print '/home/feiyu1990/local/event_curation/'+self.net_path+'/features/'+self.event_name + '_' +self.name+'_sigmoid9_10_'+ self.net_name + '.cPickle already exists!'
         #     return
         imgs = []
-        img_file = '/home/feiyu1990/local/event_curation/baseline_all_0509/'+self.event_name+'/guru_'+self.name+'_path.txt'
+        img_file = '/home/feiyu1990/local/event_curation/baseline_all_correction_multi/'+self.event_name+'/guru_'+self.name+'_path.txt'
         #if name == 'test':
         #    img_file = '/mnt/ilcompf2d0/project/yuwang/event_curation/
         with open(img_file, 'r') as data:
@@ -2835,6 +2842,50 @@ class extract_features:
 
 
         f = open('/home/feiyu1990/local/event_curation/'+self.net_path+'/features/'+self.event_name + '_' +self.name+'_fc7_'+ self.net_name + '.cPickle', 'wb')
+        cPickle.dump(features, f)
+        f.close()
+
+    def extract_feature_10_recognition_traintest_multilabel(self):
+        # if os.path.exists('/home/feiyu1990/local/event_curation/'+self.net_path+'/features/'+self.event_name + '_' +self.name+'_sigmoid9_10_'+ self.net_name + '.cPickle'):
+        #     print '/home/feiyu1990/local/event_curation/'+self.net_path+'/features/'+self.event_name + '_' +self.name+'_sigmoid9_10_'+ self.net_name + '.cPickle already exists!'
+        #     return
+        imgs = []
+        img_file = '/home/feiyu1990/local/event_curation/baseline_all_correction_multi/'+self.event_name+'/guru_'+self.name+'_path.txt'
+        #if name == 'test':
+        #    img_file = '/mnt/ilcompf2d0/project/yuwang/event_curation/
+        with open(img_file, 'r') as data:
+            for line in data:
+                imgs.append(line.split(' ')[0])
+        model_name = '/home/feiyu1990/local/event_curation/'+self.net_path+'/training/' + self.model_name
+        weight_name = '/home/feiyu1990/local/event_curation/'+self.net_path+'/model/' + self.net_name + '.caffemodel'
+        mean_file = np.load('/home/feiyu1990/local/caffe-mine-test/python/caffe/imagenet/ilsvrc_2012_mean.npy')
+        caffe.set_device(0)
+        caffe.set_mode_gpu()
+        img_dims = self.img_size
+        raw_scale = 255
+        channel_swap = (2,1,0)
+        net = caffe.Classifier(model_name, weight_name, image_dims=img_dims, raw_scale = raw_scale, channel_swap = channel_swap)
+
+        features = []
+        count = 0
+        for img in imgs:
+            temp = caffe.io.load_image(img)
+            input_2 = caffe.io.resize_image(temp, (256,256))
+            caffe_in = input_2 - mean_file[(2,1,0)]/255
+            inputs = [caffe_in]
+            out = net.predict(inputs)#,oversample = False)
+            # print out.shape
+            # if out.shape[1] == 23:
+            #     features.append(out[0, dict_name2[self.event_name]-1])
+                # print out
+            # else:
+            features.append(out[0])
+            if count % 100 == 0:
+                print dict_name2[event_name], np.argmax(out[0])
+            #print img, count, out[0, dict_name2[self.event_name]-1]
+            count += 1
+        #for i in xrange(len(blob_names)):
+        f = open('/home/feiyu1990/local/event_curation/'+self.net_path+'/features/'+self.event_name + '_' +self.name+'_predict_'+ self.net_name + '.cPickle','wb')
         cPickle.dump(features, f)
         f.close()
 
@@ -2947,6 +2998,7 @@ class extract_features:
         cPickle.dump(features, f)
         f.close()
 
+
 def extract_feature_aesthetic(event_name):
     img_list = root + 'baseline_all_0509/'+event_name+'/test_image_ids.cPickle'
     f = open(img_list, 'r')
@@ -2984,6 +3036,81 @@ def extract_feature_aesthetic(event_name):
     f = open( root + 'aesthetic/'+event_name + '_aesthetic_score.cPickle','wb')
     cPickle.dump(feature, f)
     f.close()
+
+
+def extract_feature_10_recognition_traintest_fc7(img_file, net_path, model_name, net_name, save_path):
+        imgs = []
+        with open(img_file, 'r') as data:
+            for line in data:
+                imgs.append(line.split(' ')[0])
+        model_name = '/home/feiyu1990/local/event_curation/'+net_path+'/training/' + model_name
+        weight_name = '/home/feiyu1990/local/event_curation/'+net_path+'/model/' + net_name + '.caffemodel'
+        mean_file = np.load('/home/feiyu1990/local/caffe-mine-test/python/caffe/imagenet/ilsvrc_2012_mean.npy')
+        caffe.set_device(0)
+        caffe.set_mode_gpu()
+
+        net = caffe.Net(model_name, weight_name, caffe.TEST)
+
+        transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
+        transformer.set_transpose('data', (2,0,1))
+        transformer.set_raw_scale('data', 255)  # the reference model operates on images in [0,255] range instead of [0,1]
+        transformer.set_channel_swap('data', (2,1,0))  # the reference model has channels in BGR order instead of RGB
+        transformer.set_mean('data', mean_file.mean(1).mean(1))
+        # print net.blobs['data']
+        net.blobs['data'].reshape(1,3,227, 227)
+        features = []
+        count = 0
+        for img in imgs:
+            count += 1
+            net.blobs['data'].data[...] = transformer.preprocess('data', caffe.io.load_image(img))
+            net.forward()
+            a = net.blobs['fc7'].data.copy()
+            if count % 100 == 0:
+                # print img
+                # print np.max(net.blobs['data'].data), np.min(net.blobs['data'].data)
+                print count, a[0]
+            features.append(a[0])
+
+        np.save(save_path, np.array(features))
+
+
+def extract_feature_10_recognition_traintest_multilabel(net_path, model_name_, net_name, img_size):
+    event_prediction_dict = defaultdict(list)
+    for event_name in dict_name2.keys() + ['multi_label']:
+        print event_name
+        imgs = []
+        img_file = '/home/feiyu1990/local/event_curation/baseline_all_correction_multi/'+event_name+'/guru_test_path.txt'
+        with open(img_file, 'r') as data:
+            for line in data:
+                imgs.append(line.split(' ')[0])
+        model_name = '/home/feiyu1990/local/event_curation/'+net_path+'/training/' + model_name_
+        weight_name = '/home/feiyu1990/local/event_curation/'+net_path+'/model/' + net_name + '.caffemodel'
+        mean_file = np.load('/home/feiyu1990/local/caffe-mine-test/python/caffe/imagenet/ilsvrc_2012_mean.npy')
+        caffe.set_device(0)
+        caffe.set_mode_gpu()
+        img_dims = img_size
+        raw_scale = 255
+        channel_swap = (2,1,0)
+        net = caffe.Classifier(model_name, weight_name, image_dims=img_dims, raw_scale = raw_scale, channel_swap = channel_swap)
+
+        with open('/home/feiyu1990/local/event_curation/baseline_all_correction_multi/'+event_name+'/test_image_ids.cPickle') as f:
+            event_img_list = cPickle.load(f)
+        count = 0
+        for img, event_img in zip(imgs, event_img_list):
+            event_this = event_img.split('/')[0]
+            temp = caffe.io.load_image(img)
+            input_2 = caffe.io.resize_image(temp, (256,256))
+            caffe_in = input_2 - mean_file[(2,1,0)]/255
+            inputs = [caffe_in]
+            out = net.predict(inputs)
+            event_prediction_dict[event_this].append(out[0])
+            if count % 100 == 0:
+                print dict_name2[event_name], np.argmax(out[0])
+            count += 1
+    f = open('/home/feiyu1990/local/event_curation/'+net_path+'/features/test_predict_'+ net_name + '_dict.pkl','wb')
+    cPickle.dump(event_prediction_dict, f)
+    f.close()
+
 
 class evaluation:
     def __init__(self, net_path, type, validation_name, val_id, face_type = None):
@@ -3586,6 +3713,34 @@ class evaluation:
         # for i in xrange(len(model_names)):
         #    model_names[i].append(self.evaluate_models[i])
         model_names = [['baseline_all_noblock/', '/'+self.validation_name+'_random_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_00501_0.5_iter_100000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_23_23_VGG_fromnoevent_00501_0.4_iter_100000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_00501_0.1_iter_100000_dict.cPickle']
+            # ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_0.2_5w_iter_30000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_0.2_5w_iter_50000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_0.1_iter_100000_dict.cPickle']
+            # ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_0.1_iter_80000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_0.3_iter_100000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_0.4_iter_100000_dict.cPickle']
+            # ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_0.4_iter_30000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_0.5_iter_100000_dict.cPickle']
+            # ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_fromnoevent_0.5_iter_40000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_noevent_iter_100000_dict.cPickle']
+            # ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_noevent_iter_40000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_segment_iter_100000_dict.cPickle']
+            # ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_segment_iter_50000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_segment_0.3_iter_100000_dict.cPickle']
+            # ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_segment_0.3_iter_40000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_segment_0.5_iter_100000_dict.cPickle']
+            # ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_segment_0.5_iter_40000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_23_23_VGG_segment_00501_0.5_iter_100000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_segment_00501_0.4_iter_100000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_23_23_VGG_segment_00501_0.1_iter_100000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_svm_0.01_iter_100000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_svm_0.1_iter_100000_dict.cPickle']
+            # ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_svm_0.1_iter_50000_dict.cPickle']
+            ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_svm_0.5_iter_100000_dict.cPickle']
+            # ,['CNN_all_event_vgg/features/','_test_sigmoid9_10_VGG_svm_iter_100000_dict.cPickle']
             # # # ,['CNN_all_event_1009/features/','_'+self.validation_name+'_event_joint_sigmoid_dict.cPickle']
             # # # ,['CNN_all_event_1009/features/','_'+self.validation_name+'_event_joint_sigmoid_poly_dict.cPickle']
             # # # ,['CNN_all_event_1009/features/','_'+self.validation_name+'_event_joint_sigmoid_correct_dict.cPickle']
@@ -3634,6 +3789,8 @@ class evaluation:
             #                       # ['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_fc_iter_100000_dic,t.cPickle'],
             #                       ['CNN_all_event_old/features/', '_test_sigmoid9_10_segment_3time_iter_100000_dict.cPickle'],
             #                       ,['CNN_all_event_1009/features/', '_test_combined_new_dict.cPickle']
+                                  # ,['CNN_all_event_1009/features/', '_test_sigmoid9_23_segment_fromnoevent_iter_100000_corrected_dict.cPickle']
+            #                       ,['CNN_all_event_1009/features/', '_test_combined_new_em_100_dict.cPickle']
             #
             #
             #             # ,['CNN_all_event_old/features/','_'+self.validation_name+'_sigmoid9_10_segment_rmsprop_2_iter_100000_dict.cPickle']
@@ -3662,8 +3819,8 @@ class evaluation:
             #             ,['CNN_all_event_1009/features/', '_' + self.validation_name + '_sigmoid9_23_segment_twoloss_fc300_diffweight_0.75_real_iter_200000_dict.cPickle']
             #             ,['CNN_all_event_1009/features/', '_' + self.validation_name + '_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_iter_100000_dict.cPickle']
             #             ,['CNN_all_event_1009/features/', '_' + self.validation_name + '_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_2time_iter_100000_dict.cPickle']
-                        ,['CNN_all_event_1009/features/', '_' + self.validation_name + '_sigmoid9_23_segment_twoloss_diffweight_iter_200000_corrected_dict.cPickle']
-                        # ,['CNN_all_event_1009/features/', '_' + self.validation_name + '_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000_dict.cPickle']
+            #             ,['CNN_all_event_1009/features/', '_' + self.validation_name + '_sigmoid9_23_segment_twoloss_diffweight_iter_200000_corrected_dict.cPickle']
+            #             ,['CNN_all_event_1009/features/', '_' + self.validation_name + '_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000_dict.cPickle']
                         # ,['CNN_all_event_1009/features/', '_' + self.validation_name + '_sigmoid9_23_segment_twoloss_fc300_diffweight_3_real_iter_100000_dict.cPickle']
                         # ,['CNN_all_event_1009/features/', '_' + self.validation_name + '_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000_em_dict.cPickle']
                         # ,['CNN_all_event_1009/features/', '_' + self.validation_name + '_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000_start_dict.cPickle']
@@ -4775,7 +4932,7 @@ class evaluation:
                 try:
                     temp_score += score[i][0][event_index-1]
                 except:
-                    #print score[i]
+                    # print score[i]
                     temp_score += score[i]
             if event_name in prediction_dict:
                 prediction_dict[event_name] += [[name_, test_url_dict[name_], temp_score]]
@@ -4855,8 +5012,9 @@ class evaluation:
         # #                 ,['CNN_all_event_1009/features/','_test_sigmoid9_10_segment_fromnoevent_3_iter_100000.cPickle']
         #                ]
 
-        model_names_to_combine = [['CNN_all_event_1009/features/','_test_sigmoid9_10_segment_twoloss_fc300_diffweight_iter_100000.cPickle'],
-                                  ['CNN_all_event_1009/features/','_test_sigmoid9_10_segment_twoloss_fc300_iter_100000.cPickle']
+        model_names_to_combine = [['CNN_all_event_1009/features/','_test_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_2time_iter_100000.cPickle'],
+                                  ['CNN_all_event_1009/features/','_test_sigmoid9_23_segment_twoloss_fc300_diffweight_real_2time_iter_100000.cPickle'],
+                                  ['CNN_all_event_1009/features/','_test_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000.cPickle']
                                   # ['CNN_all_event_1009/features/', '_test_sigmoid9_10_segment_fc_iter_100000.cPickle'],
                                   # ['CNN_all_event_old/features/', '_test_sigmoid9_10_segment_3time_iter_100000.cPickle']
                        ]
@@ -4941,6 +5099,7 @@ class evaluation:
         temp1 = np.sum(temp, axis=0)
         print [i/len_all for i in temp1]
 
+
 def evaluation_event_recognition(event_name):
     f = open("/home/feiyu1990/local/event_curation/CNN_all_event_1205/features/" + event_name + '_test_predict_event_recognition_iter_100000.cPickle','r')
     prediction = cPickle.load(f)
@@ -4986,6 +5145,7 @@ def evaluation_event_recognition(event_name):
     print 'Thre:', event_name, accuracy_this_new
     return accuracy_this_new, len(temp)
 
+
 def evaluation_event_recognition_peralbum(event_name, threshold):
     f = open("/home/feiyu1990/local/event_curation/CNN_all_event_1205/features/" + event_name + '_test_predict_event_recognition_iter_100000.cPickle','r')
     prediction = cPickle.load(f)
@@ -5028,6 +5188,7 @@ def evaluation_event_recognition_peralbum(event_name, threshold):
 
     # print event_name, accuracy_this
     return accuracy_this, len(temp)
+
 
 def evaluation_event_recognition_peralbum_weighted_groundtruth(event_name, threshold,net_name, oversample = True):
     if oversample:
@@ -5090,6 +5251,7 @@ def evaluation_event_recognition_peralbum_weighted_groundtruth(event_name, thres
     print str_to_print
     print event_name, accuracy_this
     return accuracy_this, len(temp)
+
 
 def evaluation_event_recognition_peralbum_weighted_top2(event_name, threshold,net_name, oversample = True):
     f = open("/home/feiyu1990/local/event_curation/CNN_all_event_1205/features/" + event_name + net_name + '.cPickle','r')
@@ -5155,6 +5317,7 @@ def evaluation_event_recognition_peralbum_weighted_top2(event_name, threshold,ne
     # print str_to_print
     # print event_name, accuracy_this
     return accuracy_this, len(temp)
+
 
 def evaluation_event_recognition_peralbum_weighted_corrected(event_name, threshold,net_name, oversample = True):
     f = open("/home/feiyu1990/local/event_curation/CNN_all_event_1205/features/" + event_name + net_name + '.cPickle','r')
@@ -5225,6 +5388,7 @@ def evaluation_event_recognition_peralbum_weighted_corrected(event_name, thresho
     print str_to_print
     print event_name, accuracy_this
     return accuracy_this, len(temp)
+
 
 def evaluation_event_recognition_peralbum_weighted_corrected_allevent(threshold,net_name, oversample = True):
     confusion_matrix = np.zeros((23, 23))
@@ -5313,6 +5477,7 @@ def evaluation_event_recognition_peralbum_weighted_corrected_allevent(threshold,
         print [int(j) for j in list(confusion_matrix[i,:])]
     print 'Overall accuracy: ', float(np.sum(accuracy_all)) / np.sum(event_len)
 
+
 def evaluation_event_recognition_peralbum_weighted(event_name, threshold,net_name, oversample = True):
     f = open("/home/feiyu1990/local/event_curation/CNN_all_event_1205/features/" + event_name + net_name + '.cPickle','r')
 
@@ -5376,6 +5541,7 @@ def evaluation_event_recognition_peralbum_weighted(event_name, threshold,net_nam
     print event_name, accuracy_this
     return accuracy_this, len(temp)
 
+
 def evaluation_event_recognition_peralbum_noimportance(event_name,net_name, oversample = True):
     f = open("/home/feiyu1990/local/event_curation/CNN_all_event_1205/features/" + event_name + net_name + '.cPickle','r')
     prediction = cPickle.load(f)
@@ -5437,6 +5603,7 @@ def evaluation_event_recognition_peralbum_noimportance(event_name,net_name, over
     for i in prediction_this_type:
         temp1[i] += 1
     return accuracy_this, len(temp), temp1 / len(temp)
+
 
 def evaluation_event_recognition_peralbum_noimportance_corrected(event_name,net_name, oversample = True):
     f = open("/home/feiyu1990/local/event_curation/CNN_all_event_1205/features/" + event_name + net_name + '.cPickle','r')
@@ -5506,6 +5673,7 @@ def evaluation_event_recognition_peralbum_noimportance_corrected(event_name,net_
         temp1[i] += 1
     return accuracy_this, len(temp), temp1 / len(temp)
 
+
 def extract_features_all(img_file_list, model_name, weight_name,blob_name,mean_file,out_file_name, img_dim = 227):
         imgs = []
         with open(img_file_list, 'r') as data:
@@ -5534,6 +5702,7 @@ def extract_features_all(img_file_list, model_name, weight_name,blob_name,mean_f
             f = open(out_file_name,'wb')
             cPickle.dump(features, f)
             f.close()
+
 
 def evaluate_top5image(event_name, model_names, img_n = 1, permuted = ''):
         retval = []
@@ -5569,6 +5738,7 @@ def evaluate_top5image(event_name, model_names, img_n = 1, permuted = ''):
             retval.append([count_all , n_k_all])
             # retval.append(count_all)
         return retval
+
 
 def amt_worker_result_predict_average(event_name, img_n = 5, permuted = ''):
 
@@ -5697,6 +5867,8 @@ def amt_worker_result_predict_average(event_name, img_n = 5, permuted = ''):
             all_n_ks.append(n_ks)
 
         return all_n_ks, all_ps
+
+
 def evaluate_top5image_worker(event_name, img_n = 5, permuted = '', worker_times = 50):
             all_ps = []
             for i in xrange(worker_times):
@@ -5724,6 +5896,8 @@ def evaluate_top5image_worker(event_name, img_n = 5, permuted = '', worker_times
                     mean_ps2[j] += all_ps[i][j][1]
             mean_ps = [mean_ps1[i]/mean_ps2[i] for i in xrange(len(mean_ps1))]
             return mean_ps1[0], mean_ps2[0]
+
+
 def first5_percent(model_names = [['CNN_all_event_1009/features/','_test_combined_10_fromnoevent_2_10w_dict.cPickle'],
                                   ['CNN_all_event_1009/features/','_test_sigmoid9_10_segment_noevent_iter_100000_dict.cPickle'],
                                   ['baseline_all_noblock/', '/test_random_dict.cPickle']]):
@@ -5749,6 +5923,7 @@ def first5_percent(model_names = [['CNN_all_event_1009/features/','_test_combine
         want_all.append(temp[1])
         print event_name, temp
     print np.sum(retrieved_all) / np.sum(want_all)
+
 
 def combine_event_feature_traintest(event_name, importance_path='test_sigmoid9_23_segment_5time_iter_200000', event_path = 'test_predict_event_recognition_iter_100000'):
         # print "HIHIHI"
@@ -5877,6 +6052,8 @@ def combine_event_feature_traintest_2round(event_name, importance_path='23_sigmo
         f = open('/home/feiyu1990/local/event_curation/CNN_all_event_1009/features/'+event_name + '_test_event_joint_fc300_correct2_power2_round2.cPickle','wb')
         cPickle.dump(combined_importance_all, f)
         f.close()
+
+
 def sigmoid(x):
   return 1 / (1 + np.exp(-x))
 
@@ -5949,11 +6126,138 @@ def em_combine_event_recognition_curation_corrected(threshold, threshold_m, poly
 
             # print diff
 
-        f = open(root + 'CNN_all_event_1009/features/'+event_name + event_path + '_em.cPickle', 'w')
+        f = open(root + 'CNN_all_event_1009/features/'+event_name + event_path + '_em_'+str(max_iter)+'.cPickle', 'w')
         cPickle.dump(event_recognition, f)
         f.close()
 
-        f = open(root + 'CNN_all_event_1009/features/' + event_name + importance_path + '_em.cPickle', 'w')
+        f = open(root + 'CNN_all_event_1009/features/' + event_name + importance_path + '_em_'+str(max_iter)+'.cPickle', 'w')
+        cPickle.dump(importance_score, f)
+        f.close()
+    print accuracy_events
+    accuracy_all = float(np.sum([accuracy_events[event_name][-1] for event_name in accuracy_events])) \
+                   / np.sum([event_lengths[event_name] for event_name in event_lengths])
+    print accuracy_all
+
+
+
+def combine_event_recognition_curation_corrected_cheating(threshold=0, importance_path='_test_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000',
+                                          event_path = '_test_predict_event_recognition_expand_balanced_3_iter_100000'):
+    # accuracy_events = defaultdict(list)
+    # event_lengths = dict()
+    for event_name in dict_name2:
+        f = open(root + 'CNN_all_event_1009/features/' + event_name + importance_path + '.cPickle')
+        importance_feature = cPickle.load(f)
+        f.close()
+        f = open(root + 'CNN_all_event_1205/features/' + event_name + event_path + '.cPickle')
+        recognition = cPickle.load(f)
+        f.close()
+
+        path = '/home/feiyu1990/local/event_curation/baseline_all_0509/' + event_name+ '/test_image_ids.cPickle'
+        f = open(path, 'r')
+        all_img_ids = cPickle.load(f)
+        f.close()
+
+        importance_ini = [i[dict_name2[event_name] - 1] for i in importance_feature]
+        print len(importance_ini), len(recognition)
+        # # #initial importance score prediction
+        event_recognition = e_step(importance_ini, recognition, all_img_ids, threshold)
+
+
+
+        f = open(root + 'CNN_all_event_1009/features/'+event_name + event_path + '_cheating.cPickle', 'w')
+        cPickle.dump(event_recognition, f)
+        f.close()
+
+
+
+
+
+def em_combine_event_recognition_curation_corrected_combine(threshold, threshold_m, poly = 1, importance_path='_test_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000',
+                                          event_path = '_test_predict_event_recognition_expand_balanced_3_iter_100000',
+                                          stop_criterion = 0.01, max_iter = 101):
+    accuracy_events = defaultdict(list)
+    event_lengths = dict()
+
+    f = open('/home/feiyu1990/local/event_curation/lstm/data/test_lstm_prediction_img_dict.pkl')
+    lstm_prediction = cPickle.load(f)
+    f.close()
+
+    for event_name in dict_name2:
+        f = open(root + 'CNN_all_event_1009/features/' + event_name + importance_path + '.cPickle')
+        importance_feature = cPickle.load(f)
+        f.close()
+        f = open(root + 'CNN_all_event_1205/features/' + event_name + event_path + '.cPickle')
+        recognition = cPickle.load(f)
+        f.close()
+
+        path = '/home/feiyu1990/local/event_curation/baseline_all_0509/' + event_name+ '/test_image_ids.cPickle'
+        f = open(path, 'r')
+        all_img_ids = cPickle.load(f)
+        f.close()
+
+        count = 0
+        for img_id in all_img_ids:
+            # print importance_feature[count]
+            # print lstm_prediction[img_id]
+            recognition[count] = lstm_prediction[img_id]
+            # recognition[count] /= np.sum(recognition[count])
+            count += 1
+
+        # # #initial importance score prediction
+        # event_recognition_ini = dict()
+        # for i in all_img_ids:
+        #     event_id = i.split('/')[0]
+        #     if event_id not in event_recognition_ini:
+        #         event_recognition_ini[event_id] = np.ones((23,))/23
+        # importance_ini = m_step(importance_feature, event_recognition_ini, all_img_ids)
+        # event_recognition = e_step(importance_ini, recognition, all_img_ids, threshold)
+        # importance_score = m_step(importance_feature, event_recognition, all_img_ids)
+
+
+        # #initialization of \theta
+        importance_ini = np.ones((len(recognition),))
+        event_recognition = e_step(importance_ini, recognition, all_img_ids, threshold, poly)
+        event_lengths[event_name] = len(event_recognition)
+        accuracy_this = []
+        for event_id in event_recognition:
+            if event_id in correct_list:
+                # print event_id
+                accuracy_this.append(np.argmax(event_recognition[event_id]) == dict_name2[correct_list[event_id]] - 1)
+            else:
+                accuracy_this.append(np.argmax(event_recognition[event_id]) == dict_name2[event_name] - 1)
+
+
+        accuracy_events[event_name].append(np.sum(accuracy_this))
+
+        importance_score = m_step(importance_feature, event_recognition, all_img_ids, threshold_m)
+
+        diff = np.sum(np.abs(np.array(importance_score) - importance_ini))
+        iter = 0
+        while diff > stop_criterion: #* len(importance_score):
+            iter += 1
+            if iter >= max_iter:
+                break
+            # threshold_m = (float(iter) / max_iter) ** 0.5
+            event_recognition = e_step(importance_score, recognition, all_img_ids, threshold, poly)
+
+            accuracy_this = []
+            for event_id in event_recognition:
+                if event_id in correct_list:
+                   accuracy_this.append(np.argmax(event_recognition[event_id]) == dict_name2[correct_list[event_id]] - 1)
+                else:
+                    accuracy_this.append(np.argmax(event_recognition[event_id]) == dict_name2[event_name] - 1)
+            accuracy_events[event_name].append(np.sum(accuracy_this))
+            importance_score_new = m_step(importance_feature, event_recognition, all_img_ids, threshold_m)
+            diff = np.sum(np.abs(np.array(importance_score) - np.array(importance_score_new)))
+            importance_score = importance_score_new
+
+            # print diff
+
+        f = open(root + 'CNN_all_event_1009/features/'+event_name + event_path + '_lstm_img_em_'+str(max_iter)+'.cPickle', 'w')
+        cPickle.dump(event_recognition, f)
+        f.close()
+
+        f = open(root + 'CNN_all_event_1009/features/' + event_name + importance_path + '_lstm_img_em_'+str(max_iter)+'.cPickle', 'w')
         cPickle.dump(importance_score, f)
         f.close()
     print accuracy_events
@@ -6029,6 +6333,7 @@ def em_combine_event_recognition_curation(threshold, threshold_m, poly = 1, impo
                    / np.sum([event_lengths[event_name] for event_name in event_lengths])
     print accuracy_all
 
+
 def e_step(importance_feature, img_recognition, all_img_ids, threshold = 0, poly = 1):
     event_recognition = dict()
     last_event_id = ''
@@ -6045,6 +6350,7 @@ def e_step(importance_feature, img_recognition, all_img_ids, threshold = 0, poly
         event_recognition[event_id] /= np.sum(event_recognition[event_id])
 
     return event_recognition
+
 
 def m_step(importance_feature, event_recognition, all_img_ids, threshold_1 = 0.8):
     importance_out_all = []; importance_out = []
@@ -6071,21 +6377,179 @@ def m_step(importance_feature, event_recognition, all_img_ids, threshold_1 = 0.8
     return importance_out_all
 
 
+def lstm_recognition():
+    prediction = np.load(root + 'lstm/data/test_lstm_prediction_oversample_50_alltraining.npy')
+    with open(root + 'lstm/data/test_event_img_dict.pkl') as f:
+        test_event_img_dict = cPickle.load(f)
+    event_prediction_dict = dict()
+
+    # with open(root + 'lstm/data/test_imdb.pkl') as f:
+    #     lstm_test_feature, lstm_test_label = cPickle.load(f)
+
+    count = 0
+    for event_id in test_event_img_dict:
+        event_prediction_dict[event_id] = prediction[count]
+        count += 1
+    confusion_matrix = np.zeros((23, 23), dtype=float)
+    for event_type in dict_name2:
+        with open(root + 'baseline_all_0509/' + event_type + '/test_event_id.cPickle') as f:
+            test_event_id = cPickle.load(f)
+        for event in test_event_id:
+            predict_ = np.argmax(event_prediction_dict[event])
+            if event in correct_list:
+                ground_ = dict_name2[correct_list[event]] - 1
+            else:
+                ground_ = dict_name2[event_type] - 1
+            # print ground_, predict_
+            confusion_matrix[ground_, predict_] += 1
+    accuracy = float(np.trace(confusion_matrix)) / len(test_event_img_dict)
+    for i in xrange(23):
+        # confusion_matrix[i,:] /= np.sum(confusion_matrix[i,:])
+        print [int(j) for j in list(confusion_matrix[i,:])]
+    print 'Overall accuracy:', accuracy
+
+
+def combine_lstm_cnn_result(poly):
+    cnn_result_dict = dict()
+    for event_name in dict_name2:
+        with open(root + 'CNN_all_event_1009/features/' + event_name +
+                          '_test_predict_event_recognition_expand_balanced_3_iter_100000_em_99.cPickle') as f:
+            temp = cPickle.load(f)
+        for i in temp:
+            cnn_result_dict[i] = temp[i] ** poly
+    with open(root + 'lstm/data/test_lstm_prediction_oversample_50_alltraining_prediction_dict.pkl') as f:
+        lstm_result = cPickle.load(f)
+    for event_id in lstm_result:
+        cnn_result_dict[event_id] += lstm_result[event_id] ** poly
+
+    with open(root + 'lstm/data/test_combine_lstm_em_prediction_dict.pkl', 'w') as f:
+        cPickle.dump(cnn_result_dict, f)
+
+    confusion_matrix = np.zeros((23, 23), dtype=float)
+    for event_type in dict_name2:
+        with open(root + 'baseline_all_0509/' + event_type + '/test_event_id.cPickle') as f:
+            test_event_id = cPickle.load(f)
+        for event in test_event_id:
+            predict_ = np.argmax(cnn_result_dict[event])
+            if event in correct_list:
+                ground_ = dict_name2[correct_list[event]] - 1
+            else:
+                ground_ = dict_name2[event_type] - 1
+            # print ground_, predict_
+            confusion_matrix[ground_, predict_] += 1
+    accuracy = float(np.trace(confusion_matrix)) / len(cnn_result_dict)
+    for i in xrange(23):
+        # confusion_matrix[i,:] /= np.sum(confusion_matrix[i,:])
+        print([int(j) for j in list(confusion_matrix[i, :])])
+    print('Overall accuracy:', accuracy)
+
+
+def create_confusion_matrix():
+    cnn_result_dict = dict()
+    for event_name in dict_name2:
+        with open(root + 'CNN_all_event_1009/features/' + event_name +
+                          # '_test_predict_event_recognition_expand_balanced_3_iter_100000_em_99.cPickle') as f:
+                          # '_test_predict_event_recognition_expand_balanced_3_iter_100000_lstm_img_combine_em_9.cPickle') as f:
+                          '_test_recognition_lstm_prediction_em_combine_dict.pkl') as f:
+            temp = cPickle.load(f)
+        for i in temp:
+            cnn_result_dict[i] = temp[i]
+        # with open(root + 'CNN_all_event_1009/features/' + event_name +
+        #                   '_test_predict_event_recognition_expand_balanced_3_iter_100000_lstm_img_combine_em_9.cPickle') as f:
+        #     temp = cPickle.load(f)
+        # for i in temp:
+        #     cnn_result_dict[i] *= temp[i]
+
+    confusion_matrix = np.zeros((23, 23), dtype=float)
+    for event_type in dict_name2:
+        with open(root + 'baseline_all_0509/' + event_type + '/test_event_id.cPickle') as f:
+            test_event_id = cPickle.load(f)
+        for event in test_event_id:
+            predict_ = np.argmax(cnn_result_dict[event])
+            if event in correct_list:
+                ground_ = dict_name2[correct_list[event]] - 1
+            else:
+                ground_ = dict_name2[event_type] - 1
+            # print ground_, predict_
+            confusion_matrix[ground_, predict_] += 1
+    accuracy = float(np.trace(confusion_matrix)) / len(cnn_result_dict)
+    for i in xrange(23):
+        # confusion_matrix[i,:] /= np.sum(confusion_matrix[i,:])
+        print([int(j) for j in list(confusion_matrix[i, :])])
+    print('Overall accuracy:', accuracy)
+
+def cross_entropy_loss():
+    pass
+
+def create_confusion_matrix_multi():
+    cnn_result_dict = dict()
+    for event_name in dict_name2:
+        with open(root + 'CNN_all_event_1009/features/' + event_name +
+                          # '_test_sigmoid9_23_segment_twoloss_fc300_diffweight_2_real_3time_iter_100000_em_99.cPickle') as f:
+                          # '_test_predict_event_recognition_expand_balanced_3_iter_100000_em_99.cPickle') as f:
+                          # '_test_predict_event_recognition_expand_balanced_3_iter_100000_lstm_img_combine_em_9.cPickle') as f:
+                          '_test_recognition_lstm_prediction_em_combine_dict.pkl') as f:
+                          # '_test_predict_event_recognition_expand_balanced_3_iter_100000_cheating.cPickle') as f:
+            temp = cPickle.load(f)
+        for i in temp:
+            cnn_result_dict[i] = temp[i]
+
+    confusion_matrix = np.zeros((23, 23), dtype=float)
+    count = 0
+    for event_type in dict_name2:
+        # with open(root + 'baseline_all_correction_multi/' + event_type + '/test_event_id.cPickle') as f:
+        with open(root + 'baseline_all_correction_multi/' + event_type + '/test_event_id.cPickle') as f:
+            test_event_id = cPickle.load(f)
+        for event in test_event_id:
+            count += 1
+            predict_ = np.argmax(cnn_result_dict[event])
+            # if event in correct_list:
+            #     ground_ = dict_name2[correct_list[event]] - 1
+            # else:
+            ground_ = dict_name2[event_type] - 1
+            # print ground_, predict_
+            confusion_matrix[ground_, predict_] += 1
+
+    event_type = 'multi_label'
+    with open(root + 'baseline_all_correction_multi/' + event_type + '/test_event_id.cPickle') as f:
+        test_event_id = cPickle.load(f)
+    for event, event_type in test_event_id:
+        count += 1
+        predict_ = np.argmax(cnn_result_dict[event])
+        event_type_n = [dict_name2[i[0]] - 1 for i in event_type]
+        if predict_ in event_type_n:
+            confusion_matrix[predict_, predict_] += 1
+        else:
+            print event, event_type, dict_name2_reverse[predict_ + 1]
+            ground_ = [dict_name2[event_type[0][0]] - 1]
+            confusion_matrix[ground_, predict_] += 1
+
+    accuracy = float(np.trace(confusion_matrix)) / count
+    for i in xrange(23):
+        # confusion_matrix[i,:] /= np.sum(confusion_matrix[i,:])
+        print([int(j) for j in list(confusion_matrix[i, :])])
+    print('Overall accuracy:', accuracy)
+    print count
 
 if __name__ == '__main__':
     itera = '_10w'
     combine_face_model = '_combined_10_fromnoevent_2_10w.cPickle'
     noqual_name = '_noqual'
-    TIE = True
+    TIE = False
+    # extract_feature_10_recognition_traintest_fc7('/home/feiyu1990/local/event_curation/lstm/new_training_img_list.txt',
+    #                                              'CNN_all_event_1205',
+    #                                              'deploy_fc7.prototxt',
+    #                                              'event_recognition_expand_balanced_3_iter_100000',
+    #                                              '/home/feiyu1990/local/event_curation/lstm/new_training_img_feature.npy')
     # TIE = False
     # for event_name in dict_name2:
     #     combine_event_feature_traintest_2round(event_name, threshold = 0.2)
     #     combine_event_feature_traintest(event_name)
     #
     for event_name in dict_name2:
-        a = extract_features('CNN_all_event_1205', event_name, 'event_recognition_expand_balanced_3_iter_100000','deploy_fc7.prototxt','test', None, 227)
-        a.extract_feature_10_recognition_traintest_fc7()
-        # a = extract_features('CNN_all_event_1205', event_name, 'event_recognition_expand_balanced_3_corrected_iter_100000','deploy.prototxt','test', None, (256, 256))
+    #     a = extract_features('CNN_all_event_1205', event_name, 'multilabel_event_recognition_expand_balanced_3_iter_40000','deploy_fc7.prototxt','test', None, 227)
+    #     a.extract_feature_10_traintest()
+        # a = extract_features('CNN_all_event_1205', event_name, 'multilabel_event_recognition_expand_balanced_3_iter_40000','deploy.prototxt','test', None, (256, 256))
         # a.extract_feature_10_recognition_traintest()
     #     a = extract_features('CNN_all_event_1205', event_name, 'event_recognition_expand_3_equal_iter_10000','deploy.prototxt','test', None, (256, 256))
     #     a.extract_feature_10_recognition_traintest()
@@ -6111,7 +6575,7 @@ if __name__ == '__main__':
         # a.extract_feature_10_23_traintest()
         # a = extract_features('CNN_all_event_1009', event_name, 'segment_fromnoevent_twoloss_fc300_iter_100000','python_deploy_siamese_twoloss.prototxt','test', None, (256, 256))
         # a.extract_feature_10_23_traintest()
-        # a = extract_features('CNN_all_event_1009', event_name, 'segment_5time_iter_200000','python_deploy_siamese_new.prototxt','test', None, (256, 256))
+        # a = extract_features('CNN_all_event_1009', event_name, 'segment_fromnoevent_iter_100000_corrected','python_deploy_siamese_old.prototxt','test', None, (256, 256))
         # a.extract_feature_10_23_traintest()
     #     a = extract_features('CNN_all_event_1009', event_name, 'segment_adadelta_iter_100000','python_deploy_siamese_new.prototxt','test', None, (256, 256))
     #     a.extract_feature_10_23_traintest()
@@ -6123,6 +6587,12 @@ if __name__ == '__main__':
     #     a.extract_feature_10_23_traintest()
     #     a = extract_features('CNN_all_event_1009', event_name, 'segment_fc_iter_190000','python_deploy_siamese_fc300.prototxt','test', None, (256, 256))
     #     a.extract_feature_10_23_traintest()
+
+        a = extract_features('CNN_all_event_vgg', event_name, 'VGG_noevent_0.5_iter_100000.caffemodel','VGG_deploy_noevent.prototxt','test', None, (256, 256))
+        a.extract_feature_10_23_traintest()
+        a = extract_features('CNN_all_event_vgg', event_name, 'VGG_segment_0.5_2time_iter_100000.caffemodel','VGG_deploy_segment.prototxt','test', None, (256, 256))
+        a.extract_feature_10_23_traintest()
+
     #
     # a = evaluation('CNN_all_event_1009','combine', 'test',0)
     # a = create_event_recognition('CNN_all_event_1205')
@@ -6179,24 +6649,46 @@ if __name__ == '__main__':
 
     # for poly in xrange(1, 20):
     # for threshold_m in xrange(0, 11):
-    # # # threshold = 0.5
-    #     poly = 9
-    #     # threshold_m = 10
-    #     em_combine_event_recognition_curation_corrected(0, float(threshold_m) / 10, float(poly)/10, max_iter=100,
-    #                                                     importance_path='_test_combined_new')#,
-    #                                                     # event_path='_test_predict_event_recognition_expand_balanced_3_corrected_iter_100000')
+    # # threshold = 0.5
+
+    # poly = 9
+    # threshold_m = 10
+    # em_combine_event_recognition_curation_corrected(0, float(threshold_m) / 10, float(poly)/10, max_iter=99)
+                                                        # importance_path='_test_sigmoid9_23_segment_twoloss_fc300_diffweight_real_2time_iter_100000')#,
+                                                        # event_path='_test_predict_event_recognition_expand_balanced_3_corrected_iter_100000')
     #     # accuracy = 0;len_all = 0
 
 
     # a = evaluation('CNN_all_event_1009','worker', 'test',0)
     # for event_name in dict_name2:
     #     a.create_predict_dict_from_cpickle_multevent('test', event_name, '/home/feiyu1990/local/event_curation/CNN_all_event_1205/features/'+event_name+'_test_predict_event_recognition_expand_balanced_3_corrected_iter_100000', -np.Inf, multi_event=False)
+    #
+    # lstm_recognition()
+    # for poly in xrange(1, 15):
+    # combine_lstm_cnn_result(1)
+
+    # combine_event_recognition_curation_corrected_cheating()
+    # create_confusion_matrix_multi()
+    # poly = 9
+    # threshold_m = 10
+    # em_combine_event_recognition_curation_corrected_combine(0, float(threshold_m) / 10, float(poly)/10, max_iter=1)
 
 
+    # with open(root + 'lstm/data/test_lst_prediction_dict.pkl') as f:
+    #     lstm_result = cPickle.load(f)
+    # for event_name in dict_name2:
+    #     cnn_result_dict = dict()
+    #     with open(root + 'CNN_all_event_1009/features/' + event_name +
+    #                       '_test_predict_event_recognition_expand_balanced_3_iter_100000_em_99.cPickle') as f:
+    #         temp = cPickle.load(f)
+    #     for i in temp:
+    #         cnn_result_dict[i] = (temp[i] ** 2) + (lstm_result[i] ** 2)
+    #     with open(root + 'CNN_all_event_1009/features/' + event_name + '_test_recognition_lstm_prediction_em_combine_dict.pkl', 'w') as f:
+    #         cPickle.dump(cnn_result_dict, f)
+#
+    # extract_feature_10_recognition_traintest_multilabel('CNN_all_event_1205', 'deploy.prototxt', 'multilabel_event_recognition_expand_balanced_3_iter_40000', (256, 256))
 
 
-
-
-
+        # a = extract_features('CNN_all_event_1205', event_name, 'multilabel_event_recognition_expand_balanced_3_iter_40000','deploy.prototxt','test', None, (256, 256))
 
 

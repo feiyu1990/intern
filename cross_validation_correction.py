@@ -10,7 +10,7 @@ import copy
 caffe_root = '/home/feiyu1990/local/caffe-mine-test/'  # this file is expected to be in {caffe_root}/examples
 import sys
 sys.path.insert(0, caffe_root + 'python')
-import caffe
+# import caffe
 import re
 import operator
 import scipy.stats
@@ -20,6 +20,10 @@ from collections import Counter, defaultdict
 # combine_face_model = '_combined_10_fromnoevent.cPickle'
 # combine_face_model = '_sigmoid9_10_segment_fromnoevent_2_iter_100000.cPickle'
 global_permutation_time = 1
+ground_truth_dict_name = 'new_multiple_result_2round_removedup_vote.pkl'
+baseline_name = 'baseline_all_correction_removedup_vote/'
+# baseline_name = 'baseline_all_0509/'
+
 
 dict_name = {'Theme park':'ThemePark', 'Urban/City trip':'UrbanTrip', 'Beach trip':'BeachTrip', 'Nature trip':'NatureTrip',
              'Zoo/Aquarium/Botanic garden':'Zoo','Cruise trip':'Cruise','Show (air show/auto show/music show/fashion show/concert/parade etc.)':'Show',
@@ -52,7 +56,8 @@ correct_list = {'5_19479358@N00':'Museum', '38_59616483@N00':'Museum','136_95413
 
 block_workers = ['A3U0FX9MF8C6RU','A2NJAHKIJQXPCI']
 root = '/home/feiyu1990/local/event_curation/'
-baseline_name = 'baseline_all_correction/'
+# root = '/mnt/ilcompf3d1/user/yuwang/event_curation/'
+
 
 dict_name = {'Theme park':'ThemePark', 'Urban/City trip':'UrbanTrip', 'Beach trip':'BeachTrip', 'Nature trip':'NatureTrip',
              'Zoo/Aquarium/Botanic garden':'Zoo','Cruise trip':'Cruise','Show (air show/auto show/music show/fashion show/concert/parade etc.)':'Show',
@@ -545,6 +550,817 @@ class create_cross_validation_corrected:
                     line_count += 1
         f.close()
 
+class create_cross_validation_corrected_2round_nomulti:
+    def __init__(self):
+        self.training_test_correction()
+        self.curation_csv_correction()
+        self.correct_amt_result()
+        self.create_new_result()
+        self.create_url_dict()
+        for name in dict_name2.keys():
+            self.create_csv_traintest(name)
+    @staticmethod
+    def training_test_correction():
+        events_training = defaultdict(list)
+        events_imgs_training = defaultdict(list)
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/training_event_id.cPickle')
+            event_ids = cPickle.load(f)
+            f.close()
+            f = open(root + 'baseline_all_0509/' + event_name + '/training_image_ids.cPickle')
+            img_ids = cPickle.load(f)
+            f.close()
+            for img in img_ids:
+                event_this = img.split('/')[0]
+                events_imgs_training[event_this].append(img)
+            for event_this in event_ids:
+                if event_this in correct_list:
+                    events_training[correct_list[event_this]].append(event_this)
+                else:
+                    events_training[event_name].append(event_this)
+
+        events_test = defaultdict(list)
+        events_imgs_test = defaultdict(list)
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/test_event_id.cPickle')
+            event_ids = cPickle.load(f)
+            f.close()
+            f = open(root + 'baseline_all_0509/' + event_name + '/test_image_ids.cPickle')
+            img_ids = cPickle.load(f)
+            f.close()
+            for img in img_ids:
+                event_this = img.split('/')[0]
+                events_imgs_test[event_this].append(img)
+            for event_this in event_ids:
+                if event_this in correct_list:
+                    events_test[correct_list[event_this]].append(event_this)
+                else:
+                    events_test[event_name].append(event_this)
+
+
+        for event_name in events_training:
+            print event_name, len(events_training[event_name]) + len(events_test[event_name])
+
+        for event_name in dict_name2:
+            if not os.path.exists(root + baseline_name + event_name):
+                os.mkdir(root + baseline_name + event_name)
+            f = open(root +baseline_name + event_name + '/training_event_id.cPickle', 'w')
+            cPickle.dump(events_training[event_name], f)
+            f.close()
+            f = open(root + baseline_name + event_name + '/test_event_id.cPickle', 'w')
+            cPickle.dump(events_test[event_name], f)
+            f.close()
+
+            f = open(root + baseline_name + event_name + '/training_image_ids.cPickle','w')
+            img_ids = []
+            for event_id in events_training[event_name]:
+                img_ids.extend(events_imgs_training[event_id])
+            cPickle.dump(img_ids, f)
+            f.close()
+            f = open(root + baseline_name + event_name + '/test_image_ids.cPickle','w')
+            img_ids = []
+            for event_id in events_test[event_name]:
+                img_ids.extend(events_imgs_test[event_id])
+            cPickle.dump(img_ids, f)
+            f.close()
+
+        training_paths_dict = defaultdict(list)
+        for event_name in dict_name2:
+            in_path = root + 'baseline_all_0509/' + event_name + '/guru_training_path.txt'
+            with open(in_path, 'r') as data:
+                for line in data:
+                    img_id = ('/').join(line.split('.')[0].split('/')[-2:])
+                    training_paths_dict[img_id] = event_name
+
+        for event_name in dict_name2:
+            f = open(root + baseline_name + event_name + '/training_image_ids.cPickle','r')
+            img_ids = cPickle.load(f)
+            f.close()
+
+            out_path = root + baseline_name + event_name + '/guru_training_path.txt'
+            f = open(out_path, 'w')
+            for img_id in img_ids:
+                img_id_this = img_id.split('_')[1]
+                f.write('/home/feiyu1990/local/event_curation/curation_images/' + training_paths_dict[img_id_this] + '/' + img_id_this + '.jpg 0\n')
+            f.close()
+
+        test_paths_dict = defaultdict(list)
+        for event_name in dict_name2:
+            in_path = root + 'baseline_all_0509/' + event_name + '/guru_test_path.txt'
+            with open(in_path, 'r') as data:
+                for line in data:
+                    img_id = ('/').join(line.split('.')[0].split('/')[-2:])
+                    test_paths_dict[img_id] = event_name
+
+        for event_name in dict_name2:
+            f = open(root + baseline_name + event_name + '/test_image_ids.cPickle','r')
+            img_ids = cPickle.load(f)
+            f.close()
+
+            out_path = root + baseline_name + event_name + '/guru_test_path.txt'
+            f = open(out_path, 'w')
+            for img_id in img_ids:
+                img_id_this = img_id.split('_')[1]
+                f.write('/home/feiyu1990/local/event_curation/curation_images/' + test_paths_dict[img_id_this] + '/' + img_id_this + '.jpg 0\n')
+            f.close()
+    @staticmethod
+    def curation_csv_correction():
+        events_imgs = defaultdict(list)
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/training_image_ids.cPickle')
+            img_ids = cPickle.load(f)
+            f.close()
+            for img in img_ids:
+                event_this = img.split('/')[0]
+                events_imgs[event_this].append(img)
+            f = open(root + 'baseline_all_0509/' + event_name + '/test_image_ids.cPickle')
+            img_ids = cPickle.load(f)
+            f.close()
+            for img in img_ids:
+                event_this = img.split('/')[0]
+                events_imgs[event_this].append(img)
+
+        input_and_answers = {}
+        csv_list = [
+                    root + '0208_correction/all_input_and_result/result_curation_amt_1round.csv',
+                    root + '0208_correction/all_input_and_result/result_curation_amt_2round.csv']
+        for input_path in csv_list:
+            line_count = 0
+            head_meta = []
+            HITs = {}
+            with open(input_path, 'r') as data:
+                reader = csv.reader(data)
+                # reader = csv.reader(data, dialect=csv.excel_tab)
+                for meta in reader:
+                    if line_count == 0:
+                        head_meta = meta
+                    elif meta[0] not in HITs:
+                        HITs[meta[0]] = [meta]
+                    else:
+                        HITs[meta[0]].append(meta)
+                    line_count+=1
+
+            image_input_index = {}
+            image_output_index = {}
+            i = 0
+            index_num_image = -np.Inf
+            index_event_id = -np.Inf
+            index_distraction = -np.Inf
+            index_worker_id = -np.Inf
+            for field in head_meta:
+                if field.startswith('Input.image'):
+                    image_input_index[int(field[11:])] = i
+                if field.startswith('Answer.image'):
+                    image_output_index[int(field[12:])] = i
+                if field.startswith('Input.distraction_num'):
+                    index_distraction = i
+                if field.startswith('Input.num_image'):
+                    index_num_image = i
+                if field.startswith('Input.event_id'):
+                    index_event_id = i
+                if field.startswith('WorkerId'):
+                    index_worker_id = i
+                i += 1
+
+            for HITId in HITs:
+                this_hit = HITs[HITId]
+                num_images = int(this_hit[0][index_num_image])
+                distract_image = this_hit[0][index_distraction]
+                event_id = this_hit[0][index_event_id]
+                input_and_answers[event_id] = []
+                print event_id
+                [distract1, distract2] = distract_image.split(':')
+                distract1 = int(distract1)
+                distract2 = int(distract2)
+                this_hit_new = []
+                for submission in this_hit:
+                    if submission[index_worker_id] not in block_workers:
+                        this_hit_new.append(submission)
+                num_valid_submission = len(this_hit_new)
+                ii = 0
+                for i in xrange(1, 1+num_images):
+                    if i==distract1 or i==distract2:
+                        continue
+                    score = 0
+                    image_index = image_input_index[i]
+                    score_index = image_output_index[i]
+                    image_url = this_hit_new[0][image_index]
+                    for submission in this_hit_new:
+                        vote = submission[score_index]
+                        if vote == 'selected':
+                            score += 2
+                        elif vote == 'selected_sw':
+                            score += 1
+                        elif vote == 'selected_irrelevant':
+                            score -= 2
+                    score = float(score)/float(num_valid_submission)
+                    input_and_answers[event_id].append((image_url, events_imgs[event_id][ii], score))
+                    ii += 1
+
+        f = open(root  +baseline_name+ '/correction_result_12round_v1.cPickle','wb')
+        cPickle.dump(input_and_answers, f)
+        f.close()
+    @staticmethod
+    def correct_amt_result():
+        f = open(root + baseline_name +'/correction_result_12round_v1.cPickle','r')
+        input_and_answers = cPickle.load(f)
+        f.close()
+        remove_list = []
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/'+event_name+'/vgg_training_similar_list.cPickle','r')
+            remove_list.extend(cPickle.load(f))
+            f.close()
+            f = open(root + 'baseline_all_0509/'+event_name+'/vgg_test_similar_list.cPickle','r')
+            remove_list.extend(cPickle.load(f))
+            f.close()
+        print len(remove_list)
+
+        remove_list_split = {}
+        for i in remove_list:
+            event_id = i[0].split('/')[0]
+            if event_id in remove_list_split:
+                remove_list_split[event_id].append(i)
+            else:
+                remove_list_split[event_id] = [i]
+
+        for event in input_and_answers:
+            images = input_and_answers[event]
+            if event not in remove_list_split:
+                continue
+            similar_list = remove_list_split[event]
+            i = 0
+
+            for index in xrange(len(images)):
+                image =images[index]
+                img_id = image[1]
+                if img_id != similar_list[i][0]:
+                    continue
+                this_group = similar_list[i]
+                length = len(this_group)
+                this_group_score = []
+                for k in xrange(length):
+                    this_group_score.append(images[index+k][2])
+                score = max(this_group_score)
+                for k in xrange(length):
+                    input_and_answers[event][index+k] = (images[index+k][0],images[index+k][1], score)
+
+        f = open(root + baseline_name +'/correction_result_12round_v2.cPickle','wb')
+        cPickle.dump(input_and_answers, f)
+        f.close()
+        training_scores_dict = {}
+        for event in input_and_answers:
+            for img in input_and_answers[event]:
+                training_scores_dict[img[1]] = img[2]
+        f = open(root + baseline_name +'/correction_result_12round_dict_v2.cPickle', 'wb')
+        cPickle.dump(training_scores_dict,f)
+        f.close()
+    @staticmethod
+    def create_new_result():
+        all_event_and_score = dict()
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/vgg_training_result_v2.cPickle','r')
+            temp1 = cPickle.load(f)
+            all_event_and_score.update(temp1)
+            f.close()
+            f = open(root + 'baseline_all_0509/' + event_name + '/vgg_test_result_v2.cPickle','r')
+            temp2 = cPickle.load(f)
+            all_event_and_score.update(temp2)
+            f.close()
+            print event_name, len(temp1), len(temp2)
+            print len(all_event_and_score)
+
+        f = open(root + baseline_name +'/correction_result_12round_v2.cPickle', 'r')
+        training_scores_correction = cPickle.load(f)
+        f.close()
+
+        for event_id in training_scores_correction:
+            print event_id
+            all_event_and_score[event_id] = training_scores_correction[event_id]
+        with open(root + baseline_name +'/correction_result_all_v2.pkl', 'w') as f:
+            cPickle.dump(all_event_and_score, f)
+
+        print len(all_event_and_score)
+        for event_name in dict_name2:
+            event_and_score_this = dict()
+            f = open(root + baseline_name +'/' + event_name + '/training_event_id.cPickle', 'r')
+            events_training = cPickle.load(f)
+            f.close()
+            for event in events_training:
+                event_and_score_this[event] = all_event_and_score[event]
+            f = open(root + baseline_name +'/' + event_name + '/vgg_training_result_v2.cPickle', 'w')
+            cPickle.dump(event_and_score_this, f)
+            f.close()
+
+            training_scores_dict = {}
+            for event in event_and_score_this:
+                for img in event_and_score_this[event]:
+                    training_scores_dict[img[1]] = img[2]
+            f = open(root + baseline_name +'/'+event_name+'/vgg_training_result_dict_v2.cPickle', 'wb')
+            cPickle.dump(training_scores_dict,f)
+            f.close()
+        for event_name in dict_name2.keys():
+            event_and_score_this = dict()
+            f = open(root + baseline_name +'/' + event_name + '/test_event_id.cPickle', 'r')
+            events_test = cPickle.load(f)
+            f.close()
+            for event in events_test:
+                try:
+                    event_and_score_this[event] = all_event_and_score[event]
+                except:
+                    event_and_score_this[event[0]] = all_event_and_score[event[0]]
+            f = open(root + baseline_name +'/' + event_name + '/vgg_test_result_v2.cPickle', 'w')
+            cPickle.dump(event_and_score_this, f)
+            f.close()
+
+            test_scores_dict = {}
+            for event in event_and_score_this:
+                for img in event_and_score_this[event]:
+                    test_scores_dict[img[1]] = img[2]
+            f = open(root + baseline_name +'/'+event_name+'/vgg_test_result_dict_v2.cPickle', 'wb')
+            cPickle.dump(test_scores_dict,f)
+            f.close()
+    @staticmethod
+    def create_url_dict():
+        url_dict_all = dict()
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/training_ulr_dict.cPickle','r')
+            temp1 = cPickle.load(f)
+            url_dict_all.update(temp1)
+            f.close()
+        f = open(root + baseline_name + 'training_ulr_dict.cPickle','w')
+        cPickle.dump(url_dict_all, f)
+        f.close()
+        url_dict_all = dict()
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/test_ulr_dict.cPickle','r')
+            temp1 = cPickle.load(f)
+            url_dict_all.update(temp1)
+            f.close()
+        f = open(root + baseline_name + 'test_ulr_dict.cPickle','w')
+        cPickle.dump(url_dict_all, f)
+        f.close()
+    @staticmethod
+    def create_csv_traintest(name):
+            input_path = root + 'all_output/all_output_corrected_2round.csv'
+            f = open(root + baseline_name+name+'/test_event_id.cPickle','r')
+            event_ids = cPickle.load(f)
+            f.close()
+            f = open(root + baseline_name+name+'/test.csv','wb')
+            writer = csv.writer(f)
+            line_count = 0
+            with open(input_path, 'rb') as data:
+                    reader = csv.reader(data)
+                    for meta in reader:
+                        if line_count == 0:
+                            writer.writerow(meta)
+                        else:
+                            if meta[28] in event_ids:
+                                writer.writerow(meta)
+                        line_count += 1
+            f.close()
+
+            f = open(root + baseline_name +name+'/training_event_id.cPickle','r')
+            event_ids = cPickle.load(f)
+            f.close()
+            f = open(root + baseline_name +name+'/training.csv','wb')
+            writer = csv.writer(f)
+            line_count = 0
+            with open(input_path, 'rb') as data:
+                    reader = csv.reader(data)
+                    for meta in reader:
+                        if line_count == 0:
+                            writer.writerow(meta)
+                        else:
+                            if meta[28] in event_ids:
+                                writer.writerow(meta)
+                        line_count += 1
+            f.close()
+
+
+class create_cross_validation_corrected_2round:
+    def __init__(self):
+        self.training_test_correction()
+        self.curation_csv_correction()
+        self.correct_amt_result()
+        self.create_new_result()
+        self.create_url_dict()
+        for name in dict_name2.keys() + ['multi_label']:
+            self.create_csv_traintest(name)
+    @staticmethod
+    def training_test_correction():
+        with open(root + '0208_correction/all_input_and_result/'+ground_truth_dict_name) as f:
+            new_multiple_result = cPickle.load(f)
+
+        events_training = defaultdict(list)
+        events_imgs_training = defaultdict(list)
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/training_event_id.cPickle')
+            event_ids = cPickle.load(f)
+            f.close()
+            f = open(root + 'baseline_all_0509/' + event_name + '/training_image_ids.cPickle')
+            img_ids = cPickle.load(f)
+            f.close()
+            for img in img_ids:
+                event_this = img.split('/')[0]
+                # multi_label = new_multiple_result[event_this]
+                events_imgs_training[event_this].append(img)
+            for event_this in event_ids:
+                multi_label = new_multiple_result[event_this]
+                for event in multi_label:
+                    events_training[event[0]].append(event_this)
+
+
+        events_test = defaultdict(list)
+        events_imgs_test = defaultdict(list)
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/test_event_id.cPickle')
+            event_ids = cPickle.load(f)
+            f.close()
+            f = open(root + 'baseline_all_0509/' + event_name + '/test_image_ids.cPickle')
+            img_ids = cPickle.load(f)
+            f.close()
+            for img in img_ids:
+                event_this = img.split('/')[0]
+                # multi_label = new_multiple_result[event_this]
+                # if len(multi_label) == 1:
+                #     events_imgs_test[multi_label[0][0]].append(img)
+                # else:
+                events_imgs_test[event_this].append(img)
+            for event_this in event_ids:
+                multi_label = new_multiple_result[event_this]
+                if len(multi_label) == 1:
+                    events_test[multi_label[0][0]].append(event_this)
+                else:
+                    events_test['multi_label'].append([event_this, multi_label])
+        print events_imgs_test.keys()
+        print events_imgs_training.keys()
+
+
+        for event_name in events_training:
+            print event_name, len(events_training[event_name]) + len(events_test[event_name])
+
+        for event_name in events_training:
+            if not os.path.exists(root + baseline_name + '/' + event_name):
+                os.mkdir(root + baseline_name + '/' + event_name)
+            f = open(root + baseline_name +'/' + event_name + '/training_event_id.cPickle', 'w')
+            cPickle.dump(events_training[event_name], f)
+            f.close()
+            f = open(root + baseline_name +'/' + event_name + '/training_image_ids.cPickle','w')
+            img_ids = []
+            for event_id in events_training[event_name]:
+                img_ids.extend(events_imgs_training[event_id])
+            cPickle.dump(img_ids, f)
+            f.close()
+
+        for event_name in events_test:
+            print event_name
+            if not os.path.exists(root + baseline_name +'/' + event_name):
+                os.mkdir(root + baseline_name +'/' + event_name)
+            f = open(root + baseline_name +'/' + event_name + '/test_event_id.cPickle', 'w')
+            cPickle.dump(events_test[event_name], f)
+            f.close()
+            f = open(root + baseline_name +'/' + event_name + '/test_image_ids.cPickle','w')
+            img_ids = []
+            for event_id in events_test[event_name]:
+                try:
+                    img_ids.extend(events_imgs_test[event_id])
+                except:
+                    # print event_id
+                    img_ids.extend(events_imgs_test[event_id[0]])
+                    # print events_imgs_test[event_id[0]]
+            cPickle.dump(img_ids, f)
+            f.close()
+
+        training_paths_dict = defaultdict(list)
+        for event_name in dict_name2:
+            in_path = root + 'baseline_all_0509/' + event_name + '/guru_training_path.txt'
+            with open(in_path, 'r') as data:
+                for line in data:
+                    img_id = ('/').join(line.split('.')[0].split('/')[-2:])
+                    training_paths_dict[img_id] = event_name
+
+        for event_name in dict_name2:
+            f = open(root + baseline_name +'/' + event_name + '/training_image_ids.cPickle','r')
+            img_ids = cPickle.load(f)
+            f.close()
+
+            out_path = root + baseline_name +'/' + event_name + '/guru_training_path.txt'
+            f = open(out_path, 'w')
+            for img_id in img_ids:
+                img_id_this = img_id.split('_')[1]
+                f.write('/home/feiyu1990/local/event_curation/curation_images/' + training_paths_dict[img_id_this] + '/' + img_id_this + '.jpg 0\n')
+            f.close()
+
+        test_paths_dict = defaultdict(list)
+        for event_name in dict_name2:
+            in_path = root + 'baseline_all_0509/' + event_name + '/guru_test_path.txt'
+            with open(in_path, 'r') as data:
+                for line in data:
+                    img_id = ('/').join(line.split('.')[0].split('/')[-2:])
+                    test_paths_dict[img_id] = event_name
+
+        for event_name in events_test:
+            f = open(root + baseline_name +'/' + event_name + '/test_image_ids.cPickle','r')
+            img_ids = cPickle.load(f)
+            f.close()
+
+            out_path = root + baseline_name +'/' + event_name + '/guru_test_path.txt'
+            f = open(out_path, 'w')
+            for img_id in img_ids:
+                img_id_this = img_id.split('_')[1]
+                f.write('/home/feiyu1990/local/event_curation/curation_images/' + test_paths_dict[img_id_this] + '/' + img_id_this + '.jpg 0\n')
+            f.close()
+    @staticmethod
+    def curation_csv_correction():
+        events_imgs = defaultdict(list)
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/training_image_ids.cPickle')
+            img_ids = cPickle.load(f)
+            f.close()
+            for img in img_ids:
+                event_this = img.split('/')[0]
+                events_imgs[event_this].append(img)
+            f = open(root + 'baseline_all_0509/' + event_name + '/test_image_ids.cPickle')
+            img_ids = cPickle.load(f)
+            f.close()
+            for img in img_ids:
+                event_this = img.split('/')[0]
+                events_imgs[event_this].append(img)
+
+        input_and_answers = {}
+        csv_list = [
+                    root + '0208_correction/all_input_and_result/result_curation_amt_1round.csv',
+                    root + '0208_correction/all_input_and_result/result_curation_amt_2round.csv']
+        for input_path in csv_list:
+            line_count = 0
+            head_meta = []
+            HITs = {}
+            with open(input_path, 'r') as data:
+                reader = csv.reader(data)
+                # reader = csv.reader(data, dialect=csv.excel_tab)
+                for meta in reader:
+                    if line_count == 0:
+                        head_meta = meta
+                    elif meta[0] not in HITs:
+                        HITs[meta[0]] = [meta]
+                    else:
+                        HITs[meta[0]].append(meta)
+                    line_count+=1
+
+            image_input_index = {}
+            image_output_index = {}
+            i = 0
+            index_num_image = -np.Inf
+            index_event_id = -np.Inf
+            index_distraction = -np.Inf
+            index_worker_id = -np.Inf
+            for field in head_meta:
+                if field.startswith('Input.image'):
+                    image_input_index[int(field[11:])] = i
+                if field.startswith('Answer.image'):
+                    image_output_index[int(field[12:])] = i
+                if field.startswith('Input.distraction_num'):
+                    index_distraction = i
+                if field.startswith('Input.num_image'):
+                    index_num_image = i
+                if field.startswith('Input.event_id'):
+                    index_event_id = i
+                if field.startswith('WorkerId'):
+                    index_worker_id = i
+                i += 1
+
+            for HITId in HITs:
+                this_hit = HITs[HITId]
+                num_images = int(this_hit[0][index_num_image])
+                distract_image = this_hit[0][index_distraction]
+                event_id = this_hit[0][index_event_id]
+                input_and_answers[event_id] = []
+                print event_id
+                [distract1, distract2] = distract_image.split(':')
+                distract1 = int(distract1)
+                distract2 = int(distract2)
+                this_hit_new = []
+                for submission in this_hit:
+                    if submission[index_worker_id] not in block_workers:
+                        this_hit_new.append(submission)
+                num_valid_submission = len(this_hit_new)
+                ii = 0
+                for i in xrange(1, 1+num_images):
+                    if i==distract1 or i==distract2:
+                        continue
+                    score = 0
+                    image_index = image_input_index[i]
+                    score_index = image_output_index[i]
+                    image_url = this_hit_new[0][image_index]
+                    for submission in this_hit_new:
+                        vote = submission[score_index]
+                        if vote == 'selected':
+                            score += 2
+                        elif vote == 'selected_sw':
+                            score += 1
+                        elif vote == 'selected_irrelevant':
+                            score -= 2
+                    score = float(score)/float(num_valid_submission)
+                    input_and_answers[event_id].append((image_url, events_imgs[event_id][ii], score))
+                    ii += 1
+
+        f = open(root + baseline_name +'/correction_result_12round_v1.cPickle','wb')
+        cPickle.dump(input_and_answers, f)
+        f.close()
+    @staticmethod
+    def correct_amt_result():
+        f = open(root + baseline_name +'/correction_result_12round_v1.cPickle','r')
+        input_and_answers = cPickle.load(f)
+        f.close()
+        remove_list = []
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/'+event_name+'/vgg_training_similar_list.cPickle','r')
+            remove_list.extend(cPickle.load(f))
+            f.close()
+            f = open(root + 'baseline_all_0509/'+event_name+'/vgg_test_similar_list.cPickle','r')
+            remove_list.extend(cPickle.load(f))
+            f.close()
+        print len(remove_list)
+
+        remove_list_split = {}
+        for i in remove_list:
+            event_id = i[0].split('/')[0]
+            if event_id in remove_list_split:
+                remove_list_split[event_id].append(i)
+            else:
+                remove_list_split[event_id] = [i]
+
+        for event in input_and_answers:
+            images = input_and_answers[event]
+            if event not in remove_list_split:
+                continue
+            similar_list = remove_list_split[event]
+            i = 0
+
+            for index in xrange(len(images)):
+                image =images[index]
+                img_id = image[1]
+                if img_id != similar_list[i][0]:
+                    continue
+                this_group = similar_list[i]
+                length = len(this_group)
+                this_group_score = []
+                for k in xrange(length):
+                    this_group_score.append(images[index+k][2])
+                score = max(this_group_score)
+                for k in xrange(length):
+                    input_and_answers[event][index+k] = (images[index+k][0],images[index+k][1], score)
+
+        f = open(root + baseline_name +'/correction_result_12round_v2.cPickle','wb')
+        cPickle.dump(input_and_answers, f)
+        f.close()
+        training_scores_dict = {}
+        for event in input_and_answers:
+            for img in input_and_answers[event]:
+                training_scores_dict[img[1]] = img[2]
+        f = open(root + baseline_name +'/correction_result_12round_dict_v2.cPickle', 'wb')
+        cPickle.dump(training_scores_dict,f)
+        f.close()
+    @staticmethod
+    def create_new_result():
+        all_event_and_score = dict()
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/vgg_training_result_v2.cPickle','r')
+            temp1 = cPickle.load(f)
+            all_event_and_score.update(temp1)
+            f.close()
+            f = open(root + 'baseline_all_0509/' + event_name + '/vgg_test_result_v2.cPickle','r')
+            temp2 = cPickle.load(f)
+            all_event_and_score.update(temp2)
+            f.close()
+            print event_name, len(temp1), len(temp2)
+            print len(all_event_and_score)
+
+        f = open(root + baseline_name +'/correction_result_12round_v2.cPickle', 'r')
+        training_scores_correction = cPickle.load(f)
+        f.close()
+
+        for event_id in training_scores_correction:
+            print event_id
+            all_event_and_score[event_id] = training_scores_correction[event_id]
+        with open(root + baseline_name +'/correction_result_all_v2.pkl', 'w') as f:
+            cPickle.dump(all_event_and_score, f)
+
+        print len(all_event_and_score)
+        for event_name in dict_name2:
+            event_and_score_this = dict()
+            f = open(root + baseline_name +'/' + event_name + '/training_event_id.cPickle', 'r')
+            events_training = cPickle.load(f)
+            f.close()
+            for event in events_training:
+                event_and_score_this[event] = all_event_and_score[event]
+            f = open(root + baseline_name +'/' + event_name + '/vgg_training_result_v2.cPickle', 'w')
+            cPickle.dump(event_and_score_this, f)
+            f.close()
+
+            training_scores_dict = {}
+            for event in event_and_score_this:
+                for img in event_and_score_this[event]:
+                    training_scores_dict[img[1]] = img[2]
+            f = open(root + baseline_name +'/'+event_name+'/vgg_training_result_dict_v2.cPickle', 'wb')
+            cPickle.dump(training_scores_dict,f)
+            f.close()
+        for event_name in dict_name2.keys() + ['multi_label']:
+            event_and_score_this = dict()
+            f = open(root + baseline_name +'/' + event_name + '/test_event_id.cPickle', 'r')
+            events_test = cPickle.load(f)
+            f.close()
+            for event in events_test:
+                try:
+                    event_and_score_this[event] = all_event_and_score[event]
+                except:
+                    event_and_score_this[event[0]] = all_event_and_score[event[0]]
+            f = open(root + baseline_name +'/' + event_name + '/vgg_test_result_v2.cPickle', 'w')
+            cPickle.dump(event_and_score_this, f)
+            f.close()
+
+            test_scores_dict = {}
+            for event in event_and_score_this:
+                for img in event_and_score_this[event]:
+                    test_scores_dict[img[1]] = img[2]
+            f = open(root + baseline_name +'/'+event_name+'/vgg_test_result_dict_v2.cPickle', 'wb')
+            cPickle.dump(test_scores_dict,f)
+            f.close()
+    @staticmethod
+    def create_url_dict():
+        url_dict_all = dict()
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/training_ulr_dict.cPickle','r')
+            temp1 = cPickle.load(f)
+            url_dict_all.update(temp1)
+            f.close()
+        f = open(root + baseline_name + 'training_ulr_dict.cPickle','w')
+        cPickle.dump(url_dict_all, f)
+        f.close()
+        url_dict_all = dict()
+        for event_name in dict_name2:
+            f = open(root + 'baseline_all_0509/' + event_name + '/test_ulr_dict.cPickle','r')
+            temp1 = cPickle.load(f)
+            url_dict_all.update(temp1)
+            f.close()
+        f = open(root + baseline_name + 'test_ulr_dict.cPickle','w')
+        cPickle.dump(url_dict_all, f)
+        f.close()
+    @staticmethod
+    def create_csv_traintest(name):
+        if name == 'multi_label':
+            input_path = root + 'all_output/all_output_corrected_2round.csv'
+            f = open(root + baseline_name+name+'/test_event_id.cPickle','r')
+            event_ids = [i[0] for i in cPickle.load(f)]
+            f.close()
+            f = open(root + baseline_name+name+'/test.csv','wb')
+            writer = csv.writer(f)
+            line_count = 0
+            with open(input_path, 'rb') as data:
+                    reader = csv.reader(data)
+                    for meta in reader:
+                        if line_count == 0:
+                            writer.writerow(meta)
+                        else:
+                            if meta[28] in event_ids:
+                                writer.writerow(meta)
+                        line_count += 1
+            f.close()
+        else:
+            input_path = root + 'all_output/all_output_corrected_2round.csv'
+            f = open(root + baseline_name+name+'/test_event_id.cPickle','r')
+            event_ids = cPickle.load(f)
+            f.close()
+            f = open(root + baseline_name+name+'/test.csv','wb')
+            writer = csv.writer(f)
+            line_count = 0
+            with open(input_path, 'rb') as data:
+                    reader = csv.reader(data)
+                    for meta in reader:
+                        if line_count == 0:
+                            writer.writerow(meta)
+                        else:
+                            if meta[28] in event_ids:
+                                writer.writerow(meta)
+                        line_count += 1
+            f.close()
+
+            f = open(root + baseline_name +name+'/training_event_id.cPickle','r')
+            event_ids = cPickle.load(f)
+            f.close()
+            f = open(root + baseline_name +name+'/training.csv','wb')
+            writer = csv.writer(f)
+            line_count = 0
+            with open(input_path, 'rb') as data:
+                    reader = csv.reader(data)
+                    for meta in reader:
+                        if line_count == 0:
+                            writer.writerow(meta)
+                        else:
+                            if meta[28] in event_ids:
+                                writer.writerow(meta)
+                        line_count += 1
+            f.close()
 
 class create_CNN_training_prototxts_corrected(object):
     def __init__(self, threshold, val_name, folder_name, oversample_n = 3, oversample_threshold = 0.3, oversample= False):
@@ -570,7 +1386,7 @@ class create_CNN_training_prototxts_corrected(object):
     def guru_find_valid_examples_all_reallabel(self, val_id):
 
         for event_name in dict_name2:
-            f = open(root + 'baseline_all_correction/' + event_name + '/'+'validation_' + str(val_id)+'/vgg_'+self.val_name+'_result_v2.cPickle','r')
+            f = open(root + baseline_name + event_name + '/'+'validation_' + str(val_id)+'/vgg_'+self.val_name+'_result_v2.cPickle','r')
             ground_truth_training = cPickle.load(f)
             f.close()
 
@@ -856,6 +1672,323 @@ class create_CNN_training_prototxts_corrected(object):
         f.close()
 
 
+class create_CNN_training_prototxts_corrected_2round(object):
+    def __init__(self, threshold, val_name, folder_name, oversample_n = 3, oversample_threshold = 0.3, oversample= False):
+        self.threshold = threshold
+        self.val_name = val_name
+        self.folder_name = folder_name
+        self.oversample_n = oversample_n
+        self.oversample_threshold = oversample_threshold
+        if self.threshold == 0:
+            self.threshold_prefix = ''
+        else:
+            self.threshold_prefix = str(self.threshold) + '_'
+        self.guru_find_valid_examples_all_reallabel_traintest(oversample)
+        self.merge_all_examples_traintest()
+        self.create_label_txt_traintest()
+
+
+    def guru_find_valid_examples_all_reallabel_traintest(self, oversample):
+        for event_name in dict_name2:
+            f = open(root + baseline_name + '/' + event_name +'/vgg_'+self.val_name+'_result_v2.cPickle','r')
+            ground_truth_training = cPickle.load(f)
+            f.close()
+
+            f = open(root + baseline_name + '/' + event_name + '/'+self.val_name+'_image_ids.cPickle','r')
+            img_ids = cPickle.load(f)
+            f.close()
+
+            f = open(root + baseline_name + '/' + event_name + '/vgg_'+self.val_name+'_result_dict_v2.cPickle','r')
+            ground_truth_training_dict = cPickle.load(f)
+            f.close()
+
+            in_path = root + baseline_name + '/' + event_name + '/guru_'+self.val_name+'_path.txt'
+            img_paths = []
+            with open(in_path,'r') as data:
+                for line in data:
+                    temp = line.split(' ')[0]
+                    img_paths.append(temp)
+
+            img_path_dict = {}
+            for (i,j) in zip(img_ids, img_paths):
+                if j.split('.')[0].split('/')[-1] != i.split('/')[-1]:
+                    print 'ERROR!'
+                    return
+                img_path_dict[i] = j
+
+            img_pair = []
+            count_all = 0
+            for event in ground_truth_training:
+                this_event = ground_truth_training[event]
+                this_event.sort(key=lambda x: x[2])
+                count = 0
+                len_ = len(this_event)
+                for i in xrange(len_):
+                    if this_event[-1][2] - this_event[i][2] < self.threshold * 4:
+                        break
+                    img_1 = this_event[i]
+                    for j in xrange(i + 1, len_):
+                        img_2 = this_event[j]
+                        if img_2[2] - img_1[2] < self.threshold * 4:
+                            continue
+                        temp = random.sample([0, 1], 1)
+                        if temp[0] == 0:
+                            img_pair.append((img_1[1], img_2[1], 0))
+                        else:
+                            img_pair.append((img_2[1], img_1[1], 1))
+                        if oversample:
+                            if img_2[2] - img_1[2] < self.oversample_threshold * 4:
+                                continue
+                            for iter in xrange(self.oversample_n - 1):
+                                temp = random.sample([0, 1], 1)
+                                if temp[0] == 0:
+                                    img_pair.append((img_1[1], img_2[1], 0))
+                                else:
+                                    img_pair.append((img_2[1], img_1[1], 1))
+                        count += 1
+                count_all += count
+            random.shuffle(img_pair)
+            if self.val_name == 'val_validation':
+                img_pair = img_pair[:len(img_pair)/10]
+            if self.val_name == 'test':
+                img_pair = img_pair[:5000]
+            if not os.path.exists(root + self.folder_name):
+                os.mkdir(root + self.folder_name)
+            if not os.path.exists(root + self.folder_name+'/data'):
+                os.mkdir(root + self.folder_name+'/data')
+            out_path1 = root + self.folder_name+'/data/'+event_name+'_ranking_reallabel_'+self.val_name+'.txt'
+            print out_path1
+            out_path2 = root + self.folder_name+'/data/' +event_name+'_ranking_reallabel_'+self.val_name+'_p.txt'
+            f1 = open(out_path1,'w')
+            f2 = open(out_path2,'w')
+            for i in img_pair:
+                line = img_path_dict[i[0]] + ' ' + str(int(20*(ground_truth_training_dict[i[0]]))) + '\n'
+                f1.write(line)
+                line = img_path_dict[i[1]] + ' ' + str(int(20*(ground_truth_training_dict[i[1]]))) + '\n'
+                f2.write(line)
+            f1.close()
+            f2.close()
+            pass
+            print count_all
+    def merge_all_examples_traintest(self):
+        imgs = []
+        for event_name in dict_name2:
+            in_file_name = root + self.folder_name+'/data/' +event_name+'_ranking_reallabel_'+self.val_name+'.txt'
+            with open(in_file_name, 'r') as data:
+                for line in data:
+                    meta = line[:-1]
+                    imgs.append([meta + ' ' + event_name])
+        count = 0
+        for event_name in dict_name2:
+            in_file_name = root + self.folder_name+'/data/' +event_name+'_ranking_reallabel_'+self.val_name+'_p.txt'
+            with open(in_file_name, 'r') as data:
+                for line in data:
+                    meta = line[:-1]
+                    imgs[count].append(meta + ' ' + event_name)
+                    count += 1
+
+
+        random.shuffle(imgs)
+        if self.val_name == 'test':
+            imgs = imgs[:5000]
+        f1 = open(root + self.folder_name+'/data/'+ 'ranking_reallabel_'+self.val_name+'_all.txt', 'w')
+        f2 = open(root + self.folder_name+'/data/'+'ranking_reallabel_'+self.val_name+'_all_p.txt', 'w')
+        for i,j in imgs:
+            f1.write(' '.join(i.split(' ')[:-1]) + '\n')
+            f2.write(' '.join(j.split(' ')[:-1]) + '\n')
+        f1.close()
+        f2.close()
+
+        events = []
+        for i,j in imgs:
+            events.append(j.split(' ')[-1])
+        event_labels = []
+        for event_label in events:
+                event_label = dict_name2[event_label]
+                temp = np.zeros((23,))
+                temp[event_label-1] = 1
+                event_labels.append(temp)
+        event_labels = np.array(event_labels)
+        f = h5py.File(root + self.folder_name+'/data/' +self.val_name+'_label.h5','w')
+        f.create_dataset("event_label", data=event_labels)
+        f.close()
+    def create_label_txt_traintest(self):
+        f = open(root + self.folder_name+'/data/' + self.val_name + '_event_label.txt','w')
+        f.write(root + self.folder_name+'/data/' + self.val_name +'_label.h5')
+        f.close()
+
+
+class create_CNN_training_prototxts_corrected_soft(object):
+
+    def __init__(self, threshold, val_name, folder_name, oversample_n = 3, oversample_threshold = 0.3, oversample= False):
+        self.threshold = threshold
+        self.val_name = val_name
+        self.folder_name = folder_name
+        self.oversample_n = oversample_n
+        self.oversample_threshold = oversample_threshold
+        if self.threshold == 0:
+            self.threshold_prefix = ''
+        else:
+            self.threshold_prefix = str(self.threshold) + '_'
+        self.guru_find_valid_examples_all_reallabel_traintest(oversample)
+        self.merge_all_examples_traintest()
+        self.create_label_txt_traintest()
+
+
+    def guru_find_valid_examples_all_reallabel_traintest(self, oversample):
+        print baseline_name
+        for event_name in dict_name2:
+            f = open(root + baseline_name + '/' + event_name +'/vgg_'+self.val_name+'_result_v2.cPickle','r')
+            ground_truth_training = cPickle.load(f)
+            f.close()
+
+            f = open(root + baseline_name + '/' + event_name + '/'+self.val_name+'_image_ids.cPickle','r')
+            img_ids = cPickle.load(f)
+            f.close()
+
+            f = open(root + baseline_name + '/' + event_name + '/vgg_'+self.val_name+'_result_dict_v2.cPickle','r')
+            ground_truth_training_dict = cPickle.load(f)
+            f.close()
+
+            in_path = root + baseline_name + '/' + event_name + '/guru_'+self.val_name+'_path.txt'
+            img_paths = []
+            with open(in_path,'r') as data:
+                for line in data:
+                    temp = line.split(' ')[0]
+                    img_paths.append(temp)
+
+            img_path_dict = {}
+            for (i,j) in zip(img_ids, img_paths):
+                if j.split('.')[0].split('/')[-1] != i.split('/')[-1]:
+                    print 'ERROR!'
+                    return
+                img_path_dict[i] = j
+
+            img_pair = []
+            count_all = 0
+            for event in ground_truth_training:
+                this_event = ground_truth_training[event]
+                this_event.sort(key=lambda x: x[2])
+                count = 0
+                len_ = len(this_event)
+                for i in xrange(len_):
+                    if this_event[-1][2] - this_event[i][2] < self.threshold * 4:
+                        break
+                    img_1 = this_event[i]
+                    for j in xrange(i + 1, len_):
+                        img_2 = this_event[j]
+                        if img_2[2] - img_1[2] < self.threshold * 4:
+                            continue
+                        temp = random.sample([0, 1], 1)
+                        if temp[0] == 0:
+                            img_pair.append((img_1[1], img_2[1], 0))
+                        else:
+                            img_pair.append((img_2[1], img_1[1], 1))
+                        if oversample:
+                            if img_2[2] - img_1[2] < self.oversample_threshold * 4:
+                                continue
+                            for iter in xrange(self.oversample_n - 1):
+                                temp = random.sample([0, 1], 1)
+                                if temp[0] == 0:
+                                    img_pair.append((img_1[1], img_2[1], 0))
+                                else:
+                                    img_pair.append((img_2[1], img_1[1], 1))
+                        count += 1
+                count_all += count
+            random.shuffle(img_pair)
+            if self.val_name == 'val_validation':
+                img_pair = img_pair[:len(img_pair)/10]
+            if self.val_name == 'test':
+                img_pair = img_pair[:5000]
+            if not os.path.exists(root + self.folder_name):
+                os.mkdir(root + self.folder_name)
+            if not os.path.exists(root + self.folder_name+'/data'):
+                os.mkdir(root + self.folder_name+'/data')
+            out_path1 = root + self.folder_name+'/data/'+event_name+'_ranking_reallabel_'+self.val_name+'.txt'
+            print out_path1
+            out_path2 = root + self.folder_name+'/data/' +event_name+'_ranking_reallabel_'+self.val_name+'_p.txt'
+            f1 = open(out_path1,'w')
+            f2 = open(out_path2,'w')
+            for i in img_pair:
+                line = img_path_dict[i[0]] + ' ' + str(int(20*(ground_truth_training_dict[i[0]]))) + '\n'
+                f1.write(line)
+                line = img_path_dict[i[1]] + ' ' + str(int(20*(ground_truth_training_dict[i[1]]))) + '\n'
+                f2.write(line)
+            f1.close()
+            f2.close()
+            print count_all
+    def merge_all_examples_traintest(self):
+        with open(root + '0208_correction/all_input_and_result/'+ground_truth_dict_name) as f:
+            event_type_dict = cPickle.load(f)
+
+        img_event_dict = dict()
+        for event_name in dict_name2:
+            with open(root + baseline_name +event_name+ '/training_image_ids.cPickle') as f:
+                img_event_list = cPickle.load(f)
+            in_file_name = root + baseline_name +event_name+'/guru_training_path.txt'
+            count = 0
+            with open(in_file_name, 'r') as data:
+                for line in data:
+                    event_this = img_event_list[count].split('/')[0]
+                    img_event_dict[line.split(' ')[0]] = event_this
+                    count += 1
+
+        img_type_dict = dict()
+        for event_name in dict_name2:
+            in_file_name = root + self.folder_name+'/data/' +event_name+'_ranking_reallabel_'+self.val_name+'.txt'
+            with open(in_file_name, 'r') as data:
+                for line in data:
+                    softmax_this = np.zeros((23, ))
+                    event_this = img_event_dict[line.split(' ')[0]]
+                    event_type_list = event_type_dict[event_this]
+                    for event_ in event_type_list:
+                        softmax_this[dict_name2[event_[0]] - 1] = event_[1]
+                    img_type_dict[line.split(' ')[0]] = softmax_this
+
+        imgs = []
+        for event_name in dict_name2:
+            in_file_name = root + self.folder_name+'/data/' +event_name+'_ranking_reallabel_'+self.val_name+'.txt'
+            with open(in_file_name, 'r') as data:
+                for line in data:
+                    meta = line[:-1]
+                    imgs.append([(meta + ' ', img_type_dict[meta.split(' ')[0]])])
+        count = 0
+        for event_name in dict_name2:
+            in_file_name = root + self.folder_name+'/data/' +event_name+'_ranking_reallabel_'+self.val_name+'_p.txt'
+            with open(in_file_name, 'r') as data:
+                for line in data:
+                    meta = line[:-1]
+                    imgs[count].append((meta + ' ', img_type_dict[meta.split(' ')[0]]))
+                    count += 1
+
+
+        random.shuffle(imgs)
+        if self.val_name == 'test':
+            imgs = imgs[:5000]
+        f1 = open(root + self.folder_name+'/data/'+ 'ranking_reallabel_'+self.val_name+'_all.txt', 'w')
+        f2 = open(root + self.folder_name+'/data/'+'ranking_reallabel_'+self.val_name+'_all_p.txt', 'w')
+        for i,j in imgs:
+            f1.write(i[0] + '\n')
+            f2.write(j[0] + '\n')
+        f1.close()
+        f2.close()
+
+        event_labels = []
+        for i,j in imgs:
+            event_labels.append(j[1])
+        event_labels = np.array(event_labels)
+        f = h5py.File(root + self.folder_name+'/data/' +self.val_name+'_label.h5','w')
+        f.create_dataset("event_label", data=event_labels)
+        f.close()
+
+
+    def create_label_txt_traintest(self):
+        f = open(root + self.folder_name+'/data/' + self.val_name + '_event_label.txt','w')
+        f.write(root + self.folder_name+'/data/' + self.val_name +'_label.h5')
+        f.close()
+
+
+
 class extract_features:
     def __init__(self, net_path, event_name, net_name, model_name, name, blob_names, img_size = (256,256)):
         self.event_name = event_name
@@ -948,6 +2081,66 @@ class extract_features:
         f = open('/home/feiyu1990/local/event_curation/'+self.net_path+'/features/'+self.event_name + '_' +self.name+'_sigmoid9_10_'+ self.net_name + '.cPickle','wb')
         cPickle.dump(features, f)
         f.close()
+
+def create_expand_training_list(path):
+
+    training_paths_dict = dict()
+    for event_name in dict_name2:
+        in_path = root + 'baseline_all_0509/' + event_name + '/training_image_ids.cPickle'
+        with open(in_path) as f:
+            img_list = cPickle.load(f)
+        file_list = []
+        with open(root + 'baseline_all_0509/' + event_name + '/guru_training_path.txt') as f:
+            for line in f:
+                file_list.append(line.split(' ')[0])
+        for img, img_path in zip(img_list, file_list):
+            event_img = img_path.split(' ')[0]
+            training_paths_dict['/'.join(event_img.split('/')[-2:])] = img
+    with open(root + '0208_correction/all_input_and_result/'+ground_truth_dict_name) as f:
+        event_type_dict = cPickle.load(f)
+
+    img_path = '/home/feiyu1990/local/event_curation/'+path+'/data/ranking_reallabel_training_all.txt'
+    img_path_p = '/home/feiyu1990/local/event_curation/'+path+'/data/ranking_reallabel_training_all_p.txt'
+    f = h5py.File('/home/feiyu1990/local/event_curation/'+path+'/data/training_label.h5','r')
+    label = f['event_label'][:]
+    f.close()
+
+    img_list = []; img_list_p = []
+    with open(img_path) as data:
+        for line in data:
+            img_list.append(line)
+    with open(img_path_p) as data:
+        for line in data:
+            img_list_p.append(line)
+
+    img_list_new = []; img_list_new_p = []; label_new = []
+    for img, img_p, label in zip(img_list, img_list_p, label):
+        event_img = img.split(' ')[0]
+        event_this = training_paths_dict['/'.join(event_img.split('/')[-2:])].split('/')[0]
+        event_type_this = event_type_dict[event_this]
+        if len(event_type_this) == 1:
+            img_list_new.append(img);img_list_new_p.append(img_p);label_new.append(label)
+            img_list_new.append(img);img_list_new_p.append(img_p);label_new.append(label)
+        else:
+            img_list_new.append(img);img_list_new_p.append(img_p);label_new.append(label)
+
+    ind = range(len(img_list_new))
+    random.shuffle(ind)
+    img_list_new = [img_list_new[i] for i in ind]
+    img_list_new_p = [img_list_new_p[i] for i in ind]
+    label_new = [label_new[i] for i in ind]
+
+    with open('/home/feiyu1990/local/event_curation/'+path+'/data/balance_ranking_reallabel_training_all.txt', 'w') as f:
+        for line in img_list_new:
+            f.write(line)
+    with open('/home/feiyu1990/local/event_curation/'+path+'/data/balance_ranking_reallabel_training_all_p.txt', 'w') as f:
+        for line in img_list_new_p:
+            f.write(line)
+    event_labels = np.array(label_new)
+
+    f = h5py.File('/home/feiyu1990/local/event_curation/'+path+'/data/balance_training_label.h5','w')
+    f.create_dataset("event_label", data=event_labels)
+    f.close()
 
 
 class evaluation:
@@ -2810,9 +4003,14 @@ class evaluation:
 
 if __name__ == '__main__':
     TIE = True
-    # aa = create_cross_validation_corrected()
-    # merge_two_csv('/Users/wangyufei/Documents/Study/intern_adobe/all_output/all_output.csv', '/Users/wangyufei/Documents/Study/intern_adobe/0208_correction/curation_result.csv', '/Users/wangyufei/Documents/Study/intern_adobe/all_output/all_output_corrected.csv')
-    # b = create_CNN_training_prototxts_corrected(threshold = 0.0, val_name = 'training', folder_name='CNN_all_event_corrected/', oversample = False)
+    aa = create_cross_validation_corrected_2round()
+    # b = create_CNN_training_prototxts_corrected_2round(threshold = 0.0, val_name = 'training', folder_name='CNN_all_event_corrected_multi_removedup_vote/', oversample = False)
+    # b = create_CNN_training_prototxts_corrected_soft(threshold = 0.0, val_name = 'training', folder_name='CNN_all_event_corrected_multi_removedup_vote_soft/', oversample = False)
+    # b = create_CNN_training_prototxts_corrected_2round(threshold = 0.0, val_name = 'test', folder_name='CNN_all_event_corrected_multi_removedup_weighted/', oversample = False)
+    # create_expand_training_list('CNN_all_event_corrected_multi_removedup_vote')
+
+
+
     # b = create_CNN_training_prototxts_corrected(threshold = 0.0, val_name = 'test', folder_name='CNN_all_event_corrected/', oversample = False)
     # for event_name in dict_name2:
         # a = extract_features('CNN_all_event_corrected', event_name, 'segment_fromnoevent_iter_200000','python_deploy_siamese_fromnoevent.prototxt','test', None, (256, 256))
@@ -2826,4 +4024,124 @@ if __name__ == '__main__':
         # a.extract_feature_10_23_traintest()
 
 
-    a = evaluation('CNN_all_event_corrected','worker', 'test',0)
+    # a = evaluation('CNN_all_event_corrected','worker', 'test',0)
+
+    #
+    # list_csv = [
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/amt/results/0.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/amt/results/1.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/amt/results/2.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/amt/results/3.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/amt/results/4.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/amt/results/5.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/amt/results/6.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/amt/results/7.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/amt/results/8_pre.csv']
+    # list_csv2 = [
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/0208_correction/all_input_and_result/result_all_recognition_amt_urlcorrected_followup_next_next_50.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/0208_correction/all_input_and_result/result_rejected_redo.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/0208_correction/all_input_and_result/result_rejected_redo_2round.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/0208_correction/all_input_and_result/result_all_recognition_amt_urlcorrected_followup_first200.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/0208_correction/all_input_and_result/result_all_recognition_amt_urlcorrected_followup_next_next_next.csv',
+    #     '/Users/wangyufei/Documents/Study/intern_adobe/0208_correction/all_input_and_result/result_all_recognition_amt_urlcorrected_first200.csv',
+    #
+    # ]
+    # # merge_two_csv(list_csv[0], list_csv[1], '/Users/wangyufei/Documents/Study/intern_adobe/all_output/all_recognition_combined.csv')
+    # #
+    # #
+    # # for i in range(2, len(list_csv)):
+    # #     merge_two_csv(list_csv[i],
+    # #                   '/Users/wangyufei/Documents/Study/intern_adobe/all_output/all_recognition_combined.csv',
+    # #                   '/Users/wangyufei/Documents/Study/intern_adobe/all_output/all_recognition_combined.csv')
+    #
+    # event_worker_dict = defaultdict(list)
+    # for input_path in list_csv:
+    #     print input_path
+    #     head_meta = []
+    #     HITs = []
+    #     with open(input_path, 'r') as data:
+    #         reader = csv.reader(data)
+    #         line_count = 0
+    #         for meta in reader:
+    #             if line_count == 0:
+    #                 head_meta = meta
+    #             else:
+    #                 HITs.append(meta)
+    #             line_count += 1
+    #     i = 0
+    #     worker_indx = -1
+    #     event_indx = np.ones((10,)) * -1
+    #     for field in head_meta:
+    #         if 'Input.event_id' in field:
+    #             try:
+    #                 this_event_indx = int(field.split('id_')[-1]) - 1
+    #                 event_indx[this_event_indx] = i
+    #             except:
+    #                 this_event_indx = int(field.split('id')[-1]) - 1
+    #                 event_indx[this_event_indx] = i
+    #         if 'WorkerId' == field:
+    #             worker_indx = i
+    #         i += 1
+    #     print event_indx
+    #
+    #     for i in HITs:
+    #         for j in range(10):
+    #             event_worker_dict[i[int(event_indx[j])]].append(i[worker_indx])
+    #
+    #
+    # event_worker_dict2 = defaultdict(list)
+    # for input_path in list_csv2:
+    #     print input_path
+    #     head_meta = []
+    #     HITs = []
+    #     with open(input_path, 'r') as data:
+    #         reader = csv.reader(data)
+    #         line_count = 0
+    #         for meta in reader:
+    #             if line_count == 0:
+    #                 head_meta = meta
+    #             else:
+    #                 HITs.append(meta)
+    #             line_count += 1
+    #     i = 0
+    #     worker_indx = -1
+    #     event_indx = np.ones((10,)) * -1
+    #     for field in head_meta:
+    #         if 'Input.event_id' in field:
+    #             try:
+    #                 this_event_indx = int(field.split('id_')[-1]) - 1
+    #                 event_indx[this_event_indx] = i
+    #             except:
+    #                 this_event_indx = int(field.split('id')[-1]) - 1
+    #                 event_indx[this_event_indx] = i
+    #         if 'WorkerId' == field:
+    #             worker_indx = i
+    #         i += 1
+    #     print event_indx
+    #
+    #     for i in HITs:
+    #         for j in range(10):
+    #             event_worker_dict2[i[int(event_indx[j])]].append(i[worker_indx])
+    #
+    # event_need_me_to_do = [];event_need_3_worker = []
+    # count = 0
+    # for event_name in event_worker_dict2:
+    #     worker_id = event_worker_dict[event_name]
+    #     worker_id2 = event_worker_dict2[event_name]
+    #     multiple_id = []
+    #     for i in worker_id:
+    #         if i in worker_id2:
+    #             multiple_id.append(i)
+    #     if len(worker_id) + len(set(worker_id2)) - len(multiple_id) < 12 and len(worker_id) > 0:
+    #         print event_name, multiple_id,  worker_id, worker_id2
+    #         event_need_me_to_do.append(event_name)
+    #         count += 1
+    #     if len(worker_id) == 0:
+    #         event_need_3_worker.append(event_name)
+    # print count
+    # print len(event_need_3_worker), event_need_3_worker
+    # print event_need_me_to_do
+    # f = open('/Users/wangyufei/Documents/Study/intern_adobe/0208_correction/all_input_and_result/new_multiple_result.pkl')
+    # event_type_dict = cPickle.load(f)
+    # for event in event_need_3_worker:
+    #     print event, event_type_dict[event]

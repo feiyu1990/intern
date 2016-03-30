@@ -52,6 +52,49 @@ def prepare_data(seqs, labels, maxlen=None):
 
 
 
+def prepare_data_last_output(seqs, labels, maxlen=None):
+    """Create the matrices from the datasets.
+
+    This pad each sequence to the same lenght: the lenght of the
+    longuest sequence or maxlen.
+
+    if maxlen is set, we will cut all sequence to this maximum
+    lenght.
+
+    This swap the axis!
+    """
+    # x: a list of sentences
+    lengths = [len(s) for s in seqs]
+
+    if maxlen is not None:
+        new_seqs = []
+        new_labels = []
+        new_lengths = []
+        for l, s, y in zip(lengths, seqs, labels):
+            if l < maxlen:
+                new_seqs.append(s)
+                new_labels.append(y)
+                new_lengths.append(l)
+        lengths = new_lengths
+        labels = new_labels
+        seqs = new_seqs
+
+        if len(lengths) < 1:
+            return None, None, None
+
+    n_samples = len(seqs)
+    maxlen = numpy.max(lengths)
+
+    x = numpy.zeros((maxlen, n_samples)).astype('int64')
+    x_mask = numpy.zeros((maxlen, n_samples)).astype(theano.config.floatX)
+    x_mask_last_output = numpy.zeros((maxlen, n_samples)).astype(theano.config.floatX)
+    for idx, s in enumerate(seqs):
+        x[:lengths[idx], idx] = s
+        x_mask[:lengths[idx], idx] = 1.
+        x_mask_last_output[lengths[idx]-1, idx] = 1.
+    return x, x_mask, x_mask_last_output, labels
+
+
 def load_data(path="imdb.pkl", n_words=100000, valid_portion=0.1, maxlen=None,
               sort_by_len=True):
     '''Loads the dataset

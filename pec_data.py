@@ -184,13 +184,13 @@ def prediction_cnn_event(test_feature_dict, print_=False):
         for i in range(14):
             print list(confusion_matrix[i,:])
         print float(np.trace(confusion_matrix)) / np.sum(confusion_matrix), np.sum(confusion_matrix)
-    print wrong_event
+    # print wrong_event
     return float(np.trace(confusion_matrix)) / np.sum(confusion_matrix), confusion_matrix
 
 
 def prediction_cnn_event_only_top1(test_feature_dict, print_=False):
     wrong_event = []
-    confusion_matrix = np.zeros((14, 14), dtype=int)
+    confusion_matrix = np.zeros((15, 15), dtype=int)
     for event_old in test_feature_dict:
         if '/' in event_old:
             event = '_'.join(event_old.split('/'))
@@ -208,6 +208,7 @@ def prediction_cnn_event_only_top1(test_feature_dict, print_=False):
         for i in xrange(len(prediction_)):
             if prediction_[-i-1] + 1 not in new_ind:
                 # print event_old, dict_reverse[prediction_[-i-1] + 1]
+                confusion_matrix[new_ind[type_new], 14] += 1
                 break
                 # continue
             confusion_matrix[new_ind[type_new], new_ind[prediction_[-i-1]+1]] += 1
@@ -498,8 +499,6 @@ def em_combine_event_recognition_curation_corrected_new(img_ids, test_list,
                                                     threshold, threshold_m, poly, poly2, lstm_event_recognition,
                                                     img_importance=None,
                                                     img_recognition=None,
-                                                    # importance_path='importance_test',
-                                                    # event_path = 'recognition_test',
                                                     stop_criterion=0.01, max_iter=101, average=True,
                                                     combine_lstm=True,
 
@@ -616,433 +615,6 @@ def combine_lstm_cnn_result(cnn_result_dict, lstm_result_dict, poly1, poly2=None
     return cnn_result_dict_new
 
 
-def cross_validation_process_pec(fold=5):
-    # poly = 10; poly2 = 10
-    # threshold_m = 10
-    event_path = 'pec_all_predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000'
-    importance_path = 'pec_all_sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000'
-    # lstm_path = 'pec_vote_multilabel_oversample_20_0.5_crossvalidation_prediction_dict'
-    # combined_path = 'RECOGNITION_'+importance_path + '_' + event_path + '_em_9'
-
-
-    with open(root_feature + '../meta/train_test.json') as f:
-        event_dict = ujson.load(f)
-    with open(root_feature + event_path + '_event_list.pkl') as f:
-        test_list = cPickle.load(f)
-    img_importance = np.load(root_feature + importance_path + '.npy')
-    print img_importance.shape
-    img_recognition = np.load(root_feature + event_path + '.npy')
-    print img_recognition.shape
-    # cross_fold_list = range(len(test_list))
-    # cross_fold_list = [i%5 for i in cross_fold_list]
-    # random.shuffle(cross_fold_list)
-    # # print cross_fold_list
-    # np.save(root_feature + 'cross_validation_list.npy', cross_fold_list)
-    cross_fold_list = np.load(root_feature + 'cross_validation_list.npy')
-
-    test_confusion_all = np.zeros((14, 14))
-    test_result_dict_all = dict()
-    for fold_i in range(fold):
-        print '+++++++++++FOLD', fold_i, '++++++++++++++'
-        count = 0
-        test_list_fold = []
-        train_list_fold = []
-        img_test_indicator = []
-        img_train_indicator = []
-        for ind, j in enumerate(cross_fold_list):
-            event_this = test_list[ind]
-            len_event_this = len(event_dict[event_this.split('/')[0]][event_this.split('/')[1]])
-            if j == fold_i:
-                test_list_fold.append(test_list[ind])
-                img_test_indicator.extend(range(count, len_event_this + count))
-            else:
-                train_list_fold.append(test_list[ind])
-                img_train_indicator.extend(range(count, len_event_this + count))
-            count += len_event_this
-        print len(test_list_fold), len(train_list_fold)
-        print len(img_test_indicator), len(img_train_indicator), count
-
-        test_img_ids_fold = []
-        train_img_ids_fold = []
-        for event in test_list_fold:
-            for img in event_dict[event.split('/')[0]][event.split('/')[1]]:
-                test_img_ids_fold.append(event.split('/')[0] + '_' + event.split('/')[1] + '/' + str(img[0]))
-        for event in train_list_fold:
-            for img in event_dict[event.split('/')[0]][event.split('/')[1]]:
-                train_img_ids_fold.append(event.split('/')[0] + '_' + event.split('/')[1] + '/' + str(img[0]))
-
-        test_img_importance_fold = img_importance[img_test_indicator, :]
-        train_img_importance_fold = img_importance[img_train_indicator, :]
-        test_img_recognition_fold = img_recognition[img_test_indicator, :]
-        train_img_recognition_fold = img_recognition[img_train_indicator, :]
-        print train_img_recognition_fold.shape, test_img_recognition_fold.shape
-        threshold_m = 10
-        poly1 = 10
-        poly2 = 10
-        scores = np.zeros((6, 5))
-        threshold_list = range(0, 11, 2)
-        poly2_list = range(2, 19, 4)
-        # threshold_list = [0]; poly2_list = [0]
-        for ind1, threshold_m in enumerate(threshold_list):
-            for ind2, poly2 in enumerate(poly2_list):
-                print 'T:', threshold_m, 'P:', poly2
-                recog_result, _ = em_combine_event_recognition_curation_corrected(train_img_ids_fold, train_list_fold,
-                                                                               0, float(threshold_m) / 10,
-                                                                               float(poly1) / 10, float(poly2) / 10,
-                                                                               img_importance=train_img_importance_fold,
-                                                                               img_recognition=train_img_recognition_fold,
-                                                                               max_iter=9)
-                score_this, confusion_this = prediction_cnn_event(recog_result)
-                scores[ind1, ind2] = score_this
-        print scores
-        temp = np.where(scores == np.max(scores))
-        print temp
-        temp = [(temp[0][i], temp[1][i]) for i in xrange(len(temp[0]))]
-        temp = sorted(temp, key=lambda x: x[0], reverse=True)
-        threshold_best_ind, poly2_best_ind = temp[0]
-        threshold_best = threshold_list[threshold_best_ind]
-        poly2_best = poly2_list[poly2_best_ind]
-        #
-        # threshold_best = threshold_m; poly2_best = poly2
-        # # for ii in range(len(scores)- 1, -1, -1):
-        # for ii in range(len(scores)):
-        #     if scores[ii] == temp:
-        #         # threshold_best = threshold_list[ii]
-        #         poly2_best = poly2_list[ii]
-        recog_result_test, _ = em_combine_event_recognition_curation_corrected(test_img_ids_fold, test_list_fold,
-                                                                               0, float(threshold_best) / 10,
-                                                                               float(poly1) / 10,
-                                                                               float(poly2_best) / 10,
-                                                                               img_importance=test_img_importance_fold,
-                                                                               img_recognition=test_img_recognition_fold,
-                                                                               max_iter=1)
-        score_this_test_iter1, confusion_test_iter1 = prediction_cnn_event(recog_result_test)
-        recog_result_test, _ = em_combine_event_recognition_curation_corrected(test_img_ids_fold, test_list_fold,
-                                                                               0, float(threshold_best) / 10,
-                                                                               float(poly1) / 10,
-                                                                               float(poly2_best) / 10,
-                                                                               img_importance=test_img_importance_fold,
-                                                                               img_recognition=test_img_recognition_fold,
-                                                                               max_iter=9)
-        score_this_test, confusion_test = prediction_cnn_event(recog_result_test)
-        test_result_dict_all.update(recog_result_test)
-        print 'FOLD:', fold_i, 'BEST THRESHOLD:', threshold_best, 'BEST POLY2:', poly2_best, 'BEST ACCU:', score_this_test, '/', score_this_test_iter1, 'length:', len(
-            recog_result_test)
-        test_confusion_all += confusion_test
-    print '------OVERALL-------'
-    print test_confusion_all
-    print float(np.trace(test_confusion_all)) / np.sum(test_confusion_all), np.sum(test_confusion_all)
-    f = open(root_feature + 'THRESHOLM_POLY2_cross_validation_combine_best.pkl', 'w')
-    cPickle.dump(test_result_dict_all, f)
-    f.close()
-
-def cross_validation_lstm_pec(fold=5):
-    # combined_path = 'EM1_cross_validation_combine_best.pkl'
-
-    combined_path = 'THRESHOLDM_cross_validation_combine_best.pkl'
-    event_path = 'pec_all_predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000'
-    # lstm_path = 'pec_vote_multilabel_oversample_20_0.5_crossvalidation_prediction_dict.pkl'
-    # lstm_path = 'pec_vote_multilabel_crossvalidation_prediction_dict.pkl'
-    lstm_path = 'pec_vote_softall_multilabel_crossvalidation_prediction_dict.pkl'  #SHOULD USE THIS BECAUSE IT IS TRAINED ON SOFT TARGET
-
-    with open(root_feature + event_path + '_event_list.pkl') as f:
-        test_list = cPickle.load(f)
-
-    cross_fold_list = np.load(root_feature + 'cross_validation_list.npy')
-    with open(root_feature + lstm_path) as f:
-        lstm_result_dict_all = cPickle.load(f)
-    for key in lstm_result_dict_all:
-        lstm_result_dict_all['_'.join(key.split('/'))] = lstm_result_dict_all.pop(key)
-    with open(root_feature + combined_path) as f:
-        combine_result_dict_all = cPickle.load(f)
-    for key in combine_result_dict_all:
-        combine_result_dict_all['_'.join(key.split('/'))] = combine_result_dict_all.pop(key)
-    # print combine_result_dict_all.keys()
-    test_confusion_all = np.zeros((14, 14))
-    test_result_dict_all = dict()
-
-    for fold_i in range(fold):
-        print '+++++++++++FOLD', fold_i, '++++++++++++++'
-        combine_dict_test = defaultdict(dict); lstm_dict_test = defaultdict(dict)
-        combine_dict_training = defaultdict(dict); lstm_dict_training = defaultdict(dict)
-        for ind, j in enumerate(cross_fold_list):
-            event_this = '_'.join(test_list[ind].split('/'))
-            if j == fold_i:
-                combine_dict_test[event_this] = combine_result_dict_all[event_this]
-                lstm_dict_test[event_this] = lstm_result_dict_all[event_this]
-            else:
-                combine_dict_training[event_this] = combine_result_dict_all[event_this]
-                lstm_dict_training[event_this] = lstm_result_dict_all[event_this]
-
-        poly_list = range(0, 42, 2)
-        poly_list = [float(i) / 20 for i in poly_list]
-        scores = []
-        for poly in poly_list:
-            combine_lstm_result = combine_lstm_cnn_result(combine_dict_training, lstm_dict_training, poly)
-            score_this_training, confusion_training = prediction_cnn_event(combine_lstm_result)
-            scores.append(score_this_training)
-        print scores
-        poly_best = poly_list[np.argmax(scores)]
-        combine_lstm_result_test = combine_lstm_cnn_result(combine_dict_test, lstm_dict_test, poly_best)
-        score_this_test, confusion_test = prediction_cnn_event(combine_lstm_result_test)
-        test_result_dict_all.update(combine_lstm_result_test)
-        test_confusion_all += confusion_test
-
-        print 'FOLD:', fold_i, 'BEST POLY:', poly_best, 'BEST ACCU:', score_this_test, 'length:', len(combine_lstm_result_test)
-
-    print '------OVERALL-------'
-    print test_confusion_all
-    print float(np.trace(test_confusion_all)) / np.sum(test_confusion_all), np.sum(test_confusion_all)
-    # f = open(root_feature + 'LSTM_SOFT_COMBINE_POLY_cross_validation_combine_best.pkl', 'w')
-    # cPickle.dump(test_result_dict_all, f)
-    # f.close()
-
-
-def cross_validation_process_cufed(fold=5):
-    root = '/home/feiyu1990/local/event_curation/'
-    folder_name = 'CNN_all_event_corrected_multi/features_new/'
-    root_feature = root + folder_name
-    # event_path = 'test_predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000'
-    # importance_path = 'test_sigmoid9_23_vote_multilabel_balance_segment_twoloss_fc300_diffweight_2_iter_100000'
-
-    event_path = 'test_predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000'
-    importance_path = 'test_sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000'
-
-    event_img_dict = defaultdict(list)
-    for event_name in dict_name2:
-        with open(root + 'baseline_all_0509/' + event_name + '/training_image_ids.cPickle') as f:
-            temp = cPickle.load(f)
-        for img in temp:
-            event_img_dict[img.split('/')[0]].append(img)
-        with open(root + 'baseline_all_0509/' + event_name + '/test_image_ids.cPickle') as f:
-            temp = cPickle.load(f)
-        for img in temp:
-            event_img_dict[img.split('/')[0]].append(img)
-
-    with open(root + folder_name + event_path + '_event_list.pkl') as f:
-        event_recognition_all_list = cPickle.load(f)
-
-    print 'length of events', len(event_recognition_all_list)
-    count = 0
-    event_recognition_all_event_dict = defaultdict(list)
-    for event in event_recognition_all_list:
-        for img in event_img_dict[event]:
-            event_recognition_all_event_dict[event].append(count)
-            count += 1
-    img_recognition_old = np.load(root + folder_name + event_path + '.npy')
-
-    with open(root + folder_name + importance_path + '_event_list.pkl') as f:
-        importance_feature_all_list = cPickle.load(f)
-    count = 0
-    importance_feature_all_event_dict = defaultdict(list)
-    for event in importance_feature_all_list:
-        for img in event_img_dict[event]:
-            importance_feature_all_event_dict[event].append(count)
-            count += 1
-    img_importance_old = np.load(root + folder_name + importance_path + '.npy')
-    # print img_importance_old.shape, img_recognition_old.shape
-
-    img_importance = np.zeros((0, 23))
-    img_recognition = np.zeros((0, 23))
-    test_list = importance_feature_all_list
-    for event in test_list:
-        img_importance = np.concatenate(
-            (img_importance, img_importance_old[importance_feature_all_event_dict[event], :]), axis=0)
-        img_recognition = np.concatenate(
-            (img_recognition, img_recognition_old[event_recognition_all_event_dict[event], :]), axis=0)
-    print img_importance.shape, img_recognition.shape
-
-    # cross_fold_list = range(len(test_list))
-    # cross_fold_list = [i%5 for i in cross_fold_list]
-    # random.shuffle(cross_fold_list)
-    # np.save(root_feature + 'cross_validation_list.npy', cross_fold_list)
-    cross_fold_list = np.load(root_feature + 'cross_validation_list.npy')
-
-    ###need: img_importance, img_recognition, test_list, event_img_dict(dict event->images)###
-    test_confusion_all = np.zeros((23, 23))
-    test_result_dict_all = dict()
-    test_importance_result_dict_all = dict()
-    for fold_i in range(fold):
-        print '+++++++++++FOLD', fold_i, '++++++++++++++'
-        count = 0
-        test_list_fold = []
-        train_list_fold = []
-        img_test_indicator = []
-        img_train_indicator = []
-        for ind, j in enumerate(cross_fold_list):
-            event_this = test_list[ind]
-            len_event_this = len(event_img_dict[event_this])
-            if j == fold_i:
-                test_list_fold.append(test_list[ind])
-                img_test_indicator.extend(range(count, len_event_this + count))
-            else:
-                train_list_fold.append(test_list[ind])
-                img_train_indicator.extend(range(count, len_event_this + count))
-            count += len_event_this
-        # print len(test_list_fold), len(train_list_fold)
-        # print len(img_test_indicator), len(img_train_indicator), count
-
-        test_img_ids_fold = []
-        train_img_ids_fold = []
-        for event in test_list_fold:
-            for img in event_img_dict[event]:
-                test_img_ids_fold.append(img)
-        for event in train_list_fold:
-            for img in event_img_dict[event]:
-                train_img_ids_fold.append(img)
-
-        test_img_importance_fold = img_importance[img_test_indicator, :]
-        train_img_importance_fold = img_importance[img_train_indicator, :]
-        test_img_recognition_fold = img_recognition[img_test_indicator, :]
-        train_img_recognition_fold = img_recognition[img_train_indicator, :]
-        # print train_img_recognition_fold.shape, test_img_recognition_fold.shape
-        threshold_m = 10
-        poly1 = 10
-        poly2 = 10
-        scores = np.zeros((6, 5))
-        # threshold_list = range(0, 11, 2)
-        # poly2_list = range(2, 11, 2)
-        threshold_list = [0]
-        poly2_list = [10]
-        for ind1, threshold_m in enumerate(threshold_list):
-            for ind2, poly2 in enumerate(poly2_list):
-                # print 'T:', threshold_m, 'P:', poly2
-                recog_result, importance_result = em_combine_event_recognition_curation_corrected(train_img_ids_fold, train_list_fold,
-                                                                               0, float(threshold_m) / 10,
-                                                                               float(poly1) / 10, float(poly2) / 10,
-                                                                               img_importance=train_img_importance_fold,
-                                                                               img_recognition=train_img_recognition_fold,
-                                                                               max_iter=9)
-                score_this, confusion_this = prediction_cnn_event_cufed(recog_result, True)
-                scores[ind1, ind2] = score_this
-        print scores
-        temp = np.where(scores == np.max(scores))
-        temp = [(temp[0][i], temp[1][i]) for i in xrange(len(temp[0]))]
-        temp = sorted(temp, key=lambda x: x[0])
-
-        threshold_best_ind, poly2_best_ind = temp[0]
-        threshold_best = threshold_list[threshold_best_ind]
-        poly2_best = poly2_list[poly2_best_ind]
-
-        recog_result_test, importance_result = em_combine_event_recognition_curation_corrected(test_img_ids_fold, test_list_fold,
-                                                                            0, float(threshold_best) / 10,
-                                                                            float(poly1) / 10, float(poly2_best) / 10,
-                                                                            img_importance=test_img_importance_fold,
-                                                                            img_recognition=test_img_recognition_fold,
-                                                                            max_iter=1)
-        score_this_test_iter1, confusion_test_iter1 = prediction_cnn_event_cufed(recog_result_test, True)
-        recog_result_test, importance_result = em_combine_event_recognition_curation_corrected(test_img_ids_fold, test_list_fold,
-                                                                            0, float(threshold_best) / 10,
-                                                                            float(poly1) / 10, float(poly2_best) / 10,
-                                                                            img_importance=test_img_importance_fold,
-                                                                            img_recognition=test_img_recognition_fold,
-                                                                            max_iter=9)
-        score_this_test, confusion_test = prediction_cnn_event_cufed(recog_result_test, True)
-        test_result_dict_all.update(recog_result_test)
-        test_importance_result_dict_all.update(importance_result)
-        print 'FOLD:', fold_i, 'BEST THRESHOLD:', threshold_best, 'BEST POLY2:', poly2_best, 'BEST ACCU:', score_this_test, '/', score_this_test_iter1, 'length:', len(
-            recog_result_test)
-        test_confusion_all += confusion_test
-    print '------OVERALL-------'
-    print test_confusion_all
-    print float(np.trace(test_confusion_all)) / np.sum(test_confusion_all), np.sum(test_confusion_all)
-    f = open(root_feature + 'THRESHOLDM_POLY2_SOFT_recognition_cross_validation_combine_best_v1.pkl', 'w')
-    cPickle.dump(test_result_dict_all, f)
-    f.close()
-    f = open(root_feature + 'THRESHOLDM_POLY2_SOFT_importance_cross_validation_combine_best_v1.pkl', 'w')
-    cPickle.dump(test_importance_result_dict_all, f)
-    f.close()
-def cross_validation_lstm_cufed(fold=5):
-    root = '/home/feiyu1990/local/event_curation/'
-    folder_name = 'CNN_all_event_corrected_multi/features_new/'
-    root_feature = root + folder_name
-    # event_path = 'test_predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000'
-    # combined_path = 'SOFT_THRESHOLDM_POLY2_recognition_cross_validation_combine_best_v2.pkl'
-    # lstm_path = 'vote_softall_multilabel_crossvalidation_prediction_dict.pkl' #73.9->76.8
-
-    lstm_path = 'vote_multilabel_prediction_dict.pkl' #THIS IS GOOD 75.3 -> 77.6
-    event_path = 'test_predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000'
-    combined_path = 'THRESHOLDM_POLY2_recognition_cross_validation_combine_best_v2.pkl'
-
-    lstm_path = 'vote_softall_multilabel_crossvalidation_prediction_dict.pkl'
-
-
-    with open(root_feature + event_path + '_event_list.pkl') as f:
-        test_list = cPickle.load(f)
-
-    cross_fold_list = np.load(root_feature + 'cross_validation_list.npy')
-    with open(root_feature + lstm_path) as f:
-        lstm_result_dict_all = cPickle.load(f)
-    with open(root_feature + combined_path) as f:
-        combine_result_dict_all = cPickle.load(f)
-    test_confusion_all = np.zeros((23, 23))
-    test_result_dict_all = dict()
-
-    for fold_i in range(fold):
-        print '+++++++++++FOLD', fold_i, '++++++++++++++'
-        combine_dict_test = defaultdict(dict); lstm_dict_test = defaultdict(dict)
-        combine_dict_training = defaultdict(dict); lstm_dict_training = defaultdict(dict)
-        for ind, j in enumerate(cross_fold_list):
-            event_this = '_'.join(test_list[ind].split('/'))
-            if j == fold_i:
-                combine_dict_test[event_this] = combine_result_dict_all[event_this]
-                lstm_dict_test[event_this] = lstm_result_dict_all[event_this]
-            else:
-                combine_dict_training[event_this] = combine_result_dict_all[event_this]
-                lstm_dict_training[event_this] = lstm_result_dict_all[event_this]
-
-        poly_list = range(0, 67, 2)
-        poly_list = [float(i) / 20 for i in poly_list]
-        # poly_list=[1]
-        scores = []
-        for poly in poly_list:
-            combine_lstm_result = combine_lstm_cnn_result(combine_dict_training, lstm_dict_training, poly)
-            score_this_training, confusion_training = prediction_cnn_event_cufed(combine_lstm_result)
-            scores.append(score_this_training)
-        print scores
-        poly_best = poly_list[np.argmax(scores)]
-        combine_lstm_result_test = combine_lstm_cnn_result(combine_dict_test, lstm_dict_test, poly_best)
-        score_this_test, confusion_test = prediction_cnn_event_cufed(combine_lstm_result_test)
-        test_result_dict_all.update(combine_lstm_result_test)
-        test_confusion_all += confusion_test
-
-        print 'FOLD:', fold_i, 'BEST POLY:', poly_best, 'BEST ACCU:', score_this_test, 'length:', len(combine_lstm_result_test)
-
-    print '------OVERALL-------'
-    print test_confusion_all
-    print float(np.trace(test_confusion_all)) / np.sum(test_confusion_all), np.sum(test_confusion_all)
-    # f = open(root_feature + 'LSTM_cross_validation_combine_best.pkl', 'w')
-    # cPickle.dump(test_result_dict_all, f)
-    # f.close()
-
-
-def create_validation_list(fold=4):
-    f = open('/home/feiyu1990/local/event_curation/CNN_all_event_corrected_multi/features_new/'
-             'test_predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000_event_list.pkl')
-    event_list = cPickle.load(f)
-    f.close()
-    with open('/home/feiyu1990/local/event_curation/0208_correction/all_input_and_result/new_multiple_result_2round_removedup_vote.pkl') as f:
-        event_dict = cPickle.load(f)
-
-    test_event_dict = defaultdict(list)
-    random.shuffle(event_list)
-    for event in event_list:
-        test_event_dict[event_dict[event][0][0]].append(event)
-
-    test_list = []; validation_list = []
-    for event_type in test_event_dict:
-        this_ = test_event_dict[event_type]
-        validation_list.extend(this_[:len(this_)/4])
-        test_list.extend(this_[len(this_)/4:])
-
-
-    with open('/home/feiyu1990/local/event_curation/CNN_all_event_corrected_multi/features_validation/test_list.pkl', 'w') as f:
-        cPickle.dump(test_list, f)
-    with open('/home/feiyu1990/local/event_curation/CNN_all_event_corrected_multi/features_validation/validation_list.pkl', 'w') as f:
-        cPickle.dump(validation_list, f)
-    print validation_list
-    print test_list
-
 def create_img_list():
     event_img_dict = defaultdict(list)
     for event_name in dict_name2:
@@ -1073,7 +645,6 @@ def create_img_list():
     print len(test_img_list), len(validation_img_list)
     with open('/home/feiyu1990/local/event_curation/CNN_all_event_corrected_multi/features_validation/validation_img_list.pkl', 'w') as f:
         cPickle.dump(validation_img_list, f)
-
 
 def split_valid_test():
     input_path = '/home/feiyu1990/local/event_curation/CNN_all_event_corrected_multi/features/'
@@ -1126,13 +697,11 @@ def validation_process_cufed(max_iter, threshold_best,poly2_best, soft=True):
     if soft:
         event_path = 'predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000.npy'
         importance_path = 'sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
-        test_lstm_path = 'soft_vote_multilabel_test_all_prediction_dict.pkl'
         training_lstm_path = 'soft_vote_multilabel_validation_prediction_dict.pkl'
     else:
         '''non-soft'''
         event_path = 'predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000.npy'
         importance_path = 'sigmoid9_23_vote_multilabel_balance_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
-        test_lstm_path = 'vote_multilabel_test_all_v2_prediction_dict.pkl'
         training_lstm_path = 'vote_multilabel_validation_v2_prediction_dict.pkl'
 
     img_id_list = cPickle.load(open(root+folder_name+'validation_img_list.pkl'))
@@ -1151,7 +720,7 @@ def validation_process_cufed(max_iter, threshold_best,poly2_best, soft=True):
     scores = np.zeros((12, 30))
     cross_entropies = np.zeros((12, 30))
     f_scores = np.zeros((12, 30))
-    threshold_list = range(10, 11)
+    threshold_list = range(11)[::-1]
     poly2_list = range(1, 31)
     for ind1, threshold_m in enumerate(threshold_list):
         for ind2, poly2 in enumerate(poly2_list):
@@ -1162,13 +731,13 @@ def validation_process_cufed(max_iter, threshold_best,poly2_best, soft=True):
                                                                                img_importance=img_importance,
                                                                                img_recognition=img_recognition,
                                                                                max_iter=9)
-                score_this, confusion_this, cross_entropy_this = prediction_cnn_event_cufed(recog_result)
-                print 'THRESHOLD:', threshold_m, 'POLY:', poly2, 'SCORE:',score_this, 'CE:', cross_entropy_this
-                score_this, f_core_this , macro_f_score= recall_topk_cufed(recog_result, 2)
+                # score_this, confusion_this, cross_entropy_this = prediction_cnn_event_cufed(recog_result)
+                # print 'THRESHOLD:', threshold_m, 'POLY:', poly2, 'SCORE:',score_this, 'CE:', cross_entropy_this
+                score_this, f_core_this , macro_f_score= recall_topk_cufed(recog_result, 1)
                 print 'THRESHOLD:', threshold_m, 'POLY:', poly2, 'SCORE:',score_this, 'f-score:', f_core_this, 'macro-f:',macro_f_score
                 scores[ind1, ind2] = score_this
                 f_scores[ind1, ind2] = f_core_this
-                cross_entropies[ind1, ind2] = cross_entropy_this
+                # cross_entropies[ind1, ind2] = cross_entropy_this
 
     print scores
     print f_scores
@@ -1272,13 +841,11 @@ def validation_process_cufed_validation(bests, soft=True):
     if soft:
         event_path = 'predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000.npy'
         importance_path = 'sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
-        test_lstm_path = 'soft_vote_multilabel_test_all_prediction_dict.pkl'
         training_lstm_path = 'soft_vote_multilabel_validation_prediction_dict.pkl'
     else:
         '''non-soft'''
         event_path = 'predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000.npy'
         importance_path = 'sigmoid9_23_vote_multilabel_balance_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
-        test_lstm_path = 'vote_multilabel_test_all_v2_prediction_dict.pkl'
         training_lstm_path = 'vote_multilabel_validation_v2_prediction_dict.pkl'
 
     img_id_list = cPickle.load(open(root+folder_name+'validation_img_list.pkl'))
@@ -1303,7 +870,10 @@ def validation_process_cufed_validation(bests, soft=True):
                                                                                max_iter=max_iter)
             score_this, confusion_this, cross_entropy_this = prediction_cnn_event_cufed(recog_result, print_=True)
             results[i, max_iter - 1] = score_this
-            f = open(root_feature + 'THRESHOLDM_POLY2_LSTM_VALIDATION_poly_'+str(poly2_best) +'_threshold_' +str(threshold_best)+ '_importance_cross_validation_combine_best.pkl', 'w')
+            if soft:
+                f = open(root_feature + 'THRESHOLDM_POLY2_LSTM_VALIDATION_SOFT_poly_'+str(poly2_best) +'_threshold_' +str(threshold_best)+ '_importance_cross_validation_combine_best.pkl', 'w')
+            else:
+                f = open(root_feature + 'THRESHOLDM_POLY2_LSTM_VALIDATION_poly_'+str(poly2_best) +'_threshold_' +str(threshold_best)+ '_importance_cross_validation_combine_best.pkl', 'w')
             cPickle.dump(importance_result, f)
             f.close()
         i += 1
@@ -1319,13 +889,11 @@ def validation_process_cufed_test_importance(threshold_best, poly2_best, soft=Tr
         event_path = 'predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000.npy'
         importance_path = 'sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
         test_lstm_path = 'soft_vote_multilabel_test_all_prediction_dict.pkl'
-        training_lstm_path = 'soft_vote_multilabel_validation_prediction_dict.pkl'
     else:
         '''non-soft'''
         event_path = 'predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000.npy'
         importance_path = 'sigmoid9_23_vote_multilabel_balance_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
         test_lstm_path = 'vote_multilabel_test_all_v2_prediction_dict.pkl'
-        training_lstm_path = 'vote_multilabel_validation_v2_prediction_dict.pkl'
 
     img_id_list = cPickle.load(open(root+folder_name+'test_img_list.pkl'))
     img_recognition = np.load(root + folder_name + 'test_' + event_path)
@@ -1346,23 +914,29 @@ def validation_process_cufed_test_importance(threshold_best, poly2_best, soft=Tr
                                                                                average=False)
         score_this, confusion_this, cross_entropy_this = prediction_cnn_event_cufed(recog_result,print_=True)
 
-        f = open(root_feature + 'THRESHOLDM_POLY2_LSTM_iter'+str(max_iter) + '_importance_cross_validation_combine_best.pkl', 'w')
+        if soft:
+            f = open(root_feature + 'THRESHOLDM_POLY2_LSTM_SOFT_iter'+str(max_iter) + '_importance_cross_validation_combine_best.pkl', 'w')
+        else:
+            f = open(root_feature + 'THRESHOLDM_POLY2_LSTM_iter'+str(max_iter) + '_importance_cross_validation_combine_best.pkl', 'w')
         cPickle.dump(importance_result, f)
         f.close()
 
 
-def validation_process_pec(max_iter,combine_lstm=True):
+def validation_process_pec(max_iter,soft=True, combine_lstm=True):
     root = '/home/feiyu1990/local/event_curation/'
     folder_name = 'pec/features_validation/'
     root_feature = root + folder_name
     # event_path = 'predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000.npy'
     # importance_path = 'sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
-    event_path = 'predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000.npy'
-    importance_path = 'sigmoid9_23_vote_multilabel_balance_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
-    training_lstm_path = 'pec_vote_multilabel_validation_prediction_dict.pkl'
-    test_lstm_path = 'pec_vote_multilabel_test_prediction_dict.pkl'
 
-
+    if soft:
+        event_path = 'predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000.npy'
+        importance_path = 'sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
+        training_lstm_path = 'pec_vote_multilabel_soft_validation_prediction_dict.pkl'
+    else:
+        event_path = 'predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000.npy'
+        importance_path = 'sigmoid9_23_vote_multilabel_balance_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
+        training_lstm_path = 'pec_vote_multilabel_validation_prediction_dict.pkl'
 
     with open(root_feature + '../meta/train_test.json') as f:
         event_dict = ujson.load(f)
@@ -1373,12 +947,6 @@ def validation_process_pec(max_iter,combine_lstm=True):
     with open(root_feature + 'pec_training_' + event_path.split('.')[0] + '_event_list.pkl') as f:
         test_list = cPickle.load(f)
     lstm_recognition = cPickle.load(open(root + folder_name + training_lstm_path))
-
-    # img_recognition = np.load(root + folder_name + 'pec_test_' + event_path)
-    # img_importance = np.load(root + folder_name + 'pec_test_' + importance_path)
-    # with open(root_feature + 'pec_test_' + event_path.split('.')[0] + '_event_list.pkl') as f:
-    #     test_list = cPickle.load(f)
-    # lstm_recognition = cPickle.load(open(root + folder_name + test_lstm_path))
 
     for key in lstm_recognition:
         lstm_recognition['_'.join(key.split('/'))] = lstm_recognition.pop(key)
@@ -1408,13 +976,13 @@ def validation_process_pec(max_iter,combine_lstm=True):
                                                                                img_importance=img_importance,
                                                                                img_recognition=img_recognition,
                                                                                max_iter=9,average=True,combine_lstm=combine_lstm)
-
-                score_this, confusion_this = prediction_cnn_event(recog_result)
-                score_this2, f1_score = recall_topk(recog_result, top_n=2)
+                score_this2, _ = prediction_cnn_event(recog_result)
+                score_this, confusion_this = prediction_cnn_event_only_top1(recog_result)
+                # score_this2, f1_score = recall_topk(recog_result, top_n=2)
                 scores[ind1, ind2] = score_this
                 scores1[ind1, ind2] = score_this2
-                f1_scores[ind1, ind2] = f1_score
-                print 'THRESHOLD:', threshold_m, 'POLY:', poly2, 'SCORE:',score_this, 'f1_score:', f1_score, 'score_2:',score_this2
+                # f1_scores[ind1, ind2] = f1_score
+                print 'THRESHOLD:', threshold_m, 'POLY:', poly2, 'SCORE:',score_this, 'score_2:',score_this2
 
     print scores
     print f1_scores
@@ -1422,54 +990,24 @@ def validation_process_pec(max_iter,combine_lstm=True):
     temp = np.where(scores == np.max(scores))
     temp = [(threshold_list[temp[0][i]], poly2_list[temp[1][i]]) for i in xrange(len(temp[0]))]
     print temp
-    # temp = sorted(temp, key=lambda x: x[0])
-    # temp_both = []
-    # for i,j in temp:
-    #     temp_both.extend[(i,j,f1_scores[i][j])]
-    # print temp_both
-    # temp = sorted(temp_both, key=lambda x: x[1], reverse=True)
+    return temp
 
-    # poly1 = 10
-    # # threshold_best = 10; poly_best = 10
-    # # threshold_best = 10; poly_best = 6
-    # # threshold_best = 5; poly_best = 2
-    # threshold_best = 6; poly_best = 8
-    # # threshold_best = 6; poly_best = 8
-    # recog_result, importance_result = em_combine_event_recognition_curation_corrected_new(img_ids, None,
-    #                                                                            0, float(threshold_best) / 10,
-    #                                                                            float(poly1) / 10, float(poly_best) / 10,
-    #                                                                                       lstm_recognition,
-    #                                                                            img_importance=img_importance,
-    #                                                                            img_recognition=img_recognition,
-    #                                                                            max_iter=max_iter)
-    # # recog_result, importance_result = em_combine_event_recognition_curation_corrected(img_ids, None,
-    # #                                                                            0, float(threshold_best) / 10,
-    # #                                                                            float(poly1) / 10, float(poly_best) / 10,
-    # #                                                                            img_importance=img_importance,
-    # #                                                                            img_recognition=img_recognition,
-    # #                                                                            max_iter=9)
-    #
-    # score_this, confusion_this = prediction_cnn_event(recog_result,True)
-    # # f = open(root_feature + 'RECALL_PARAM_recognition_cross_validation_combine_best.pkl', 'w')
-    # f = open(root_feature + 'THRESHOLDM_POLY2_LSTM_NEW_recognition_cross_validation_combine_best.pkl', 'w')
-    # cPickle.dump(recog_result, f)
-    # f.close()
-    # f = open(root_feature + 'THRESHOLDM_POLY2_LSTM_NEW_importance_cross_validation_combine_best.pkl', 'w')
-    # cPickle.dump(importance_result, f)
-    # f.close()
-
-
-def validation_process_pec_test(bests,combine_lstm=True):
+def validation_process_pec_test(bests,soft=True, combine_lstm=True):
     root = '/home/feiyu1990/local/event_curation/'
     folder_name = 'pec/features_validation/'
     root_feature = root + folder_name
     # event_path = 'predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000.npy'
     # importance_path = 'sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
     # test_lstm_path = 'pec_vote_multilabel_soft_test_prediction_dict.pkl'
-    event_path = 'predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000.npy'
-    importance_path = 'sigmoid9_23_vote_multilabel_balance_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
-    test_lstm_path = 'pec_vote_multilabel_test_prediction_dict.pkl'
 
+    if soft:
+        event_path = 'predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000.npy'
+        importance_path = 'sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
+        test_lstm_path = 'pec_vote_multilabel_soft_test_prediction_dict.pkl'
+    else:
+        event_path = 'predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000.npy'
+        importance_path = 'sigmoid9_23_vote_multilabel_balance_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
+        test_lstm_path = 'pec_vote_multilabel_test_prediction_dict.pkl'
 
     with open(root_feature + '../meta/train_test.json') as f:
         event_dict = ujson.load(f)
@@ -1490,11 +1028,8 @@ def validation_process_pec_test(bests,combine_lstm=True):
 
 
     poly1 = 10
-    results = np.zeros((len(bests), 9))
-    # threshold_best = 10; poly_best = 10
-    # threshold_best = 10; poly_best = 6
-    # threshold_best = 5; poly_best = 2
-    # threshold_best = 6; poly_best = 8
+    results = np.zeros((len(bests), 10))
+    results1 = np.zeros((len(bests), 10))
     i = 0
     for threshold_best, poly2_best in bests:
         for max_iter in range(10):
@@ -1508,10 +1043,12 @@ def validation_process_pec_test(bests,combine_lstm=True):
                                                                                combine_lstm=combine_lstm)
 
             score_this, confusion_this = prediction_cnn_event_only_top1(recog_result)
-            results[i, max_iter - 1] = score_this
-        print '(', threshold_best, ',', poly2_best, '):', results[i, :]
+            score_this1, confusion_this1 = prediction_cnn_event(recog_result)
+            results[i, max_iter] = score_this
+            results1[i, max_iter] = score_this1
+        print '(', threshold_best, ',', poly2_best, '):', results[i, :], results1[i, :]
         i += 1
-    print results
+    # print results
     # f = open(root_feature + 'RECALL_PARAM_recognition_cross_validation_combine_best.pkl', 'w')
     # f = open(root_feature + 'THRESHOLDM_POLY2_LSTM_NEW_recognition_cross_validation_combine_best.pkl', 'w')
     # cPickle.dump(recog_result, f)
@@ -1521,15 +1058,20 @@ def validation_process_pec_test(bests,combine_lstm=True):
     # f.close()
     return results
 
-def validation_process_pec_validation(bests, combine_lstm=True):
+def validation_process_pec_validation(bests, soft=True, combine_lstm=True):
     root = '/home/feiyu1990/local/event_curation/'
     folder_name = 'pec/features_validation/'
     root_feature = root + folder_name
     # event_path = 'predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000.npy'
     # importance_path = 'sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000_event_list.pkl.npy'
-    event_path = 'predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000.npy'
-    importance_path = 'sigmoid9_23_vote_multilabel_balance_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
-    training_lstm_path = 'pec_vote_multilabel_validation_prediction_dict.pkl'
+    if soft:
+        event_path = 'predict_vote_soft_multilabel_event_recognition_expand_balanced_3_soft_iter_100000.npy'
+        importance_path = 'sigmoid9_23_vote_soft_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
+        training_lstm_path = 'pec_vote_multilabel_soft_validation_prediction_dict.pkl'
+    else:
+        event_path = 'predict_vote_multilabel_event_recognition_expand_balanced_3_iter_100000.npy'
+        importance_path = 'sigmoid9_23_vote_multilabel_balance_segment_twoloss_fc300_diffweight_2_iter_100000.npy'
+        training_lstm_path = 'pec_vote_multilabel_validation_prediction_dict.pkl'
 
     with open(root_feature + '../meta/train_test.json') as f:
         event_dict = ujson.load(f)
@@ -1549,14 +1091,11 @@ def validation_process_pec_validation(bests, combine_lstm=True):
 
 
     poly1 = 10
-    results = np.zeros((len(bests), 9))
-    # threshold_best = 10; poly_best = 10
-    # threshold_best = 10; poly_best = 6
-    # threshold_best = 5; poly_best = 2
-    # threshold_best = 6; poly_best = 8
+    results = np.zeros((len(bests), 10))
+    results1 = np.zeros((len(bests), 10))
     i = 0
     for threshold_best, poly2_best in bests:
-        for max_iter in range(1, 10):
+        for max_iter in range(10):
             recog_result, importance_result = em_combine_event_recognition_curation_corrected_new(img_ids, None,
                                                                                0, float(threshold_best) / 10,
                                                                                float(poly1) / 10, float(poly2_best) / 10,
@@ -1565,14 +1104,14 @@ def validation_process_pec_validation(bests, combine_lstm=True):
                                                                                img_recognition=img_recognition,
                                                                                max_iter=max_iter, average=False,
                                                                                combine_lstm=combine_lstm)
-
-            score_this, confusion_this = prediction_cnn_event(recog_result)
-            results[i, max_iter - 1] = score_this
-        print '(', threshold_best, ',', poly2_best, '):', results[i, :]
+            score_this1, _ = prediction_cnn_event(recog_result)
+            score_this, confusion_this = prediction_cnn_event_only_top1(recog_result)
+            results[i, max_iter] = score_this
+            results1[i, max_iter] = score_this1
+        print '(', threshold_best, ',', poly2_best, '):', results[i, :], results1[i,:]
         i += 1
-    print results
+    # print results
     return results
-
 
 
 def validation_lstm_cufed():
@@ -2028,7 +1567,6 @@ def create_importance_cufed(event_id):
     print temp
 
 if __name__ == '__main__':
-    root_feature = '/home/feiyu1990/local/event_curation/pec/features_validation/'
     root_feature = '/home/feiyu1990/local/event_curation/CNN_all_event_corrected_multi/features_validation/'
     with open('/home/feiyu1990/local/event_curation/0208_correction/all_input_and_result/'
               'new_multiple_result_2round_removedup_vote.pkl') as f:
@@ -2043,132 +1581,94 @@ if __name__ == '__main__':
     # validation_process_cufed(1,0,1)
     # bests = validation_process_cufed(None,None,None)
 
+    ### 1. non_soft, combine_lstm:
+    # bests = validation_process_cufed(None,None,None,soft=False)
+    bests = [(10, 14), (10, 15), (10, 16), (10, 17), (10, 18), (10, 19), (10, 20), (10, 21), (10, 22), (10, 23), (10, 24), (10, 25), (10, 26)]
+    # validation_process_cufed_validation(bests, soft=False)
+    # after using importance MAP:
+    bests = [(10, 19), (10, 20), (10, 21)]
+    # validation_process_cufed_test(bests, soft=False)
+    '''
+    ( 10 , 19 ): [ 0.7826087   0.79076087  0.79347826  0.79076087  0.79347826  0.79076087  0.79347826  0.79076087  0.79347826]
+    ( 10 , 20 ): [ 0.7826087   0.79076087  0.79347826  0.79076087  0.79347826  0.79076087  0.79347826  0.79076087  0.79347826]
+    ( 10 , 21 ): [ 0.7826087   0.79076087  0.79347826  0.79076087  0.79347826  0.79076087  0.79347826  0.79076087  0.79347826]
+    '''
 
-    # bests = validation_process_cufed(9,10,19)
-    # bests = [(0, 1), (0, 2), (0, 3), (0, 4), (0, 22), (0, 23), (0, 24), (0, 25), (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 20), (1, 21), (1, 22), (1, 23), (1, 24), (1, 25), (2, 1), (2, 2), (2, 3), (2, 4), (2, 19), (2, 20), (2, 21), (2, 22), (2, 23), (2, 24), (3, 1), (3, 2), (3, 3), (3, 4), (3, 19), (3, 20), (3, 21), (3, 22), (3, 23), (3, 24), (3, 25), (3, 26), (4, 1), (4, 2), (4, 3), (4, 4), (4, 19), (4, 20), (4, 21), (4, 22), (4, 23), (4, 24), (4, 25), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 19), (5, 20), (5, 21), (5, 22), (5, 23), (5, 24), (5, 25), (6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 21), (6, 22), (6, 23), (6, 24), (7, 1), (7, 2), (7, 3), (7, 4), (7, 5), (7, 21), (7, 22), (7, 23), (7, 24), (8, 1), (8, 2), (8, 3), (8, 4), (8, 5), (8, 21), (8, 22), (8, 23), (8, 24), (8, 25), (8, 26), (8, 27), (8, 28), (9, 1), (9, 2), (9, 3), (9, 4), (9, 5), (9, 21), (9, 22), (9, 23), (9, 24), (9, 25), (9, 26), (9, 27), (9, 28), (9, 29), (9, 30), (10, 1), (10, 2), (10, 3), (10, 4), (10, 5), (10, 6), (10, 7), (10, 8), (10, 9), (10, 10), (10, 11), (10, 12), (10, 13), (10, 14), (10, 15), (10, 16), (10, 17), (10, 18), (10, 19), (10, 20), (10, 21), (10, 22), (10, 23), (10, 24), (10, 25), (10, 26), (10, 27), (10, 28), (10, 29), (10, 30)]
-    # bests = [(10, 14), (10, 15), (10, 16), (10, 17), (10, 18), (10, 19), (10, 20), (10, 21), (10, 22), (10, 23), (10, 24), (10, 25), (10, 26)]
-    # bests = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7), (0, 8), (0, 9), (0, 10), (1, 0), (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9), (1, 10), (2, 0), (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (3, 0), (3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10), (3, 11), (4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8), (4, 9), (4, 10), (4, 11), (5, 0), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6), (5, 7), (5, 8), (5, 9), (5, 10), (5, 11), (5, 12), (5, 13), (6, 0), (6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6), (6, 7), (6, 8), (6, 9), (6, 10), (6, 11), (6, 12), (6, 13), (6, 14), (6, 15), (6, 16), (6, 17), (6, 18), (7, 0), (7, 1), (7, 2), (7, 3), (7, 4), (7, 5), (7, 6), (7, 7), (7, 8), (7, 9), (7, 10), (7, 11), (7, 12), (7, 13), (7, 14), (7, 15), (7, 16), (7, 17), (7, 18), (8, 0), (8, 1), (8, 2), (8, 3), (8, 4), (8, 5), (8, 6), (8, 7), (8, 8), (8, 9), (8, 10), (8, 11), (8, 12), (8, 13), (8, 14), (8, 15), (8, 16), (8, 17), (8, 18), (9, 0), (9, 1), (9, 2), (9, 3), (9, 4), (9, 5), (9, 6), (9, 7), (9, 8), (9, 9), (9, 10), (9, 11), (9, 12), (9, 13), (9, 14), (9, 15), (9, 16), (9, 17), (9, 18), (9, 19), (9, 20), (9, 21), (9, 22), (9, 23), (10, 0), (10, 1), (10, 2), (10, 3), (10, 4), (10, 5), (10, 6), (10, 7), (10, 8), (10, 9), (10, 10), (10, 11), (10, 12), (10, 13), (10, 14), (10, 15), (10, 16), (10, 17), (10, 18), (10, 19), (10, 20), (10, 21), (10, 22), (10, 23), (10, 24), (10, 25), (10, 26), (10, 27), (10, 28), (10, 29), (10, 30)]
-    # validation_process_cufed_validation(bests)
-    # bests = [(10,1)]
+
+    ### 2. soft, combine_lstm:
+    # bests = validation_process_cufed(None,None,None)
+    bests = [(10, 1), (10, 2), (10, 3), (10, 4), (10, 5), (10, 6), (10, 7), (10, 8), (10, 9), (10, 10), (10, 11), (10, 12), (10, 13), (10, 14), (10, 15), (10, 16), (10, 17), (10, 18), (10, 19), (10, 20), (10, 21), (10, 22), (10, 23), (10, 24), (10, 25), (10, 26), (10, 27), (10, 28), (10, 29), (10, 30), (9, 1), (9, 2), (9, 3), (9, 4), (9, 5), (9, 6), (9, 7), (9, 8), (9, 9), (9, 10), (9, 11), (9, 12), (9, 13), (9, 14), (9, 15), (9, 16), (9, 17), (9, 18), (9, 19), (9, 20), (9, 21), (9, 22), (9, 23), (8, 1), (8, 2), (8, 3), (8, 4), (8, 5), (8, 6), (8, 7), (8, 8), (8, 9), (8, 10), (8, 11), (8, 12), (8, 13), (8, 14), (8, 15), (8, 16), (8, 17), (8, 18), (7, 1), (7, 2), (7, 3), (7, 4), (7, 5), (7, 6), (7, 7), (7, 8), (7, 9), (7, 10), (7, 11), (7, 12), (7, 13), (7, 14), (7, 15), (7, 16), (7, 17), (7, 18), (6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6), (6, 7), (6, 8), (6, 9), (6, 10), (6, 11), (6, 12), (6, 13), (6, 14), (6, 15), (6, 16), (6, 17), (6, 18), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6), (5, 7), (5, 8), (5, 9), (5, 10), (5, 11), (5, 12), (5, 13), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8), (4, 9), (4, 10), (4, 11), (3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10), (3, 11), (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9), (1, 10), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7), (0, 8), (0, 9), (0, 10)]
+    # validation_process_cufed_validation(bests, soft=True)
+    # after using importance MAP:
+    bests = [(2,11)]#, (1,1)]
     # validation_process_cufed_test(bests)
-    # validation_process_cufed_test([(7,16),(7,14),(3,6),(2,9),(1,8),(1,1)])
-    # validation_process_cufed_test_importance(10, 20)
+    '''
+    ( 2 , 11 ): [ 0.76902174  0.77717391  0.77717391  0.77717391  0.77717391  0.77717391   0.77717391  0.77717391  0.77717391]
+    ( 1 , 1 ): [ 0.76902174  0.77173913  0.77173913  0.77173913  0.77173913  0.77173913    0.77173913  0.77173913  0.77173913]
+    '''
+
+
+    validation_process_cufed_test_importance(10, 20, soft=False)
+    validation_process_cufed_test_importance(2, 11, soft=True)
 
 
 
+    ###############pec###############
+    # 0.7363636363636363 print prediction_cnn_event_only_top1(cPickle.load(open(root_feature + 'pec_vote_multilabel_test_prediction_dict.pkl')))
+    # 0.7181818181818181 print prediction_cnn_event_only_top1(cPickle.load(open(root_feature + 'pec_vote_multilabel_soft_test_prediction_dict.pkl')))
+    # 0.7121212121212122 print prediction_cnn_event_only_top1(cPickle.load(open(root_feature + 'pec_vote_multilabel_validation_prediction_dict.pkl')))
+    # 0.693939393939394 print prediction_cnn_event_only_top1(cPickle.load(open(root_feature + 'pec_vote_multilabel_soft_validation_prediction_dict.pkl')))
+    # print '************'
+    # 0.8272727272727273 print prediction_cnn_event(cPickle.load(open(root_feature + 'pec_vote_multilabel_test_prediction_dict.pkl')))
+    # 0.8181818181818182 print prediction_cnn_event(cPickle.load(open(root_feature + 'pec_vote_multilabel_soft_test_prediction_dict.pkl')))
+    # 0.793939393939394 print prediction_cnn_event(cPickle.load(open(root_feature + 'pec_vote_multilabel_validation_prediction_dict.pkl')))
+    # 0.7787878787878788 print prediction_cnn_event(cPickle.load(open(root_feature + 'pec_vote_multilabel_soft_validation_prediction_dict.pkl')))
 
-    # validation_process_pec(9,combine_lstm=False)
+
+
+    root_feature = '/home/feiyu1990/local/event_curation/pec/features_validation/'
+
+    ### 1. non_soft, combine_lstm, not_restricted_to_top1: (6,11)
+    bests = [(6,11)]
+    # best = validation_process_pec(9, soft=False)
+    # validation_process_pec_test(bests, soft=False)
+    '''
+    ( 6 , 11 ):  (iteration 0-9) 0->no lstm 1->lstm_combined 9->importance_added
+    [ 0.76363636  0.77272727  0.79090909  0.79090909  0.79090909  0.79090909 0.79090909  0.79090909  0.79090909  0.79090909]
+    [ 0.81818182  0.84545455  0.84545455  0.84545455  0.84545455  0.84545455 0.84545455  0.84545455  0.84545455  0.84545455]
+    '''
+    # validation_process_pec_validation(bests, soft=False)
+
+    ### 2. non_soft, combine_lstm, restricted_to_top1
+    bests = [(3,19)]
+
+    # best = validation_process_pec(9, soft=False)
+    # validation_process_pec_test(bests, soft=False)
+    '''
+    ( 3 , 19 ): (iteration 0-9) 0->no lstm 1->lstm_combined 9->importance_added
+    [ 0.76363636  0.77272727  0.79090909  0.79090909  0.79090909  0.79090909 0.79090909  0.79090909  0.79090909  0.79090909]
+    [ 0.81818182  0.84545455  0.83636364  0.83636364  0.83636364  0.83636364  0.83636364  0.83636364  0.83636364  0.83636364]
+    '''
+
+    # validation_process_pec_validation(bests, soft=False)
+
+    ### 3. soft, combine_lstm, restricted_to_top1
+    bests = [(7,26),(7,27)]
+    # best = validation_process_pec(9,soft=True)
+    # validation_process_pec_test(bests,soft=True)
+    '''
+    ( 7 , 26 ): (iteration 0-9) 0->no lstm 1->lstm_combined 9->importance_added
+    [ 0.70909091  0.73636364  0.75454545  0.75454545  0.74545455  0.74545455 0.74545455  0.74545455  0.74545455  0.74545455]
+    [ 0.8 0.82727273  0.84545455  0.84545455  0.84545455  0.84545455 0.84545455  0.84545455  0.84545455  0.84545455]
+    '''
+
+    # validation_process_pec_validation(bests,soft=True)
+
+
     # bests = [(6,11),(7,7)]
     # bests = [(5, 4), (5, 5), (3, 5),(6,11)]
-    bests = [(6, 11)]
-    validation_process_pec_test(bests)
+    # validation_process_pec_test(bests)
+    # validation_process_pec_validation(bests)
     # validation_process_pec_test(bests,combine_lstm=False)
     # validation_process_pec_validation([(3,16)],combine_lstm=False)
 
-
-
-    # split_valid_test()
-    # for i,j in [(1,4),(1,19),(1,20),(2,18),(2,19),(2,20),
-    #             (3,18),(3,19),(3,20),(4,18),(4,19),(4,20),
-    #             (5,18),(5,19),(5,20) ,(6,20) ,(7,4), (7,20), (8,4) ,(8,20) ,(9,4), (9,20),
-    #             (10,1),(10,2),(10,3),(10,4),(10,5),(10,6),(10,7),(10,8),(10,9),(10,10),(10,11),
-    #             (10,12),(10,13),(10,14),(10,15),(10,16),(10,17),(10,18),(10,19),(10,20)]:
-    #     validation_process_cufed(i,j)
-    # for i in range(1,9):
-    #     validation_process_pec(i)
-
-    # create_importance_cufed('101_26582481@N08')
-    # cufed softmax DONE!
-    # validation_process_pec()
-    # create_pec_remove_label(root_feature+'pec_vote_multilabel_soft_validation_prediction_dict.pkl')
-    # create_pec_remove_label(root_feature+'pec_vote_multilabel_soft_test_prediction_dict.pkl')
-    # create_pec_remove_label(root_feature+'SOFT_THRESHOLDM_POLY2_VALIDATION_recognition_cross_validation_combine_best.pkl')
-    # create_pec_remove_label(root_feature+'SOFT_LSTM_REVERSEVALIDATION_cross_validation_combine_best.pkl')
-
-    # root_feature = '/home/feiyu1990/local/event_curation/pec/features_validation/'
-    # validation_lstm_pec()
-
-
-    #
-    # recall_cufed(root_feature+'EM1_recognition_cross_validation_combine_best.pkl')
-    # recall_cufed(root_feature+'THRESHOLDM_POLY2_recognition_cross_validation_combine_best.pkl')
-    # recall_cufed(root_feature+'LSTM_recognition_cross_validation_combine_best.pkl')
-    # recall_cufed(root_feature+'LSTM_COMBINE_recognition_cross_validation_combine_best.pkl')
-    #
-    # #
-    # recall_cufed(root_feature+'SOFT_EM1_recognition_cross_validation_combine_best.pkl')
-    # recall_cufed(root_feature+'SOFT_THRESHOLDM_POLY2_recognition_cross_validation_combine_best.pkl')
-    # recall_cufed(root_feature+'SOFT_LSTM_recognition_cross_validation_combine_best.pkl')
-    # recall_cufed(root_feature+'SOFT_2LSTM_COMBINE_recognition_cross_validation_combine_best.pkl') #this one is correct
-
-
-    # create_validation_list()
-    # split_valid_test()
-    # create_img_list()
-
-
-    # prediction_cnn_event_cufed(cPickle.load(open(root_feature+'EM1_recognition_cross_validation_combine_best.pkl')), print_=True)
-    # prediction_cnn_event_cufed(cPickle.load(open(root_feature+'THRESHOLDM_POLY2_LSTM_recognition_cross_validation_combine_best.pkl')), print_=True)
-    # prediction_cnn_event_cufed(cPickle.load(open(root_feature+'THRESHOLDM_POLY2_recognition_cross_validation_combine_best.pkl')), print_=True)
-    # prediction_cnn_event_cufed(cPickle.load(open(root_feature+'THRESHOLDM_POLY2_LSTM_2nd_recognition_cross_validation_combine_best.pkl')), print_=True)
-    # # prediction_cnn_event_cufed(cPickle.load(open(root_feature+'LSTM_recognition_cross_validation_combine_best.pkl')), print_=True) #this one is correct
-    # # prediction_cnn_event_cufed(cPickle.load(open(root_feature+'LSTM_COMBINE_recognition_cross_validation_combine_best.pkl')), print_=True) #this one is correct
-    # # print '*********'
-    # #
-    # recall_cufed(root_feature+'EM1_recognition_cross_validation_combine_best.pkl')
-    # # recall_cufed(root_feature+'THRESHOLDM_POLY2_recognition_cross_validation_combine_best.pkl')
-    # recall_cufed(root_feature+'THRESHOLDM_POLY2_LSTM_recognition_cross_validation_combine_best.pkl')
-    # recall_cufed(root_feature+'THRESHOLDM_POLY2_LSTM_2nd_recognition_cross_validation_combine_best.pkl')
-    # # recall_cufed(root_feature+'LSTM_recognition_cross_validation_combine_best.pkl') #this one is correct
-    # # recall_cufed(root_feature+'LSTM_COMBINE_recognition_cross_validation_combine_best.pkl') #this one is correct
-    # # print '*********'
-    # print recall_topk_cufed(cPickle.load(open(root_feature + 'EM1_recognition_cross_validation_combine_best.pkl')))
-    # # print recall_topk_cufed(cPickle.load(open(root_feature + 'THRESHOLDM_POLY2_recognition_cross_validation_combine_best.pkl')))
-    # print recall_topk_cufed(cPickle.load(open(root_feature + 'THRESHOLDM_POLY2_LSTM_recognition_cross_validation_combine_best.pkl')))
-    # print recall_topk_cufed(cPickle.load(open(root_feature + 'THRESHOLDM_POLY2_LSTM_2nd_recognition_cross_validation_combine_best.pkl')))
-    # # print recall_topk_cufed(cPickle.load(open(root_feature + 'LSTM_recognition_cross_validation_combine_best.pkl')))
-    # # print recall_topk_cufed(cPickle.load(open(root_feature + 'LSTM_COMBINE_recognition_cross_validation_combine_best.pkl')))
-    #
-    #
-    # prediction_cnn_event_cufed_type2(cPickle.load(open(root_feature+'EM1_recognition_cross_validation_combine_best.pkl')))
-    # # prediction_cnn_event_cufed_type2(cPickle.load(open(root_feature+'THRESHOLDM_POLY2_recognition_cross_validation_combine_best.pkl')))
-    # prediction_cnn_event_cufed_type2(cPickle.load(open(root_feature+'THRESHOLDM_POLY2_LSTM_recognition_cross_validation_combine_best.pkl')))
-    # prediction_cnn_event_cufed_type2(cPickle.load(open(root_feature+'THRESHOLDM_POLY2_LSTM_2nd_recognition_cross_validation_combine_best.pkl')))
-    # # prediction_cnn_event_cufed_type2(cPickle.load(open(root_feature+'LSTM_recognition_cross_validation_combine_best.pkl')))
-    # # prediction_cnn_event_cufed_type1(cPickle.load(open(root_feature+'LSTM_COMBINE_recognition_cross_validation_combine_best.pkl')))
-    # #
-    #
-    #
-    # prediction_cnn_event_cufed_type1(cPickle.load(open(root_feature+'EM1_recognition_cross_validation_combine_best.pkl')))
-    # prediction_cnn_event_cufed_type1(cPickle.load(open(root_feature+'THRESHOLDM_POLY2_LSTM_recognition_cross_validation_combine_best.pkl')))
-    #
-    #
-    #
-
-    # root_feature = '/home/feiyu1990/local/event_curation/pec/features_validation/'
-    # prediction_cnn_event(cPickle.load(open(root_feature + 'THRESHOLDM_POLY2_LSTM_recognition_cross_validation_combine_best.pkl')), print_=True)
-    # prediction_cnn_event(cPickle.load(open(root_feature + 'THRESHOLDM_POLY2_LSTM_NEW_recognition_cross_validation_combine_best.pkl')), print_=True)
-    # prediction_cnn_event(cPickle.load(open(root_feature + 'THRESHOLDM_POLY2_NEW_recognition_cross_validation_combine_best.pkl')), print_=True)
-    # prediction_cnn_event(cPickle.load(open(root_feature + 'EM1_new_recognition_cross_validation_combine_best.pkl')), print_=True)
-    # prediction_cnn_event(cPickle.load(open(root_feature + 'LSTM_REVERSEVALIDATION_cross_validation_combine_best.pkl')), print_=True)
-    # #
-    # print '*********'
-    # print recall_topk(cPickle.load(open(root_feature + 'THRESHOLDM_POLY2_LSTM_recognition_cross_validation_combine_best.pkl')))
-    # print recall_topk(cPickle.load(open(root_feature + 'THRESHOLDM_POLY2_LSTM_NEW_recognition_cross_validation_combine_best.pkl')))
-    # print recall_topk(cPickle.load(open(root_feature + 'THRESHOLDM_POLY2_NEW_recognition_cross_validation_combine_best.pkl')))
-    # print recall_topk(cPickle.load(open(root_feature + 'EM1_new_recognition_cross_validation_combine_best.pkl')))
-    # print recall_topk(cPickle.load(open(root_feature + 'LSTM_REVERSEVALIDATION_cross_validation_combine_best.pkl')))
-    #
-    # print '*********'
-    # recall(root_feature + 'THRESHOLDM_POLY2_LSTM_recognition_cross_validation_combine_best.pkl')
-    # recall(root_feature + 'THRESHOLDM_POLY2_LSTM_NEW_recognition_cross_validation_combine_best.pkl')
-    # recall(root_feature + 'THRESHOLDM_POLY2_NEW_recognition_cross_validation_combine_best.pkl')
-    # recall(root_feature + 'EM1_new_recognition_cross_validation_combine_best.pkl')
-    # recall(root_feature + 'LSTM_REVERSEVALIDATION_cross_validation_combine_best.pkl')
-    # print '*********'
-    # recall_real(root_feature + 'THRESHOLDM_POLY2_LSTM_recognition_cross_validation_combine_best.pkl')
-    # recall_real(root_feature + 'THRESHOLDM_POLY2_LSTM_NEW_recognition_cross_validation_combine_best.pkl')
-    # recall_real(root_feature + 'THRESHOLDM_POLY2_NEW_recognition_cross_validation_combine_best.pkl')
-    # recall_real(root_feature + 'EM1_new_recognition_cross_validation_combine_best.pkl')
-    # recall_real(root_feature + 'LSTM_REVERSEVALIDATION_cross_validation_combine_best.pkl')
-    #
